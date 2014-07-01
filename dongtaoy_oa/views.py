@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from oa_model.models import OaUser
 from django.template import RequestContext
+from django.http import HttpResponse
 from hashlib import md5
 
 
-def dashboard(request):
+def index(request):
     return render(request, 'index.html', {},
                   context_instance=RequestContext(request, processors=[common_context]))
 
@@ -39,6 +40,8 @@ def lock(request):
                   context_instance=RequestContext(request, processors=[common_context]))
 
 
+def dashboard(request):
+    return HttpResponse("1111111aaaaa1")
 
 
 def check_password(encrypted, password):

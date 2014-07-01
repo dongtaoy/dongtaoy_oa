@@ -475,8 +475,42 @@ $(window).load(function() {
         }) : "object" == typeof exports ? module.exports = Pace : C.startOnPageLoad && Pace.start()
     }).call(this);
 });
-
-/* 
+/*
+ * Load pages via AJAX
+ *
+ *
+ * */
+$(document).ready(function () {
+	var ajax_url = location.hash.replace(/^#/, '');
+	if (ajax_url.length < 1) {
+		ajax_url = 'dashboard/';
+	}
+    window.location.hash = ajax_url;
+    LoadAjaxContent(ajax_url);
+    $(".ajax-link").bind("click",function(event){
+        event.preventDefault();
+        var url = $(this).attr('href').replace('#','');
+        alert(url);
+        window.location.hash = url;
+        LoadAjaxContent(url)
+    })
+});
+function LoadAjaxContent(url){
+	$.ajax({
+		mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
+		url: url,
+		type: 'GET',
+		success: function(data) {
+			$('.right-side').html(data);
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			alert(errorThrown);
+		},
+		dataType: "html",
+		async: false
+	});
+}
+ /*
  * BOX REFRESH BUTTON 
  * ------------------
  * This is a custom plugin to use with the compenet BOX. It allows you to add
