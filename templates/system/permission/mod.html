@@ -60,7 +60,7 @@
         $(':checked').each(function(){
             permissions.push($(this).val());
         })
-        alert(permissions);
+        //alert(permissions);
         $.ajax({
             url: 'system/permission/ajax/save/',
             type: "POST",
