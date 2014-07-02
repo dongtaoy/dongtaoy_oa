@@ -1,9 +1,26 @@
 from django.shortcuts import render
-from oa_model.models import OaUser
+from oa_model.models import OaGroup, OaGroupPermission, OaPermission
+from collections import defaultdict
+from dongtaoy_oa.views import permission_tree
+from django_ajax.decorators import ajax
 from django.http import HttpResponse
 
 
-def permission(request):
-    users = OaUser.objects.all()
-    return render(request, 'system/permission/list.html', {'employees': users})
+# permission landing page
+def permission_index(request):
+    groups = OaGroup.objects.all()
+    return render(request, 'system/permission/index.html', {'groups': groups})
 
+
+# AJAX get permission
+@ajax
+def permission_detail(request):
+    all_permissions = OaPermission.objects.all()
+    group_permissions = [x.permission for x in OaGroupPermission.objects.filter(group=request.GET.get('groupid'))]
+    return render(request, 'system/permission/mod.html', {"all_permissions": permission_tree(all_permissions),
+                                                          "group_permissions": group_permissions,
+                                                          "groupid": request.GET.get('groupid')})
+
+
+def permission_save(request):
+    return 1

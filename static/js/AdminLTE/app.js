@@ -494,10 +494,8 @@ $(document).ready(function () {
         window.location.hash = url;
         LoadAjaxContent(url)
     })
-});
-function LoadAjaxContent(url){
+    function LoadAjaxContent(url){
 	$.ajax({
-		mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
 		url: url,
 		type: 'GET',
 		success: function(data) {
@@ -510,6 +508,8 @@ function LoadAjaxContent(url){
 		async: false
 	});
 }
+});
+
  /*
  * BOX REFRESH BUTTON 
  * ------------------

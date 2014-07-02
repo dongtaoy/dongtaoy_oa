@@ -3412,3 +3412,8 @@ fieldset[disabled] .btn-vk.active {
   color: #587ea3;
   background-color: #ffffff;
 }
+
+/* table tr selected */
+.table > tbody > tr.selected {
+    background-color: #e5f6ff;
+}

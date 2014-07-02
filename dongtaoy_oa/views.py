@@ -58,18 +58,22 @@ def login_status(request):
 
 
 def side_bar(request):
-    return get_permissions(request)
+    return get_all_permissions(request)
 
 
-def get_permissions(request):
+def get_all_permissions(request):
     groups = OaUserGroup.objects.filter(id=request.session.get('user_id'))
-    permissions = list(set(OaGroupPermission.objects.filter(group__in=groups)))
+    permissions = list(set([x.permission for x in OaGroupPermission.objects.filter(group__in=groups)]))
+    return permission_tree(permissions)
+
+
+def permission_tree(permissions):
     permission_dic = defaultdict(list)
     for permission in permissions:
-        if not permission.permission.parentid and permission.permission not in permission_dic.keys():
-            permission_dic[permission.permission]
+        if not permission.parentid and permission not in permission_dic.keys():
+            permission_dic[permission]
         else:
-            permission_dic[permission.permission.parentid].append(permission.permission)
+            permission_dic[permission.parentid].append(permission)
     return sorted(permission_dic.iteritems(), key=lambda (k, v): (k.id, v))
 
 
@@ -82,3 +86,5 @@ def common_context(request):
         "real_name": real_name,
         "username": username
     }
+
+
