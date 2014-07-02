@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from oa_model.models import OaGroup, OaGroupPermission, OaPermission
-from collections import defaultdict
 from dongtaoy_oa.views import permission_tree
 from django_ajax.decorators import ajax
+from json import loads
 from django.http import HttpResponse
 
 
@@ -21,6 +21,8 @@ def permission_detail(request):
                                                           "group_permissions": group_permissions,
                                                           "groupid": request.GET.get('groupid')})
 
-
+@ajax
 def permission_save(request):
+    permissions = loads(request.POST.get('permissions'))
+    print permissions
     return 1
