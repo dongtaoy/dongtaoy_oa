@@ -2,23 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="26fe1759-e7d3-4b26-acd2-9c97e2090189" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/bootstrap-select2/select2-spinner.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/bootstrap-select2/select2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/plugins/bootstrap-select2/bootstrap-select2.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/system/permission/list.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/system/permission/search.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/bootstrap-select2/select2-bootstrap.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/bootstrap-select2/select2.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/plugins/bootstrap-select2/select2_locale_zh-CN.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/AdminLTE.css" afterPath="$PROJECT_DIR$/static/css/AdminLTE.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/AdminLTE/app.js" afterPath="$PROJECT_DIR$/static/js/AdminLTE/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/dashboard.html" afterPath="$PROJECT_DIR$/templates/dashboard.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/daterangepicker/daterangepicker-bs3.css" afterPath="$PROJECT_DIR$/static/css/daterangepicker/daterangepicker-bs3.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dongtaoy_oa/urls.py" afterPath="$PROJECT_DIR$/dongtaoy_oa/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/urls.py" afterPath="$PROJECT_DIR$/system/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dongtaoy_oa/views.py" afterPath="$PROJECT_DIR$/dongtaoy_oa/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/views.py" afterPath="$PROJECT_DIR$/system/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/system/permission/search.html" afterPath="$PROJECT_DIR$/templates/system/permission/search.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/bootstrap-select2/select2-bootstrap.css" afterPath="$PROJECT_DIR$/static/css/bootstrap-select2/select2-bootstrap.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/bootstrap-select2/select2.css" afterPath="$PROJECT_DIR$/static/css/bootstrap-select2/select2.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dongtaoy_oa.iws" />
@@ -42,21 +28,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="search.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="search.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/system/permission/search.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.057488654" vertical-offset="0" max-vertical-offset="1007">
-              <caret line="2" column="63" selection-start-line="2" selection-start-column="63" selection-end-line="2" selection-end-column="63" />
+            <state vertical-scroll-proportion="-8.821428" vertical-offset="0" max-vertical-offset="1007">
+              <caret line="13" column="77" selection-start-line="13" selection-start-column="77" selection-end-line="13" selection-end-column="77" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="select2-bootstrap.css" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/css/bootstrap-select2/select2-bootstrap.css">
+      <file leaf-file-name="select2.css" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/static/css/bootstrap-select2/select2.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="114">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="1.8632219" vertical-offset="3543" max-vertical-offset="13471">
+              <caret line="251" column="0" selection-start-line="251" selection-start-column="0" selection-end-line="251" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -67,16 +53,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-6.785714" vertical-offset="0" max-vertical-offset="551">
               <caret line="10" column="10" selection-start-line="10" selection-start-column="10" selection-end-line="10" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="select2.css" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/css/bootstrap-select2/select2.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="12706" max-vertical-offset="13471">
-              <caret line="703" column="1" selection-start-line="703" selection-start-column="1" selection-end-line="703" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -155,7 +131,9 @@
         <option value="$PROJECT_DIR$/system/views.py" />
         <option value="$PROJECT_DIR$/templates/base.html" />
         <option value="$PROJECT_DIR$/static/css/bootstrap-select2/bootstrap-select2.css" />
+        <option value="$PROJECT_DIR$/static/css/bootstrap-select2/select2-bootstrap.css" />
         <option value="$PROJECT_DIR$/templates/system/permission/search.html" />
+        <option value="$PROJECT_DIR$/static/css/bootstrap-select2/select2.css" />
       </list>
     </option>
   </component>
@@ -615,7 +593,11 @@
       <created>1404282363638</created>
       <updated>1404282363638</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="init.d">
+      <created>1404291381450</created>
+      <updated>1404291381450</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1097,26 +1079,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/bootstrap-select2/select2.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="12706" max-vertical-offset="13471">
-          <caret line="703" column="1" selection-start-line="703" selection-start-column="1" selection-end-line="703" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/css/bootstrap-select2/select2-bootstrap.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="689">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="2.371553" vertical-offset="0" max-vertical-offset="1748">
+          <caret line="86" column="1" selection-start-line="86" selection-start-column="1" selection-end-line="86" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/system/permission/search.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.057488654" vertical-offset="0" max-vertical-offset="1007">
-          <caret line="2" column="63" selection-start-line="2" selection-start-column="63" selection-end-line="2" selection-end-column="63" />
+        <state vertical-scroll-proportion="-8.821428" vertical-offset="0" max-vertical-offset="1007">
+          <caret line="13" column="77" selection-start-line="13" selection-start-column="77" selection-end-line="13" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/bootstrap-select2/select2.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.8632219" vertical-offset="3543" max-vertical-offset="13471">
+          <caret line="251" column="0" selection-start-line="251" selection-start-column="0" selection-end-line="251" selection-end-column="0" />
           <folding />
         </state>
       </provider>

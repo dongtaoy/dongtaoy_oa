@@ -11,7 +11,7 @@
         <div class="form-group">
             <label>姓名:</label>
             <div class="input-group">
-                <select id="employee" multiple="multiple">
+                <select id="employee" multiple="multiple" class="form-control">
                 {% for employee in employees %}
                     <option value="{{ employee.id }}">{{ employee.realname }}</option>
                 {% endfor %}
@@ -41,7 +41,7 @@
     $(document).ready(function(){
         $('#regtime').daterangepicker();
         $('#employee').select2({
-            placeholder: "Select a State",
+            placeholder: "选择名字",
             allowClear: true
         });
     });
