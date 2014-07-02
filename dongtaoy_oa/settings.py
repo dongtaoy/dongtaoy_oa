@@ -62,8 +62,8 @@ DATABASES = {
         'NAME': 'dongtaoy-oa',
         'USER': 'dongtaoy',
         'PASSWORD': 'yudanny1',
-        'HOST': '192.168.18.241',
-        'PORT': '3306'
+        'HOST': '27.115.62.67',
+        'PORT': '65330'
     }
 }
 
