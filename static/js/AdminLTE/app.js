@@ -490,7 +490,7 @@ $(document).ready(function () {
     $(".ajax-link").bind("click",function(event){
         event.preventDefault();
         var url = $(this).attr('href').replace('#','');
-        alert(url);
+        //alert(url);
         window.location.hash = url;
         LoadAjaxContent(url)
     })

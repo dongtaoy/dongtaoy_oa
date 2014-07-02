@@ -42,7 +42,7 @@ def lock(request):
 
 
 def dashboard(request):
-    return HttpResponse("dashboard")
+    return render(request, 'dashboard.html', {})
 
 
 def check_password(encrypted, password):
