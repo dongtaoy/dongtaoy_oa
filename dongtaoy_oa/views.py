@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
-from oa_model.models import OaUser
+from oa_model.models import OaUser, OaGroupPermission, OaUserGroup
 from django.template import RequestContext
 from django.http import HttpResponse
+from collections import defaultdict
 from hashlib import md5
 
 
 def index(request):
-    return render(request, 'index.html', {},
+    return render(request, 'index.html', {'permissions': side_bar(request)},
                   context_instance=RequestContext(request, processors=[common_context]))
 
 
@@ -41,7 +42,7 @@ def lock(request):
 
 
 def dashboard(request):
-    return HttpResponse("1111111aaaaa1")
+    return HttpResponse("dashboard")
 
 
 def check_password(encrypted, password):
@@ -54,6 +55,22 @@ def login_status(request):
     except Exception, e:
         print e
         return None
+
+
+def side_bar(request):
+    return get_permissions(request)
+
+
+def get_permissions(request):
+    groups = OaUserGroup.objects.filter(id=request.session.get('user_id'))
+    permissions = list(set(OaGroupPermission.objects.filter(group__in=groups)))
+    permission_dic = defaultdict(list)
+    for permission in permissions:
+        if not permission.permission.parentid and permission.permission not in permission_dic.keys():
+            permission_dic[permission.permission]
+        else:
+            permission_dic[permission.permission.parentid].append(permission.permission)
+    return sorted(permission_dic.iteritems(), key=lambda (k, v): (k.id, v))
 
 
 def common_context(request):
