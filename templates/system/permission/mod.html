@@ -21,13 +21,16 @@
             {% for permission in all_permissions %}
                 <tr>
                     <td>
-                        {% if permission.0 in group_permissions %}
-
-                            <input type="checkbox" value="{{ permission.0.id }}" checked="checked">
+                        {% if not permission.1 %}
+                            {% if permission.0 in group_permissions %}
+                                <input type="checkbox" value="{{ permission.0.id }}" checked="checked">
+                            {% else %}
+                                <input value="{{ permission.0.id }}" type="checkbox">
+                            {% endif %}
+                            {{ permission.0.name }}
                         {% else %}
-                            <input value="{{ permission.0.id }}" type="checkbox">
+                            {{ permission.0.name }}
                         {% endif %}
-                        {{ permission.0.name }}
                     </td>
                     <td></td>
                 </tr>
@@ -40,7 +43,7 @@
                             {% else %}
                                 <input value="{{ subpermission.id }}" type="checkbox">
                             {% endif %}
-                        {{ subpermission.name }}
+                            {{ subpermission.name }}
                         </td>
                     </tr>
                 {% endfor %}
@@ -55,18 +58,25 @@
 </div>
 <script>
 
-    function save(){
+    function save() {
         var permissions = []
-        $(':checked').each(function(){
+        $(':checked').each(function () {
             permissions.push($(this).val());
         })
         //alert(permissions);
         $.ajax({
             url: 'system/permission/ajax/save/',
             type: "POST",
-            data:{permissions: JSON.stringify(permissions), groupid: $('input[name=groupid]').val()},
-            success: function(response){
-                $(".result").html(response['content'])
+            data: {permissions: JSON.stringify(permissions), groupid: $('input[name=groupid]').val()},
+            success: function (response) {
+                if (response['status'] == 200) {
+                    $(".result").html(response['content'])
+                    alert("保存成功!")
+                }
+                else {
+                    alert("保存失败，请联系管理员！")
+                }
+
             }
         })
     }

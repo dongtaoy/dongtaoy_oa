@@ -62,7 +62,7 @@ def side_bar(request):
 
 
 def get_all_permissions(request):
-    groups = OaUserGroup.objects.filter(id=request.session.get('user_id'))
+    groups = [x.groupid for x in OaUserGroup.objects.filter(userid=OaUser.objects.get(id=request.session.get('user_id')))]
     permissions = list(set([x.permission for x in OaGroupPermission.objects.filter(group__in=groups)]))
     return permission_tree(permissions)
 

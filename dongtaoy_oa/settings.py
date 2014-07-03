@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_ajax',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -62,7 +63,7 @@ DATABASES = {
         'NAME': 'dongtaoy-oa',
         'USER': 'dongtaoy',
         'PASSWORD': 'yudanny1',
-        'HOST': '127.0.0.1',
+        'HOST': '192.168.18.241',
         'PORT': '3306'
     }
 }
@@ -72,7 +73,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'asia/shanghai'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
