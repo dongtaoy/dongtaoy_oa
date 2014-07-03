@@ -290,7 +290,7 @@ $.extend( $.ui, {
 	// only used by resizable
 	hasScroll: function( el, a ) {
 
-		//If overflow is hidden, the element might have extra content.html, but the user wants to hide it
+		//If overflow is hidden, the element might have extra content.html, but the user_group wants to hide it
 		if ( $( el ).css( "overflow" ) === "hidden") {
 			return false;
 		}
@@ -3085,7 +3085,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 		// Calculate the attrs that will be change
 		data = trigger.apply(this, [event, dx, dy]);
 
-		// Put this in the mouseDrag handler since the user can start pressing shift while resizing
+		// Put this in the mouseDrag handler since the user_group can start pressing shift while resizing
 		this._updateVirtualBoundaries(event.shiftKey);
 		if (this._aspectRatio || event.shiftKey) {
 			data = this._updateRatio(data, event);
@@ -3116,7 +3116,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 			this._proportionallyResize();
 		}
 
-		// Call the user callback if the element was resized
+		// Call the user_group callback if the element was resized
 		if ( ! $.isEmptyObject(props) ) {
 			this._trigger("resize", event, this.ui());
 		}
@@ -5133,7 +5133,7 @@ $.widget("ui.sortable", $.ui.mouse, {
 			delayedTriggers = [];
 
 		// We first have to update the dom position of the actual currentItem
-		// Note: don't do it if the current item is already removed (by a user), or it gets reappended (see #4088)
+		// Note: don't do it if the current item is already removed (by a user_group), or it gets reappended (see #4088)
 		if(!this._noFinalSort && this.currentItem.parent().length) {
 			this.placeholder.before(this.currentItem);
 		}
@@ -5455,7 +5455,7 @@ $.widget( "ui.autocomplete", {
 				// clicking on the scrollbar causes focus to shift to the body
 				// but we can't detect a mouseup or a click immediately afterward
 				// so we have to track the next mousedown and close the menu if
-				// the user clicks somewhere outside of the autocomplete
+				// the user_group clicks somewhere outside of the autocomplete
 				var menuElement = this.menu.element[ 0 ];
 				if ( !$( event.target ).closest( ".ui-menu-item" ).length ) {
 					this._delay(function() {

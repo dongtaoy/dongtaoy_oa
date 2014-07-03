@@ -12,32 +12,53 @@
 <!-- Main content -->
 <section class="content">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">
-                        部门列表
+                        权限管理
+                        <small>
+                            点击列表修改
+                        </small>
                     </h3>
                 </div>
                 <div class="box-body table-responsive no-padding">
-                    <table class="table table-hover">
+                    <table class="table table-hover" style="text-align: center">
                         <thead>
                         <tr>
-                            <td>ID</td>
-                            <td>部门</td>
-                            <td>部门介绍</td>
+                            <td>父</td>
+                            <td>子</td>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for group in groups %}
+                        {% for permission in permissions %}
                             <tr>
-                                <td>{{ group.id }}</td>
-                                <td>{{ group.name }}</td>
-                                <td>{{ group.description }}</td>
+                                <input type="hidden" value="{{ permission.0.id }}" />
+                                <td>
+                                    {{ permission.0.name }}
+                                </td>
+                                <td></td>
                             </tr>
+                            {% if permission.1 %}
+                                {% for subpermission in permission.1 %}
+                                    <tr>
+                                        <input type="hidden" value="{{ subpermission.id }}" />
+                                        <td>
+
+                                        </td>
+                                        <td>
+                                            {{ subpermission.name }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
                         {% endfor %}
                         </tbody>
                     </table>
+                </div>
+                <div class="box-footer">
+                    <button class="btn btn-default" data-toggle="modal" data-target="#myModal"
+                    ">新增</button>
                 </div>
             </div>
         </div>
@@ -45,7 +66,65 @@
         </div>
     </div>
 </section><!-- /.content -->
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">权限</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>名字:</label>
+                    <input type="text" name="permission_name" class="form-control" placeholder="eg: 权限管理">
+                </div>
+                <div class="form-group">
+                    <label>URL:</label>
+                    <input type="text" name="permission_url" class="form-control" placeholder="eg: #permission">
+                </div>
+                <div class="form-group">
+                    <label>父权限:</label>
+                    <select class="form-control">
+                        <option value="NULL">根</option>
+                        {% for permission in permissions %}
+                            <option value="{{ permission.0.id }}">{{ permission.0.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="mod()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
+    function mod() {
+        var permission_name = $('input[name=permission_name]').val();
+        var permission_url = $('input[name=permission_url]').val();
+        var permission_parent = $(':selected').val()
+        $.ajax({
+            url: '/system/permission/ajax/mod/',
+            type: 'POST',
+            data: {permission_name: permission_name, permission_url: permission_url, permission_parent: permission_parent},
+            success: (function(response){
+                if(response['status'] == 200){
+                    $('#myModal').modal('hide')
+                    $(".modal-backdrop").hide();
+                    alert('保存成功');
+                    $('.right-side').html(response['content']);
+                }else{
+                    $('#myModal').modal('hide')
+                    $(".modal-backdrop").hide();
+                    alert('保存失败');
+                }
+
+            })
+        });
+    }
     $(".table tbody").on("click", "tr", function () {
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
@@ -54,13 +133,12 @@
             $('tr.selected').removeClass('selected');
             $(this).addClass('selected');
         }
-        //alert(($(this).children('td:first').text()));
+        console.log(($(this)).children('input').val());
         $.ajax({
-            url: 'system/permission/ajax/detail/',
+            url: '/system/permission/ajax/detail/',
             type: "GET",
-            data:{groupid: $(this).children('td:first').text()},
             success: function(response){
-                $(".result").html(response['content'])
+
             }
         })
     });

@@ -62,7 +62,7 @@ def side_bar(request):
 
 
 def get_all_permissions(request):
-    groups = [x.groupid for x in OaUserGroup.objects.filter(userid=OaUser.objects.get(id=request.session.get('user_id')))]
+    groups = [x.group for x in OaUserGroup.objects.filter(user=OaUser.objects.get(id=request.session.get('user_id')))]
     permissions = list(set([x.permission for x in OaGroupPermission.objects.filter(group__in=groups)]))
     return permission_tree(permissions)
 
@@ -70,11 +70,15 @@ def get_all_permissions(request):
 def permission_tree(permissions):
     permission_dic = defaultdict(list)
     for permission in permissions:
-        if not permission.parentid and permission not in permission_dic.keys():
+        if not permission.parent and permission not in permission_dic.keys():
             permission_dic[permission]
         else:
-            permission_dic[permission.parentid].append(permission)
-    return sorted(permission_dic.iteritems(), key=lambda (k, v): (k.id, v))
+            permission_dic[permission.parent].append(permission)
+    # order matters
+    permission_list = permission_dic.items()
+    permission_list = [(x[0], sorted(x[1], key=lambda d: d.order)) for x in permission_list]
+    return sorted(permission_list, key=lambda (k, v): (k.order, v))
+    #return sorted(permission_dic.iteritems(), key=lambda (k, v): (k.order, v))
 
 
 def common_context(request):

@@ -670,10 +670,10 @@ $(document).ready(function () {
     $.fn.todolist = function(options) {
         // Render options
         var settings = $.extend({
-            //When the user checks the input
+            //When the user_group checks the input
             onCheck: function(ele) {
             },
-            //When the user unchecks the input
+            //When the user_group unchecks the input
             onUncheck: function(ele) {
             }
         }, options);

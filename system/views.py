@@ -8,25 +8,25 @@ from json import loads
 from django.http import HttpResponse
 
 
-# permission landing page
-def permission_index(request):
+# group_permission landing page
+def group_permission_index(request):
     groups = OaGroup.objects.all()
-    return render(request, 'system/permission/index.html', {'groups': groups})
+    return render(request, 'system/group_permission/index.html', {'groups': groups})
 
 
-# AJAX get permission
+# AJAX get group_permission
 @ajax
-def permission_detail(request):
+def group_permission_detail(request):
     all_permissions = OaPermission.objects.all()
     group_permissions = [x.permission for x in OaGroupPermission.objects.filter(group=request.GET.get('groupid'))]
-    return render(request, 'system/permission/mod.html', {"all_permissions": permission_tree(all_permissions),
+    return render(request, 'system/group_permission/mod.html', {"all_permissions": permission_tree(all_permissions),
                                                           "group_permissions": group_permissions,
                                                           "groupid": request.GET.get('groupid')})
 
 
-# AJAX save permission
+# AJAX save group_permission
 @ajax
-def permission_save(request):
+def group_permission_save(request):
     new_permissions = loads(request.POST.get('permissions'))
     print new_permissions
     group = OaGroup.objects.get(id=request.POST.get('groupid'))
@@ -37,15 +37,15 @@ def permission_save(request):
             entry.save()
     all_permissions = OaPermission.objects.all()
     group_permissions = [x.permission for x in OaGroupPermission.objects.filter(group=group)]
-    return render(request, 'system/permission/mod.html', {"all_permissions": permission_tree(all_permissions),
+    return render(request, 'system/group_permission/mod.html', {"all_permissions": permission_tree(all_permissions),
                                                           "group_permissions": group_permissions,
                                                           "groupid": group.id})
 
 
-# user landing page
+# user_group landing page
 def user_group_index(request):
     users = OaUser.objects.all()
-    return render(request, 'system/user/index.html', {'users': users})
+    return render(request, 'system/user_group/index.html', {'users': users})
 
 
 # AJAX detail group info
@@ -53,10 +53,10 @@ def user_group_index(request):
 def user_group_detail(request):
     all_groups = OaGroup.objects.all()
     user = OaUser.objects.get(id=request.GET.get('userid'))
-    user_groups = [x.groupid for x in OaUserGroup.objects.filter(userid=user)]
+    user_groups = [x.group for x in OaUserGroup.objects.filter(user=user)]
     print all_groups
     print user_groups
-    return render(request, 'system/user/mod.html', {"all_groups": all_groups,
+    return render(request, 'system/user_group/mod.html', {"all_groups": all_groups,
                                                     "user_groups": user_groups,
                                                     "userid": user.id})
 
@@ -69,13 +69,49 @@ def user_group_save(request):
     user = OaUser.objects.get(id=request.POST.get('userid'))
     print request.POST.get('userid')
     print user
-    OaUserGroup.objects.filter(userid=user).delete()
+    OaUserGroup.objects.filter(user=user).delete()
     with transaction.atomic():
         for group in new_groups:
-            entry = OaUserGroup(userid=user, groupid=OaGroup.objects.get(id=group))
+            entry = OaUserGroup(user=user, group=OaGroup.objects.get(id=group))
             entry.save()
     all_groups = OaGroup.objects.all()
-    user_groups = [x.groupid for x in OaUserGroup.objects.filter(userid=user)]
-    return render(request, 'system/user/mod.html', {"all_groups": all_groups,
+    user_groups = [x.group for x in OaUserGroup.objects.filter(user=user)]
+    return render(request, 'system/user_group/mod.html', {"all_groups": all_groups,
                                                     "user_groups": user_groups,
                                                     "userid": user.id})
+
+
+def permission_order_index(request):
+    all_permissions = OaPermission.objects.all()
+    return render(request, 'system/permission/order.html', {'permissions': permission_tree(all_permissions)})
+
+
+@ajax
+def permission_order_save(request):
+    order_maps = loads(request.POST.get('order_maps'))
+    for order_map in order_maps:
+        OaPermission.objects.filter(id=order_map[0]).update(order=order_map[1])
+    all_permissions = OaPermission.objects.all()
+    return render(request, 'system/permission/order.html', {'permissions': permission_tree(all_permissions)})
+
+
+def permission_index(request):
+    all_permissions = OaPermission.objects.all()
+    return render(request, 'system/permission/index.html', {'permissions': permission_tree(all_permissions)})
+
+@ajax
+def permission_detail(request):
+    return render(request, 'system/permission/index.html', {'permissions': permission_tree(all_permissions)})
+
+
+@ajax
+def permission_mod(request):
+    print 1
+    with transaction.atomic():
+        entry = OaPermission(name=request.POST.get('permission_name'),
+                             url=request.POST.get('permission_url'),
+                             parent=OaPermission.objects.get(id=request.POST.get('permission_parent'))
+                             if request.POST.get('permission_parent') != 'NULL' else None)
+        entry.save()
+    all_permissions = OaPermission.objects.all()
+    return render(request, 'system/permission/index.html', {'permissions': permission_tree(all_permissions)})
