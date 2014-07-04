@@ -30,6 +30,11 @@
                     {% endfor %}
                 </select>
             </div>
+            <div class="form-group">
+                <label>序号：(选添)</label>
+                <input value="{{ spec_permission.order }}" type="text" name="permission_order" class="form-control"
+                       placeholder="eg: 1">
+            </div>
         </div>
         <div class="modal-footer">
             {% if spec_permission %}

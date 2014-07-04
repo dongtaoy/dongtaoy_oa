@@ -14,6 +14,8 @@
     <!-- Theme style -->
     <link href="{% static 'css/AdminLTE.css' %}" rel="stylesheet" type="text/css"/>
 
+    <link href="{% static 'css/bootstrap-validator/bootstrapValidator.min.css' %}" type="text/css" />
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -105,6 +107,8 @@
 <script src="{% static 'js/AdminLTE/app.js' %}"></script>
 <!-- DjangoAjax -->
 <script src="{% static 'django_ajax/js/jquery.ajax.min.js' %}"></script>
+<!-- Bootstrap-validator -->
+<script src="{% static 'js/plugins/bootstrap-validator/bootstrapValidator.min.js' %}"></script>
 {% block js %}
 {% endblock %}
 </body>
