@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.db import transaction
+from django.db import transaction, models
 from oa_model.models import OaGroup, OaGroupPermission, OaPermission, OaUser, OaUserGroup
 from dongtaoy_oa.views import permission_tree
 from django_ajax.decorators import ajax
@@ -120,10 +120,14 @@ def permission_mod(request):
     except Exception, e:
         print e
         with transaction.atomic():
+            parent = OaPermission.objects.get(id=request.POST.get('permission_parent')) \
+                if request.POST.get('permission_parent') != 'NULL' else None
+            order = 1 if not (OaPermission.objects.filter(parent=parent).aggregate(models.Max('order'))['order__max']) \
+                else OaPermission.objects.filter(parent=parent).aggregate(models.Max('order'))['order__max'] + 1
             entry = OaPermission(name=request.POST.get('permission_name'),
                                  url=request.POST.get('permission_url'),
-                                 parent=OaPermission.objects.get(id=request.POST.get('permission_parent'))
-                                 if request.POST.get('permission_parent') != 'NULL' else None)
+                                 order=order,
+                                 parent=parent)
             entry.save()
     all_permissions = OaPermission.objects.all()
     return render(request, 'system/permission/index.html', {'permissions': permission_tree(all_permissions)})
