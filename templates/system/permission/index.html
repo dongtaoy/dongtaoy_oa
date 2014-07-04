@@ -27,27 +27,35 @@
                         <thead>
                         <tr>
                             <td>父</td>
+                            <td>URL</td>
                             <td>子</td>
+                            <td>URL</td>
                         </tr>
                         </thead>
                         <tbody>
                         {% for permission in permissions %}
                             <tr>
-                                <input type="hidden" value="{{ permission.0.id }}" />
+                                <input type="hidden" value="{{ permission.0.id }}"/>
                                 <td>
                                     {{ permission.0.name }}
                                 </td>
+                                <td>
+                                    {{ permission.0.url }}
+                                </td>
+                                <td></td>
                                 <td></td>
                             </tr>
                             {% if permission.1 %}
                                 {% for subpermission in permission.1 %}
                                     <tr>
-                                        <input type="hidden" value="{{ subpermission.id }}" />
-                                        <td>
-
-                                        </td>
+                                        <input type="hidden" value="{{ subpermission.id }}"/>
+                                        <td></td>
+                                        <td></td>
                                         <td>
                                             {{ subpermission.name }}
+                                        </td>
+                                        <td>
+                                            {{ permission.0.url | add:subpermission.url }}
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -57,8 +65,7 @@
                     </table>
                 </div>
                 <div class="box-footer">
-                    <button class="btn btn-default" data-toggle="modal" data-target="#myModal"
-                    ">新增</button>
+                    <button class="btn btn-default" data-toggle="modal" data-target="#permission_detail">新增</button>
                 </div>
             </div>
         </div>
@@ -66,64 +73,61 @@
         </div>
     </div>
 </section><!-- /.content -->
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
-                        class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel">权限</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>名字:</label>
-                    <input type="text" name="permission_name" class="form-control" placeholder="eg: 权限管理">
-                </div>
-                <div class="form-group">
-                    <label>URL:</label>
-                    <input type="text" name="permission_url" class="form-control" placeholder="eg: #permission">
-                </div>
-                <div class="form-group">
-                    <label>父权限:</label>
-                    <select class="form-control">
-                        <option value="NULL">根</option>
-                        {% for permission in permissions %}
-                            <option value="{{ permission.0.id }}">{{ permission.0.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" onclick="mod()">保存</button>
-            </div>
-        </div>
-    </div>
+<!-- mod permission -->
+<div class="modal fade" id="permission_detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    {% include 'system/permission/modal.html' %}
 </div>
 <script>
-    function mod() {
+    function mod(permission_id) {
+        //alert(permission_id);
+        if (!arguments[0]) {
+            var ajax_data = {
+                permission_name: $('input[name=permission_name]').val(),
+                permission_url: $('input[name=permission_url]').val(),
+                permission_parent: $(':selected').val()
+            }
+        } else {
+            var ajax_data = {
+                permission_id: permission_id,
+                permission_name: $('input[name=permission_name]').val(),
+                permission_url: $('input[name=permission_url]').val(),
+                permission_parent: $(':selected').val()
+            }
+        }
         var permission_name = $('input[name=permission_name]').val();
         var permission_url = $('input[name=permission_url]').val();
-        var permission_parent = $(':selected').val()
+        var permission_parent = $(':selected').val();
+
         $.ajax({
             url: '/system/permission/ajax/mod/',
             type: 'POST',
-            data: {permission_name: permission_name, permission_url: permission_url, permission_parent: permission_parent},
-            success: (function(response){
-                if(response['status'] == 200){
-                    $('#myModal').modal('hide')
+            data: ajax_data,
+            success: (function (response) {
+                if (response['status'] == 200) {
+                    $('#permission_detail').modal('hide');
                     $(".modal-backdrop").hide();
                     alert('保存成功');
                     $('.right-side').html(response['content']);
-                }else{
-                    $('#myModal').modal('hide')
+                } else {
+                    $('#permission_detail').modal('hide');
                     $(".modal-backdrop").hide();
                     alert('保存失败');
                 }
 
             })
         });
+    }
+    function del(permission_id){
+        $.ajax({
+            url: '/system/permission/ajax/delete/',
+            type: "POST",
+            data: {permission_id: permission_id},
+            success: function (response) {
+                $('.right-side').html(response['content']);
+                $(".modal-backdrop").hide();
+            }
+        })
     }
     $(".table tbody").on("click", "tr", function () {
         if ($(this).hasClass('selected')) {
@@ -137,9 +141,21 @@
         $.ajax({
             url: '/system/permission/ajax/detail/',
             type: "GET",
-            success: function(response){
-
+            data: {permission_id: ($(this)).children('input').val()},
+            success: function (response) {
+                $('#permission_detail').html(response['content']);
+                $('#permission_detail').modal('show');
             }
         })
     });
+    $('#permission_detail').on('hidden.bs.modal',function (){
+        $.ajax({
+            url: '/system/permission/',
+            type: "GET",
+            success: function (response) {
+                $('.right-side').html(response);
+            }
+        })
+    });
+
 </script>

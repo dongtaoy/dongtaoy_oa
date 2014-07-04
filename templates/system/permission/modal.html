@@ -1,0 +1,42 @@
+<!-- Modal -->
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                    class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">权限</h4>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>名字:</label>
+                <input value="{{ spec_permission.name }}" type="text" name="permission_name" class="form-control"
+                       placeholder="eg: 权限管理">
+            </div>
+            <div class="form-group">
+                <label>URL:</label>
+                <input value="{{ spec_permission.url }}" type="text" name="permission_url" class="form-control"
+                       placeholder="eg: #permission">
+            </div>
+            <div class="form-group">
+                <label>父权限:</label>
+                <select class="form-control">
+                    <option value="NULL">根</option>
+                    {% for permission in permissions %}
+                        {% if permission.0 == spec_permission.parent %}
+                            <option value="{{ permission.0.id }}" selected="selected">{{ permission.0.name }}</option>
+                        {% else %}
+                            <option value="{{ permission.0.id }}">{{ permission.0.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            {% if spec_permission %}
+                <button type="button" class="pull-left btn btn-danger" onclick="del({{ spec_permission.id }});">删除</button>
+            {% endif %}
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick="mod({{ spec_permission.id }});">保存</button>
+        </div>
+    </div>
+</div>

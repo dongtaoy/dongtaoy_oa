@@ -14,6 +14,9 @@ urlpatterns = patterns('',
 
     url(r'permission/$', 'system.views.permission_index'),
     url(r'permission/ajax/mod/$', 'system.views.permission_mod'),
+    url(r'permission/ajax/detail/', 'system.views.permission_detail'),
+    url(r'permission/ajax/delete/', 'system.views.permission_delete'),
+
     url(r'permission/order/$', 'system.views.permission_order_index'),
     url(r'permission/order/ajax/save/$', 'system.views.permission_order_save')
 )
