@@ -134,6 +134,7 @@ class OaUser(models.Model):
     lastime = models.IntegerField(blank=True, null=True)
     lastip = models.CharField(max_length=15, blank=True)
     email = models.CharField(max_length=50, blank=True)
+    phone = models.CharField(max_length=45, blank=True)
     class Meta:
         managed = False
         db_table = 'oa_user'

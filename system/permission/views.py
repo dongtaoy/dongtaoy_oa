@@ -3,6 +3,7 @@ from django.db import transaction, models
 from oa_model.models import OaPermission
 from dongtaoy_oa.views import permission_tree
 from django_ajax.decorators import ajax
+from django.http import HttpResponse
 
 
 # permission index
@@ -32,9 +33,12 @@ def permission_mod(request):
             order = 1
     else:
         order = request.POST.get('permission_order')
-
     with transaction.atomic():
-        OaPermission(id=request.POST.get("permission_id"), url=request.POST.get("permission_url"), name=request.POST.get("permission_name"), parent=parent, order=order).save()
+        OaPermission(id=request.POST.get("permission_id"), url=request.POST.get("permission_url"),
+                     name=request.POST.get("permission_name"), parent=parent, order=order).save()
+    all_permissions = OaPermission.objects.all()
+    return render(request, 'system/permission/index.html', {'permissions': permission_tree(all_permissions),
+                                                            'success': 1})
     return redirect("/#system/permission/")
 
 
@@ -43,4 +47,5 @@ def permission_mod(request):
 def permission_delete(request):
     OaPermission.objects.get(id=request.POST.get("permission_id")).delete()
     all_permissions = OaPermission.objects.all()
-    return render(request, 'system/permission/index.html', {'permissions': permission_tree(all_permissions)})
+    return render(request, 'system/permission/index.html', {'permissions': permission_tree(all_permissions),
+                                                            'success': 1})

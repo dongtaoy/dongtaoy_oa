@@ -22,7 +22,14 @@
                         </small>
                     </h3>
                 </div>
-                <div class="box-body table-responsive no-padding">
+                <div class="box-body table-responsive">
+                    {% if success %}
+                        <div class="alert alert-success alert-dismissable">
+                            <i class="fa fa-check"></i>
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <b>修改成功！</b>
+                        </div>
+                    {% endif %}
                     <table class="table table-hover">
                         <thead>
                         <tr>
@@ -69,8 +76,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 result">
-        </div>
     </div>
 </section><!-- /.content -->
 <!-- mod permission -->
@@ -79,7 +84,7 @@
     {% include 'system/permission/modal.html' %}
 </div>
 <script>
-    function del(permission_id){
+    function del(permission_id) {
         $.ajax({
             url: '/system/permission/ajax/delete/',
             type: "POST",
@@ -90,6 +95,7 @@
             }
         })
     }
+
     $(".table tbody").on("click", "tr", function () {
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
@@ -110,13 +116,29 @@
             }
         })
     });
-    $('#permission_detail').on('hidden.bs.modal',function (){
+
+    $('#permission_detail').on('hidden.bs.modal', function () {
         $.ajax({
             url: '/system/permission/',
             type: "GET",
             success: function (response) {
                 $('.right-side').html(response);
+                $(".modal-backdrop").hide();
             }
         })
     });
+
+    $('#permission_form').validate({
+        submitHandler: function () {
+            $.ajax({
+                url: '/system/permission/save/',
+                type: 'POST',
+                data: $('#permission_form').serialize(),
+                success: function (response) {
+                    $('.right-side').html(response);
+                    $(".modal-backdrop").hide();
+                }
+            });
+        }
+    })
 </script>

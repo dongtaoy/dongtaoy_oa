@@ -1,7 +1,7 @@
 <!-- Modal -->
 <div class="modal-dialog">
     <div class="modal-content">
-        <form action="/system/permission/save/" method="POST">
+        <form id="permission_form" action="/system/permission/save/" method="POST">
             {% csrf_token %}
 
             <div class="modal-header">
@@ -37,7 +37,7 @@
                 </div>
                 <div class="form-group">
                     <label>序号：(选填)</label>
-                        <input value="{{ spec_permission.order }}" type="text" name="permission_order" class="form-control"
+                    <input value="{{ spec_permission.order }}" type="text" name="permission_order" class="form-control"
                            placeholder="eg: 1" pattern="\d{1,2}" title="请输入纯数字！">
 
                 </div>

@@ -1,0 +1,69 @@
+{% load staticfiles %}
+
+<link href="{% static 'css/bootstrap-multiselect/bootstrap-multiselect.css' %}" rel="stylesheet" type="text/css"/>
+<script src="{% static 'js/plugins/bootstrap-multiselect/bootstrap-multiselect.js' %}"></script>
+<!-- Modal -->
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form id="user_form" method="POST">
+            {% csrf_token %}
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">人员</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>名字:</label>
+                    <input value="{{ spec_user.realname }}" type="text" name="user_name" class="form-control"
+                           placeholder="eg: 张三" required="required" title="必填">
+                </div>
+                <div class="form-group">
+                    <label>手机：</label>
+                    <input value="{{ spec_user.phone }}" type="text" name="user_phone" class="form-control"
+                           placeholder="eg: 13800138000" required="required" title="必填">
+                </div>
+                <div class="form-group">
+                    <label>E-mail:</label>
+                    <input value="{{ spec_user.email }}" type="text" name="user_email" class="form-control"
+                           placeholder="eg: test@163.com" required="required" title="必填">
+                </div>
+                <div class="form-group">
+                    <label>性别：</label>
+
+                    <select name="user_sex" class="form-control">
+                        {% if spec_user %}
+                            <option value="1" selected="selected">男</option>
+                            <option value="0">女</option>
+                        {% else %}
+                            <option value="1">男</option>
+                            <option value="0" selected="selected">女</option>
+                        {% endif %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>隶属于：</label>
+                    <br/>
+                    <select name="user_groups" multiple="multiple" class="form-control">
+                        {% for group in groups %}
+                            <option value="{{ group.id }}">{{ group.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                {% if spec_user %}
+                    <button type="button" class="pull-left btn btn-danger" onclick="del({{ spec_user.id }});">删除
+                    </button>
+                    <input type="hidden" name="permission_id" value="{{ spec_user.id }}">
+                {% endif %}
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-primary">保存</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $('select[name=user_groups]').multiselect();
+</script>
