@@ -1,10 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db import transaction, models
 from oa_model.models import OaGroup, OaGroupPermission, OaPermission, OaUser, OaUserGroup
 from dongtaoy_oa.views import permission_tree
 from django_ajax.decorators import ajax
 from json import loads
-
 from django.http import HttpResponse
 
 
@@ -95,46 +94,3 @@ def permission_order_save(request):
     return render(request, 'system/permission/order.html', {'permissions': permission_tree(all_permissions)})
 
 
-def permission_index(request):
-    all_permissions = OaPermission.objects.all()
-    return render(request, 'system/permission/index.html', {'permissions': permission_tree(all_permissions)})
-
-
-@ajax
-def permission_detail(request):
-    spec_permission = OaPermission.objects.get(id=request.GET.get('permission_id'))
-    all_permissions = OaPermission.objects.all()
-    return render(request, 'system/permission/modal.html', {"spec_permission": spec_permission,
-                                                            "permissions": permission_tree(all_permissions)})
-
-
-@ajax
-def permission_mod(request):
-    try:
-        permission_id = request.POST["permission_id"]
-        with transaction.atomic():
-            OaPermission.objects.filter(id=permission_id).update(name=request.POST.get('permission_name'),
-                                                                 url=request.POST.get('permission_url'),
-                                                                 parent=OaPermission.objects.get(id=request.POST.get('permission_parent'))
-                                                                 if request.POST.get('permission_parent') != 'NULL' else None)
-    except Exception, e:
-        print e
-        with transaction.atomic():
-            parent = OaPermission.objects.get(id=request.POST.get('permission_parent')) \
-                if request.POST.get('permission_parent') != 'NULL' else None
-            order = 1 if not (OaPermission.objects.filter(parent=parent).aggregate(models.Max('order'))['order__max']) \
-                else OaPermission.objects.filter(parent=parent).aggregate(models.Max('order'))['order__max'] + 1
-            entry = OaPermission(name=request.POST.get('permission_name'),
-                                 url=request.POST.get('permission_url'),
-                                 order=order,
-                                 parent=parent)
-            entry.save()
-    all_permissions = OaPermission.objects.all()
-    return render(request, 'system/permission/index.html', {'permissions': permission_tree(all_permissions)})
-
-
-@ajax
-def permission_delete(request):
-    OaPermission.objects.get(id=request.POST.get("permission_id")).delete()
-    all_permissions = OaPermission.objects.all()
-    return render(request, 'system/permission/index.html', {'permissions': permission_tree(all_permissions)})

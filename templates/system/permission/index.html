@@ -23,7 +23,7 @@
                     </h3>
                 </div>
                 <div class="box-body table-responsive no-padding">
-                    <table class="table table-hover" style="text-align: center">
+                    <table class="table table-hover">
                         <thead>
                         <tr>
                             <td>父</td>
@@ -37,7 +37,7 @@
                             <tr>
                                 <input type="hidden" value="{{ permission.0.id }}"/>
                                 <td>
-                                    {{ permission.0.name }}
+                                    {{ permission.0.order }}. {{ permission.0.name }}
                                 </td>
                                 <td>
                                     {{ permission.0.url }}
@@ -52,7 +52,7 @@
                                         <td></td>
                                         <td></td>
                                         <td>
-                                            {{ subpermission.name }}
+                                            {{ subpermission.order }}. {{ subpermission.name }}
                                         </td>
                                         <td>
                                             {{ permission.0.url | add:subpermission.url }}
@@ -79,45 +79,6 @@
     {% include 'system/permission/modal.html' %}
 </div>
 <script>
-    function mod(permission_id) {
-        //alert(permission_id);
-        if (!arguments[0]) {
-            var ajax_data = {
-                permission_name: $('input[name=permission_name]').val(),
-                permission_url: $('input[name=permission_url]').val(),
-                permission_parent: $(':selected').val()
-            }
-        } else {
-            var ajax_data = {
-                permission_id: permission_id,
-                permission_name: $('input[name=permission_name]').val(),
-                permission_url: $('input[name=permission_url]').val(),
-                permission_parent: $(':selected').val()
-            }
-        }
-        var permission_name = $('input[name=permission_name]').val();
-        var permission_url = $('input[name=permission_url]').val();
-        var permission_parent = $(':selected').val();
-
-        $.ajax({
-            url: '/system/permission/ajax/mod/',
-            type: 'POST',
-            data: ajax_data,
-            success: (function (response) {
-                if (response['status'] == 200) {
-                    $('#permission_detail').modal('hide');
-                    $(".modal-backdrop").hide();
-                    alert('保存成功');
-                    $('.right-side').html(response['content']);
-                } else {
-                    $('#permission_detail').modal('hide');
-                    $(".modal-backdrop").hide();
-                    alert('保存失败');
-                }
-
-            })
-        });
-    }
     function del(permission_id){
         $.ajax({
             url: '/system/permission/ajax/delete/',
@@ -138,6 +99,7 @@
             $(this).addClass('selected');
         }
         console.log(($(this)).children('input').val());
+
         $.ajax({
             url: '/system/permission/ajax/detail/',
             type: "GET",
@@ -157,5 +119,4 @@
             }
         })
     });
-
 </script>

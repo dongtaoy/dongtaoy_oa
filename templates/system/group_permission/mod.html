@@ -63,18 +63,18 @@
         $(':checked').each(function () {
             permissions.push($(this).val());
         })
-        //alert(permissions);
+        //alert(JSON.stringify(permissions));
         $.ajax({
             url: 'system/group_permission/ajax/save/',
             type: "POST",
             data: {permissions: JSON.stringify(permissions), groupid: $('input[name=groupid]').val()},
             success: function (response) {
                 if (response['status'] == 200) {
-                    $(".result").html(response['content'])
-                    alert("保存成功!")
+                    $(".result").html(response['content']);
+                    alert("保存成功!");
                 }
                 else {
-                    alert("保存失败，请联系管理员！")
+                    alert("保存失败，请联系管理员！");
                 }
 
             }
