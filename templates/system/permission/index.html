@@ -79,10 +79,8 @@
     </div>
 </section><!-- /.content -->
 <!-- mod permission -->
-<div class="modal fade" id="permission_detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
-    {% include 'system/permission/modal.html' %}
-</div>
+{% include 'system/permission/modal.html' %}
+
 <script>
     function del(permission_id) {
         $.ajax({
@@ -90,7 +88,7 @@
             type: "POST",
             data: {permission_id: permission_id},
             success: function (response) {
-                $('.right-side').html(response['content']);
+                $('.right-side').html(response);
                 $(".modal-backdrop").hide();
             }
         })
@@ -111,7 +109,7 @@
             type: "GET",
             data: {permission_id: ($(this)).children('input').val()},
             success: function (response) {
-                $('#permission_detail').html(response['content']);
+                $('.right-side').html(response);
                 $('#permission_detail').modal('show');
             }
         })
@@ -123,7 +121,7 @@
             type: "GET",
             success: function (response) {
                 $('.right-side').html(response);
-                $(".modal-backdrop").hide();
+                $('.modal-backdrop').hide();
             }
         })
     });

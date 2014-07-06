@@ -13,12 +13,11 @@ def permission_index(request):
 
 
 # permission detail
-@ajax
 def permission_detail(request):
     spec_permission = OaPermission.objects.get(id=request.GET.get('permission_id'))
     all_permissions = OaPermission.objects.all()
-    return render(request, 'system/permission/modal.html', {"spec_permission": spec_permission,
-                                                            "permissions": permission_tree(all_permissions)})
+    return render(request, 'system/permission/index.html', {"spec_permission": spec_permission,
+                                                                 "permissions": permission_tree(all_permissions)})
 
 
 # save permission
@@ -43,7 +42,6 @@ def permission_mod(request):
 
 
 # delete permission
-@ajax
 def permission_delete(request):
     OaPermission.objects.get(id=request.POST.get("permission_id")).delete()
     all_permissions = OaPermission.objects.all()
