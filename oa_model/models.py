@@ -135,6 +135,8 @@ class OaUser(models.Model):
     lastip = models.CharField(max_length=15, blank=True)
     email = models.CharField(max_length=50, blank=True)
     phone = models.CharField(max_length=45, blank=True)
+    salary = models.FloatField(blank=True, null=True)
+    description = models.CharField(max_length=100, blank=True)
     class Meta:
         managed = False
         db_table = 'oa_user'

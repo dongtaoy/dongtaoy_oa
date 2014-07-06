@@ -89,7 +89,6 @@
             data: {permission_id: permission_id},
             success: function (response) {
                 $('.right-side').html(response);
-                $(".modal-backdrop").hide();
             }
         })
     }
@@ -121,7 +120,6 @@
             type: "GET",
             success: function (response) {
                 $('.right-side').html(response);
-                $('.modal-backdrop').hide();
             }
         })
     });
@@ -134,9 +132,11 @@
                 data: $('#permission_form').serialize(),
                 success: function (response) {
                     $('.right-side').html(response);
-                    $(".modal-backdrop").hide();
                 }
             });
+        },
+        rules:{
+            user_groups:"required"
         }
     })
 </script>

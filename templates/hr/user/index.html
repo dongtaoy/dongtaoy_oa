@@ -1,4 +1,6 @@
-
+{% load staticfiles %}
+<link href="{% static 'css/bootstrap-multiselect/bootstrap-multiselect.css' %}" rel="stylesheet" type="text/css"/>
+<script src="{% static 'js/plugins/bootstrap-multiselect/bootstrap-multiselect.js' %}"></script>
 <section class="content-header">
     <h1>
         权限设置
@@ -41,12 +43,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                            {% for user in users %}
-                                <td>{{ user.id }}</td>
-                                <td>{{ user.realname }}</td>
-                                <td>{{ user.phone }}</td>
-                                <td>{{ user.email }}</td>
-                            {% endfor %}
+                        {% for user in users %}
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.realname }}</td>
+                            <td>{{ user.phone }}</td>
+                            <td>{{ user.email }}</td>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -58,32 +60,52 @@
     </div>
 </section><!-- /.content -->
 <!-- mod permission -->
-<div class="modal fade" id="user_detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
-    {% include 'hr/user/modal.html' %}
-</div>
+
+{% include 'hr/user/modal.html' %}
 
 <script>
-    $(".table tbody").on("click", "tr", function () {
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-        }
-        else {
-            $('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-        }
-        console.log(($(this)).children('td:first').text());
-        $.ajax({
-            url: 'hr/user/ajax/detail/',
-            type: 'GET',
-            data: {user_id: ($(this)).children('td:first').text()},
-            success: function(response){
-                $('#user_detail').html(response);
-                $('#user_detail').modal('show');
+    $(function () {
+        $(".table tbody").on("click", "tr", function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
             }
+            else {
+                $('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+            console.log(($(this)).children('td:first').text());
+            $.ajax({
+                url: 'hr/user/ajax/detail/',
+                type: 'GET',
+                data: {user_id: ($(this)).children('td:first').text()},
+                success: function (response) {
+                    $('.right-side').html(response);
+                    $('#user_detail').modal('show');
+                }
+            });
         });
+        $('#user_detail').on('hidden.bs.modal', function () {
+            $.ajax({
+                url: 'hr/user/',
+                type: 'GET',
+                success: function (response) {
+                    $('.right-side').html(response);
+                }
+            });
+        });
+        $('#user_form').validate({
+            submitHandler: function(form){
+                $.ajax({
+                    url: 'hr/user/ajax/save/',
+                    type: 'POST',
+                    data: $(form).serialize(),
+                    success: function(response){
+                        $('right-side').html(response);
+                    }
+                })
+            }
+        })
     });
 
-    $('#user_detail').on('hidden.bs.modal', function () {
-    });
+
 </script>

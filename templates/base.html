@@ -6,13 +6,18 @@
     <title>  ofFiCe AuToMaTiOn </title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- bootstrap 3.0.2 -->
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css"/>
     <!-- font Awesome -->
     <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" type="text/css"/>
     <!-- Ionicons -->
     <link href="{% static 'css/ionicons.min.css' %}" rel="stylesheet" type="text/css"/>
     <!-- Theme style -->
     <link href="{% static 'css/AdminLTE.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- Bootstrap modal -->
+    <link href="{% static 'css/bootstrap-modal/bootstrap-modal.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- select2 -->
+    <link href="{% static 'css/bootstrap-select2/select2.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/bootstrap-select2/select2-bootstrap.css' %}" rel="stylesheet" type="text/css"/>
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -96,7 +101,6 @@
 </div>
 <!-- ./wrapper -->
 
-
 <!-- jQuery 2.0.2 -->
 <script src="{%static 'js/jquery.min.js' %}"></script>
 <!--Bootstrap -->
@@ -110,6 +114,11 @@
 <script src="{% static 'js/plugins/jqueryvalidate/jquery.validate.min.js' %}"></script>
 <!-- jquery form -->
 <script src="{% static 'js/plugins/jquery.form/jquery.form.js' %}"></script>
+<!-- bootstrap modal -->
+<script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modal.js' %}"></script>
+<script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modalmanager.js' %}"></script>
+<!-- select 2 -->
+<script src="{% static 'js/plugins/bootstrap-select2/bootstrap-select2.js' %}"></script>
 {% block js %}
 {% endblock %}
 </body>

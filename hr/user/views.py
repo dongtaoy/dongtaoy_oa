@@ -1,4 +1,4 @@
-from oa_model.models import OaUser, OaGroup
+from oa_model.models import OaUser, OaGroup, OaUserGroup
 from django.shortcuts import render
 from django.http import HttpResponse
 
@@ -16,6 +16,15 @@ def user_detail(request):
     spec_user = OaUser.objects.get(id=request.GET.get('user_id'))
     users = OaUser.objects.all()
     groups = OaGroup.objects.all()
-    return render(request, 'hr/user/modal.html', {'spec_user': spec_user,
+    user_groups = [x.group for x in OaUserGroup.objects.filter(user=spec_user)]
+    return render(request, 'hr/user/index.html', {'spec_user': spec_user,
                                                   'users': users,
-                                                  'groups': groups})
+                                                  'groups': groups,
+                                                  'user_groups':user_groups})
+
+
+def user_save(request):
+    print request
+
+    print request.POST.getlist('user_groups')
+    return HttpResponse(1)
