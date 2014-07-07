@@ -129,14 +129,19 @@ class OaUser(models.Model):
     password = models.CharField(max_length=45, blank=True)
     realname = models.CharField(max_length=45, blank=True)
     sex = models.IntegerField(blank=True, null=True)
-    regtime = models.IntegerField(blank=True, null=True)
-    regip = models.CharField(max_length=15, blank=True)
-    lastime = models.IntegerField(blank=True, null=True)
+    regtime = models.DateField(blank=True, null=True)
+    lastlogin = models.DateField(blank=True, null=True)
     lastip = models.CharField(max_length=15, blank=True)
-    email = models.CharField(max_length=50, blank=True)
+    email = models.CharField(max_length=100, blank=True)
     phone = models.CharField(max_length=45, blank=True)
     salary = models.FloatField(blank=True, null=True)
     description = models.CharField(max_length=100, blank=True)
+    position = models.CharField(max_length=45, blank=True)
+    endtime = models.DateField(blank=True, null=True)
+    dob = models.DateField(blank=True, null=True)
+    identifier = models.CharField(max_length=45, blank=True)
+    address = models.CharField(max_length=100, blank=True)
+    salt = models.CharField(max_length=4, blank=True)
     class Meta:
         managed = False
         db_table = 'oa_user'

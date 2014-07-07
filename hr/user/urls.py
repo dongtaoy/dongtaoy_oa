@@ -7,7 +7,7 @@ urlpatterns = patterns('',
 
     # user url
     url(r'^$', 'hr.user.views.user_index'),
-    url(r'ajax/detail/', 'hr.user.views.user_detail'),
     url(r'ajax/save/', 'hr.user.views.user_save'),
-
+    url(r'ajax/detail/', 'hr.user.views.user_detail'),
+    url(r'ajax/delete/', 'hr.user.views.user_delete'),
 )

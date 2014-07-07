@@ -36,7 +36,6 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th>ID</th>
                             <th>姓名</th>
                             <th>手机号</th>
                             <th>E-mail</th>
@@ -44,25 +43,27 @@
                         </thead>
                         <tbody>
                         {% for user in users %}
-                            <td>{{ user.id }}</td>
-                            <td>{{ user.realname }}</td>
-                            <td>{{ user.phone }}</td>
-                            <td>{{ user.email }}</td>
+                            <tr>
+                                <input type="hidden" value="{{ user.id }}"/>
+                                <td>{{ user.realname }}</td>
+                                <td>{{ user.phone }}</td>
+                                <td>{{ user.email }}</td>
+                            </tr>
                         {% endfor %}
                         </tbody>
                     </table>
                 </div>
                 <div class="box-footer">
-                    <button class="btn btn-default" data-toggle="modal" data-target="#user_detail">新增</button>
+                    <button class="btn btn-default show" data-toggle="modal" data-target="#user_detail">新增</button>
                 </div>
             </div>
         </div>
     </div>
 </section><!-- /.content -->
 <!-- mod permission -->
-
+<div id="modal">
 {% include 'hr/user/modal.html' %}
-
+</div>
 <script>
     $(function () {
         $(".table tbody").on("click", "tr", function () {
@@ -73,39 +74,43 @@
                 $('tr.selected').removeClass('selected');
                 $(this).addClass('selected');
             }
-            console.log(($(this)).children('td:first').text());
-            $.ajax({
-                url: 'hr/user/ajax/detail/',
-                type: 'GET',
-                data: {user_id: ($(this)).children('td:first').text()},
-                success: function (response) {
-                    $('.right-side').html(response);
-                    $('#user_detail').modal('show');
-                }
-            });
+            console.log(($(this)).children('input').val());
+            $('#user_detail').remove();
+            $('#modal').load('/hr/user/ajax/detail/');
         });
+
         $('#user_detail').on('hidden.bs.modal', function () {
-            $.ajax({
-                url: 'hr/user/',
-                type: 'GET',
-                success: function (response) {
-                    $('.right-side').html(response);
-                }
-            });
+            $(this).remove();
         });
+
         $('#user_form').validate({
-            submitHandler: function(form){
+            submitHandler: function (form) {
+                if ($('input[name=user_password]').val() != $('input[name=user_repassword]').val()) {
+                    alert('前后密码不一致!')
+                    return false;
+                }
                 $.ajax({
                     url: 'hr/user/ajax/save/',
                     type: 'POST',
                     data: $(form).serialize(),
-                    success: function(response){
-                        $('right-side').html(response);
+                    success: function (response) {
+                        $('.right-side').html(response);
                     }
                 })
             }
         })
     });
+    function del(user_id) {
+        $.ajax({
+            url: 'hr/user/ajax/delete/',
+            type: 'POST',
+            data: {user_id: user_id},
+            success: function (response) {
+                $('#user_detail').modal('hide');
+                $('.right-side').html(response);
+            }
+        })
+    }
 
 
 </script>
