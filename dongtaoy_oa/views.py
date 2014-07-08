@@ -95,3 +95,6 @@ def common_context(request):
     }
 
 
+def test(request):
+    return render(request, 'test.html', {})
+

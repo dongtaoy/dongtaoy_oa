@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^system/', include('system.urls')),
     url(r'^hr/', include('hr.urls')),
 
+    url(r'^test/', 'dongtaoy_oa.views.test'),
 
     url(r'^admin/', include(admin.site.urls)),
 )

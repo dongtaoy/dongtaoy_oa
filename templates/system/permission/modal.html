@@ -79,8 +79,13 @@
         }
     });*/
     $('#permission_form').submit(function (){
-        $(this).ajaxSubmit();
-        $('#permission_detail').modal('hide');
+        $(this).ajaxSubmit({
+            success: function (response){
+                $('#permission_detail').modal('hide');
+                $('.box-body').html(response);
+            }
+        });
+
         return false;
     })
 </script>

@@ -41,12 +41,15 @@ def permission_mod(request):
     with transaction.atomic():
         OaPermission(id=request.POST.get("permission_id"), url=request.POST.get("permission_url"),
                      name=request.POST.get("permission_name"), parent=parent, order=order).save()
-
-    return redirect('/system/permission/?success=1')
+    all_permissions = OaPermission.objects.all()
+    return render(request, 'system/permission/body.html', {"permissions": permission_tree(all_permissions),
+                                                           "success": 1})
 
 
 # delete permission
 def permission_delete(request):
     with transaction.atomic():
         OaPermission.objects.get(id=request.POST.get("permission_id")).delete()
-    return redirect('/system/permission/?success=1')
+    all_permissions = OaPermission.objects.all()
+    return render(request, 'system/permission/body.html', {"permissions": permission_tree(all_permissions),
+                                                           "success": 1})
