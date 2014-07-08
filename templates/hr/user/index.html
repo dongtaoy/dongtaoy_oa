@@ -27,11 +27,7 @@
                 </div>
                 <div class="box-body table-responsive">
                     {% if success %}
-                        <div class="alert alert-success alert-dismissable">
-                            <i class="fa fa-check"></i>
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                            <b>修改成功！</b>
-                        </div>
+
                     {% endif %}
                     <table class="table table-hover">
                         <thead>
@@ -39,6 +35,7 @@
                             <th>姓名</th>
                             <th>手机号</th>
                             <th>E-mail</th>
+                            <th>职位</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -48,22 +45,26 @@
                                 <td>{{ user.realname }}</td>
                                 <td>{{ user.phone }}</td>
                                 <td>{{ user.email }}</td>
+                                <td>{{ user.position }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
                 </div>
                 <div class="box-footer">
-                    <button class="btn btn-default show" data-toggle="modal" data-target="#user_detail">新增</button>
+                    <button class="btn btn-default show" onclick="loadmodal();">新增</button>
                 </div>
             </div>
         </div>
     </div>
 </section><!-- /.content -->
 <!-- mod permission -->
-<div id="modal">
-{% include 'hr/user/modal.html' %}
+<div class="modal fade" id="user_detail" data-backdrop="static" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    {% include 'hr/user/modal.html' %}
 </div>
+
 <script>
     $(function () {
         $(".table tbody").on("click", "tr", function () {
@@ -74,43 +75,28 @@
                 $('tr.selected').removeClass('selected');
                 $(this).addClass('selected');
             }
-            console.log(($(this)).children('input').val());
-            $('#user_detail').remove();
-            $('#modal').load('/hr/user/ajax/detail/');
+            var id = ($(this)).children('input').val();
+            loadmodal(id);
         });
 
-        $('#user_detail').on('hidden.bs.modal', function () {
-            $(this).remove();
-        });
 
-        $('#user_form').validate({
-            submitHandler: function (form) {
-                if ($('input[name=user_password]').val() != $('input[name=user_repassword]').val()) {
-                    alert('前后密码不一致!')
-                    return false;
-                }
-                $.ajax({
-                    url: 'hr/user/ajax/save/',
-                    type: 'POST',
-                    data: $(form).serialize(),
-                    success: function (response) {
-                        $('.right-side').html(response);
-                    }
-                })
-            }
-        })
     });
+
+    function loadmodal(id) {
+        $('body').modalmanager('loading');
+        setTimeout(function () {
+            $('#user_detail').load('/hr/user/ajax/detail/' + '?user_id=' + id, function () {
+                $('#user_detail').modal();
+            });
+        }, 1000);
+    }
+
     function del(user_id) {
         $.ajax({
             url: 'hr/user/ajax/delete/',
             type: 'POST',
-            data: {user_id: user_id},
-            success: function (response) {
-                $('#user_detail').modal('hide');
-                $('.right-side').html(response);
-            }
+            data: {user_id: user_id}
         })
     }
-
 
 </script>

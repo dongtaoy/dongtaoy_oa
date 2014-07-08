@@ -354,7 +354,8 @@
         resize: false,
         attentionAnimation: 'shake',
         manager: 'body',
-        spinner: '<div class="loading-spinner" style="width: 200px; margin-left: -100px;"><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div></div>',
+        spinner:'<div class="loading-spinner fade" style="width: 200px; margin-left: -100px;"><div class="progress progress-striped active"><div class="progress-bar progress-bar-primary" style="width: 100%"></div></div></div>',
+		/*spinner: '<div class="loading-spinner" style="width: 200px; margin-left: -100px;"><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div></div>',*/
         backdropTemplate: '<div class="modal-backdrop" />'
     };
 

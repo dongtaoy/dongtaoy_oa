@@ -479,7 +479,7 @@ $(window).load(function() {
  * Load pages via AJAX
  *
  *
- * */
+ *
 $(document).ready(function () {
 	var ajax_url = location.hash.replace(/^#/, '');
 	if (ajax_url.length < 1) {
@@ -508,7 +508,7 @@ $(document).ready(function () {
 		async: false
 	});
 }
-});
+});*/
 
  /*
  * BOX REFRESH BUTTON 

@@ -1,142 +1,126 @@
-<section class="content-header">
-    <h1>
-        权限设置
-        <!--<small>列表</small>-->
-    </h1>
-    <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>系统</a></li>
-        <li class="active">权限</li>
-    </ol>
-</section>
+{% extends 'base.html' %}
+{% block content %}
+    <section class="content-header">
+        <h1>
+            权限设置
+            <!--<small>列表</small>-->
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>系统</a></li>
+            <li class="active">权限</li>
+        </ol>
+    </section>
 
-<!-- Main content -->
-<section class="content">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title">
-                        权限管理
-                        <small>
-                            点击列表修改
-                        </small>
-                    </h3>
-                </div>
-                <div class="box-body table-responsive">
-                    {% if success %}
-                        <div class="alert alert-success alert-dismissable">
-                            <i class="fa fa-check"></i>
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                            <b>修改成功！</b>
-                        </div>
-                    {% endif %}
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <td>父</td>
-                            <td>URL</td>
-                            <td>子</td>
-                            <td>URL</td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for permission in permissions %}
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            权限管理
+                            <small>
+                                点击列表修改
+                            </small>
+                        </h3>
+                    </div>
+                    <div class="box-body table-responsive">
+                        {% if success %}
+                            <div class="alert alert-success alert-dismissable">
+                                <i class="fa fa-check"></i>
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <b>修改成功！</b>
+                            </div>
+                        {% endif %}
+                        <table class="table table-hover">
+                            <thead>
                             <tr>
-                                <input type="hidden" value="{{ permission.0.id }}"/>
-                                <td>
-                                    {{ permission.0.order }}. {{ permission.0.name }}
-                                </td>
-                                <td>
-                                    {{ permission.0.url }}
-                                </td>
-                                <td></td>
-                                <td></td>
+                                <td>父</td>
+                                <td>URL</td>
+                                <td>子</td>
+                                <td>URL</td>
                             </tr>
-                            {% if permission.1 %}
-                                {% for subpermission in permission.1 %}
-                                    <tr>
-                                        <input type="hidden" value="{{ subpermission.id }}"/>
-                                        <td></td>
-                                        <td></td>
-                                        <td>
-                                            {{ subpermission.order }}. {{ subpermission.name }}
-                                        </td>
-                                        <td>
-                                            {{ permission.0.url | add:subpermission.url }}
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            {% endif %}
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div class="box-footer">
-                    <button class="btn btn-default" data-toggle="modal" data-target="#permission_detail">新增</button>
+                            </thead>
+                            <tbody>
+                            {% for permission in permissions %}
+                                <tr>
+                                    <input type="hidden" value="{{ permission.0.id }}"/>
+                                    <td>
+                                        {{ permission.0.order }}. {{ permission.0.name }}
+                                    </td>
+                                    <td>
+                                        {{ permission.0.url }}
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                {% if permission.1 %}
+                                    {% for subpermission in permission.1 %}
+                                        <tr>
+                                            <input type="hidden" value="{{ subpermission.id }}"/>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                {{ subpermission.order }}. {{ subpermission.name }}
+                                            </td>
+                                            <td>
+                                                {{ subpermission.url }}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer">
+                        <button class="btn btn-default" onclick="load_modal()">新增</button>
+                    </div>
                 </div>
             </div>
         </div>
+    </section><!-- /.content -->
+    <!-- mod permission -->
+    <!-- Modal -->
+    <div class="modal fade" id="permission_detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        {% include 'system/permission/modal.html' %}
     </div>
-</section><!-- /.content -->
-<!-- mod permission -->
-{% include 'system/permission/modal.html' %}
+{% endblock %}
+{% block js %}
+    <script>
 
-<script>
-    function del(permission_id) {
-        $.ajax({
-            url: '/system/permission/ajax/delete/',
-            type: "POST",
-            data: {permission_id: permission_id},
-            success: function (response) {
-                $('.right-side').html(response);
-            }
-        })
-    }
-
-    $(".table tbody").on("click", "tr", function () {
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-        }
-        else {
-            $('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-        }
-        console.log(($(this)).children('input').val());
-
-        $.ajax({
-            url: '/system/permission/ajax/detail/',
-            type: "GET",
-            data: {permission_id: ($(this)).children('input').val()},
-            success: function (response) {
-                $('.right-side').html(response);
-                $('#permission_detail').modal('show');
-            }
-        })
-    });
-
-    $('#permission_detail').on('hidden.bs.modal', function () {
-        $.ajax({
-            url: '/system/permission/',
-            type: "GET",
-            success: function (response) {
-                $('.right-side').html(response);
-            }
-        })
-    });
-
-    $('#permission_form').validate({
-        submitHandler: function () {
+        function del(permission_id) {
             $.ajax({
-                url: '/system/permission/save/',
-                type: 'POST',
-                data: $('#permission_form').serialize(),
+                url: '/system/permission/ajax/delete/',
+                type: "POST",
+                data: {permission_id: permission_id},
                 success: function (response) {
-                    $('.right-side').html(response);
+                    $('#permission_detail').modal('hide');
+                    $(document).load
                 }
-            });
-        },
-        rules:{
-            user_groups:"required"
+            })
         }
-    })
-</script>
+        $(".table tbody").on("click", "tr", function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                $('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+            //console.log(($(this)).children('input').val());
+            load_modal(($(this)).children('input').val());
+        });
+
+        function load_modal(id) {
+            $('body').modalmanager('loading');
+            setTimeout(function () {
+                $('#permission_detail').load('/system/permission/ajax/detail/' + '?permission_id=' + id, function () {
+                    $('#permission_detail').modal();
+                });
+            }, 1000);
+        }
+        ;
+    </script>
+{% endblock %}

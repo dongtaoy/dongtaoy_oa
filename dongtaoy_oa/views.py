@@ -42,7 +42,8 @@ def lock(request):
 
 
 def dashboard(request):
-    return render(request, 'dashboard.html', {})
+    return render(request, 'dashboard.html', {},
+                  context_instance=RequestContext(request, processors=[common_context]))
 
 
 def check_password(encrypted, password):
@@ -88,7 +89,9 @@ def common_context(request):
     return {
         "user_id": user_id,
         "real_name": real_name,
-        "username": username
+        "username": username,
+        "path": request.path,
+        "sidebars": side_bar(request)
     }
 
 

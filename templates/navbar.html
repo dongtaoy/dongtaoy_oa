@@ -1,13 +1,25 @@
 <ul class="sidebar-menu">
-    {% for permission in permissions %}
+    {% for permission in sidebars %}
         {% if not permission.1 %}
-            <li>
-                <a class="ajax-link" href="{{ permission.0.url }}">
+            {% if path in permission.0.url %}
+            <li class="active">
+                <a  href="{{ permission.0.url }}">
                     <!--<i class="fa fa-dashboard"></i>--> <span>{{ permission.0.name }}</span>
                 </a>
             </li>
+            {% else %}
+            <li>
+                <a href="{{ permission.0.url }}">
+                    <!--<i class="fa fa-dashboard"></i>--> <span>{{ permission.0.name }}</span>
+                </a>
+            </li>
+            {% endif %}
         {% else %}
+            {% if permission.0.url in path %}
+            <li class="treeview active">
+            {% else %}
             <li class="treeview">
+            {% endif %}
                 <a href="#">
                     <!--<i class="fa fa-bar-chart-o"></i>-->
                     <span>{{ permission.0.name }}</span>
@@ -15,7 +27,13 @@
                 </a>
                 <ul class="treeview-menu">
                     {% for subpermission in permission.1 %}
-                        <li><a class="ajax-link" href="{{ permission.0.url | add:subpermission.url }}"><i class="fa fa-angle-double-right"></i>{{ subpermission.name }}</a></li>
+                        {% if path == subpermission.url %}
+                            <li class="active">
+                        {% else %}
+                            <li>
+                        {% endif %}
+                            <a href="{{ subpermission.url }}"><i class="fa fa-angle-double-right"></i>{{ subpermission.name }}</a>
+                        </li>
                     {% endfor %}
                 </ul>
             </li>

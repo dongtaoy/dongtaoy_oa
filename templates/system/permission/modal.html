@@ -1,66 +1,86 @@
-<!-- Modal -->
-<div class="modal fade" id="permission_detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form id="permission_form" method="POST">
-                {% csrf_token %}
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form id="permission_form" action="/system/permission/save/" method="POST">
+            {% csrf_token %}
 
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span
-                            aria-hidden="true">&times;</span><span
-                            class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="myModalLabel">权限</h4>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span
+                        aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">权限</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>名字:</label>
+                    <input value="{{ spec_permission.name }}" type="text" name="permission_name"
+                           class="form-control"
+                           placeholder="eg: 权限管理" required="required" title="必填">
                 </div>
-
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>名字:</label>
-                        <input value="{{ spec_permission.name }}" type="text" name="permission_name"
-                               class="form-control"
-                               placeholder="eg: 权限管理" required="required" title="必填">
-                    </div>
-                    <div class="form-group">
-                        <label>URL:</label>
-                        <input value="{{ spec_permission.url }}" type="text" name="permission_url" class="form-control"
-                               placeholder="eg: #permission" required="required" title="必填">
-                    </div>
-                    <div class="form-group">
-                        <label>父权限:</label>
-                        <select class="form-control" name="permission_parent">
-                            <option value="NULL">根</option>
-                            {% for permission in permissions %}
-                                {% if permission.0 == spec_permission.parent %}
-                                    <option value="{{ permission.0.id }}"
-                                            selected="selected">{{ permission.0.name }}</option>
-                                {% else %}
-                                    <option value="{{ permission.0.id }}">{{ permission.0.name }}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>序号：(选填)</label>
-                        <input value="{{ spec_permission.order }}" type="text" name="permission_order"
-                               class="form-control"
-                               placeholder="eg: 1" pattern="\d{1,2}" title="请输入纯数字！">
-
-                    </div>
+                <div class="form-group">
+                    <label>URL:</label>
+                    <input value="{{ spec_permission.url }}" type="text" name="permission_url" class="form-control"
+                           placeholder="eg: #permission" required="required" title="必填">
                 </div>
-                <div class="modal-footer">
-                    {% if spec_permission %}
-                        <button type="button" class="pull-left btn btn-danger" onclick="del({{ spec_permission.id }});">
-                            删除
-                        </button>
-                        <input type="hidden" name="permission_id" value="{{ spec_permission.id }}">
-                    {% endif %}
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="submit" class="btn btn-primary">保存</button>
-                    <!--
+                <div class="form-group">
+                    <label>父权限:</label>
+                    <select class="form-control" name="permission_parent">
+                        <option value="NULL">根</option>
+                        {% for permission in permissions %}
+                            {% if permission.0 == spec_permission.parent %}
+                                <option value="{{ permission.0.id }}"
+                                        selected="selected">{{ permission.0.name }}</option>
+                            {% else %}
+                                <option value="{{ permission.0.id }}">{{ permission.0.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>序号：(选填)</label>
+                    <input value="{{ spec_permission.order }}" type="text" name="permission_order"
+                           class="form-control"
+                           placeholder="eg: 1" pattern="\d{1,2}" title="请输入纯数字！">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                {% if spec_permission %}
+                    <button type="button" class="pull-left btn btn-danger" onclick="del({{ spec_permission.id }});">
+                        删除
+                    </button>
+                    <input type="hidden" name="permission_id" value="{{ spec_permission.id }}">
+                {% endif %}
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-primary">保存</button>
+                <!--
             <button type="button" class="btn btn-primary" onclick="mod({{ spec_permission.id }});">保存</button>
             -->
-                </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
+<script>
+    /*
+    $('#permission_form').validate({
+        submitHandler: function (form) {
+            $.ajax({
+                url: '/system/permission/save/',
+                type: 'POST',
+                data: $(form).serialize(),
+                success: function (response) {
+                    $('#permission_detail').find('.modal-body').prepend('<div class="alert alert-success alert-dismissable">' +
+                            '<i class="fa fa-check"></i>' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
+                            '<b>保存成功！</b></div>');
+
+                }
+            })
+        }
+    });*/
+    $('#permission_form').submit(function (){
+        $(this).ajaxSubmit();
+        $('#permission_detail').modal('hide');
+        return false;
+    })
+</script>

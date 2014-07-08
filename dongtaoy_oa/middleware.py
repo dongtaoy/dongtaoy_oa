@@ -2,8 +2,7 @@ from django.shortcuts import redirect
 
 
 class AuthenticationMiddleware(object):
-    def process_request(self, request):   
-        #print request.path    
+    def process_request(self, request):
         if request.path != '/login/':    
             if request.session.get('user_id') != None:
                 pass
