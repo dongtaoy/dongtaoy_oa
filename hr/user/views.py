@@ -2,6 +2,7 @@ from oa_model.models import OaUser, OaGroup, OaUserGroup
 from django.shortcuts import render, redirect
 from django.template import RequestContext
 from dongtaoy_oa.views import common_context
+from django_ajax.decorators import ajax
 from django.http import HttpResponse
 from random import randint
 from hashlib import md5
@@ -80,9 +81,9 @@ def user_delete(request):
 def user_check(request):
     try:
         OaUser.objects.get(username=request.POST.get('user_username'))
-        return HttpResponse("{checked: 0}")
+        return HttpResponse('{"valid": false}')
     except:
-        return HttpResponse("{checked: 1}")
+        return HttpResponse('{"valid": true}')
 
 
 def render_body(request):
