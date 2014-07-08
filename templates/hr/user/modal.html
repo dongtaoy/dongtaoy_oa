@@ -91,8 +91,7 @@
                            placeholder="eg: 5000"
                            data-bv-notempty="true"
                            data-bv-message="正确输入薪资"
-                           data-bv-numeric="true"
-                           />
+                           data-bv-numeric="true"/>
                 </div>
                 <div class="form-group">
                     <label>入职时间:</label>
@@ -204,8 +203,6 @@
     $(document).ready(function () {
         $('select[name=user_groups]').select2();
         $('.input-append').datepicker();
-        //$('input[name=user_dob]').inputmask('yyyy-mm-dd');
-        //$('input[name=user_regtime]').inputmask('yyyy-mm-dd');
         $('#user_form').bootstrapValidator({
             excluded: [':disabled'],
             fields:{

@@ -1,9 +1,9 @@
 from oa_model.models import OaUser, OaGroup, OaUserGroup
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.template import RequestContext
-from dongtaoy_oa.views import common_context
-from django_ajax.decorators import ajax
 from django.http import HttpResponse
+from django.db import transaction
+from dongtaoy_oa.views import common_context
 from random import randint
 from hashlib import md5
 
@@ -19,12 +19,11 @@ def user_index(request):
 
 # user detail
 def user_detail(request):
-    print request.GET.get('user_id')
     try:
         spec_user = OaUser.objects.get(id=request.GET.get('user_id'))
-    except:
+    except Exception, e:
+        print e
         spec_user = None
-    print spec_user
     users = OaUser.objects.all()
     groups = OaGroup.objects.all()
     user_groups = [x.group for x in OaUserGroup.objects.filter(user=spec_user)]
@@ -34,6 +33,7 @@ def user_detail(request):
                                                   'user_groups': user_groups})
 
 
+# save user detail
 def user_save(request):
     if request.POST.get('user_id'):
         OaUser.objects.filter(id=request.POST.get('user_id')).update(realname=request.POST.get('user_realname'),
@@ -68,30 +68,36 @@ def user_save(request):
         user = OaUser.objects.get(username=request.POST.get('user_username'))
     user_groups = request.POST.getlist('user_groups')
     OaUserGroup.objects.filter(user=user).delete()
-    for user_group in user_groups:
-        OaUserGroup(user=user, group=OaGroup.objects.get(id=user_group)).save()
+    with transaction.atomic():
+        for user_group in user_groups:
+            OaUserGroup(user=user, group=OaGroup.objects.get(id=user_group)).save()
     return render_body(request)
 
 
+# delete user
 def user_delete(request):
     OaUser.objects.get(id=request.POST.get('user_id')).delete()
     return render_body(request)
 
 
+# check username existence
 def user_check(request):
     try:
         OaUser.objects.get(username=request.POST.get('user_username'))
         return HttpResponse('{"valid": false}')
-    except:
+    except Exception, e:
+        print e
         return HttpResponse('{"valid": true}')
 
 
+# render user body
 def render_body(request):
     users = OaUser.objects.all()
     return render(request, 'hr/user/body.html', {"users": users,
-                                                 "success": 1})
+                                                 "success": True})
 
 
+# generate salt for user password
 def generate_salt():
     return chr(randint(65, 122)) + chr(randint(65, 122)) + chr(randint(65, 122)) + chr(randint(65, 122))
 
