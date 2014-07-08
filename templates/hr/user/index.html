@@ -1,102 +1,74 @@
-{% load staticfiles %}
-<link href="{% static 'css/bootstrap-multiselect/bootstrap-multiselect.css' %}" rel="stylesheet" type="text/css"/>
-<script src="{% static 'js/plugins/bootstrap-multiselect/bootstrap-multiselect.js' %}"></script>
-<section class="content-header">
-    <h1>
-        权限设置
-        <!--<small>列表</small>-->
-    </h1>
-    <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>系统</a></li>
-        <li class="active">权限</li>
-    </ol>
-</section>
+{% extends 'base.html' %}
+{% block content %}
+    {% load staticfiles %}
+    <link href="{% static 'css/bootstrap-multiselect/bootstrap-multiselect.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/bootstrap-datepicker/datepicker.css' %}" rel="stylesheet" type="text/css"/>
+    <script src="{% static 'js/plugins/bootstrap-multiselect/bootstrap-multiselect.js' %}"></script>
+    <script src="{% static 'js/plugins/bootstrap-datepicker/bootstrap-datepicker.js' %}"></script>
+    <section class="content-header">
+        <h1>
+            权限设置
+            <!--<small>列表</small>-->
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>系统</a></li>
+            <li class="active">权限</li>
+        </ol>
+    </section>
 
-<!-- Main content -->
-<section class="content">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title">
-                        人员管理
-                        <small>
-                            点击列表修改
-                        </small>
-                    </h3>
-                </div>
-                <div class="box-body table-responsive">
-                    {% if success %}
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            人员管理
+                            <small>
+                                点击列表修改
+                            </small>
+                        </h3>
+                    </div>
+                    <div class="box-body table-responsive">
+                        {% include 'hr/user/body.html' %}
 
-                    {% endif %}
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>姓名</th>
-                            <th>手机号</th>
-                            <th>E-mail</th>
-                            <th>职位</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for user in users %}
-                            <tr>
-                                <input type="hidden" value="{{ user.id }}"/>
-                                <td>{{ user.realname }}</td>
-                                <td>{{ user.phone }}</td>
-                                <td>{{ user.email }}</td>
-                                <td>{{ user.position }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div class="box-footer">
-                    <button class="btn btn-default show" onclick="loadmodal();">新增</button>
+                    </div>
+                    <div class="box-footer">
+                        <button class="btn btn-default show" onclick="loadmodal();">新增</button>
+                    </div>
                 </div>
             </div>
         </div>
+    </section><!-- /.content -->
+    <!-- mod permission -->
+    <div class="modal fade" id="user_detail" data-backdrop="static" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        {% include 'hr/user/modal.html' %}
     </div>
-</section><!-- /.content -->
-<!-- mod permission -->
-<div class="modal fade" id="user_detail" data-backdrop="static" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel"
-     aria-hidden="true">
-    {% include 'hr/user/modal.html' %}
-</div>
+{% endblock %}
+{% block js %}
+    <script>
 
-<script>
-    $(function () {
-        $(".table tbody").on("click", "tr", function () {
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-            }
-            else {
-                $('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-            }
-            var id = ($(this)).children('input').val();
-            loadmodal(id);
-        });
+        function loadmodal(id) {
+            $('body').modalmanager('loading');
+            setTimeout(function () {
+                $('#user_detail').load('/hr/user/ajax/detail/' + '?user_id=' + id, function () {
+                    $('#user_detail').modal();
+                });
+            }, 1000);
+        }
 
-
-    });
-
-    function loadmodal(id) {
-        $('body').modalmanager('loading');
-        setTimeout(function () {
-            $('#user_detail').load('/hr/user/ajax/detail/' + '?user_id=' + id, function () {
-                $('#user_detail').modal();
-            });
-        }, 1000);
-    }
-
-    function del(user_id) {
-        $.ajax({
-            url: 'hr/user/ajax/delete/',
-            type: 'POST',
-            data: {user_id: user_id}
-        })
-    }
-
-</script>
+        function del(user_id) {
+            $.ajax({
+                url: 'hr/user/ajax/delete/',
+                type: 'POST',
+                data: {user_id: user_id},
+                success: function (response) {
+                    $('#user_detail').modal('hide');
+                    $('.box-body').html(response);
+                }
+            })
+        }
+    </script>
+{% endblock %}

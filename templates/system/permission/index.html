@@ -25,53 +25,7 @@
                         </h3>
                     </div>
                     <div class="box-body table-responsive">
-                        {% if success %}
-                            <div class="alert alert-success alert-dismissable">
-                                <i class="fa fa-check"></i>
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                <b>修改成功！</b>
-                            </div>
-                        {% endif %}
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <td>父</td>
-                                <td>URL</td>
-                                <td>子</td>
-                                <td>URL</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for permission in permissions %}
-                                <tr>
-                                    <input type="hidden" value="{{ permission.0.id }}"/>
-                                    <td>
-                                        {{ permission.0.order }}. {{ permission.0.name }}
-                                    </td>
-                                    <td>
-                                        {{ permission.0.url }}
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                {% if permission.1 %}
-                                    {% for subpermission in permission.1 %}
-                                        <tr>
-                                            <input type="hidden" value="{{ subpermission.id }}"/>
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                {{ subpermission.order }}. {{ subpermission.name }}
-                                            </td>
-                                            <td>
-                                                {{ subpermission.url }}
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                {% endif %}
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                        {% include 'system/permission/body.html' %}
                     </div>
                     <div class="box-footer">
                         <button class="btn btn-default" onclick="load_modal()">新增</button>
@@ -97,21 +51,10 @@
                 data: {permission_id: permission_id},
                 success: function (response) {
                     $('#permission_detail').modal('hide');
-                    $(document).load
+                    $('.box-body').html(response);
                 }
             })
         }
-        $(".table tbody").on("click", "tr", function () {
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-            }
-            else {
-                $('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-            }
-            //console.log(($(this)).children('input').val());
-            load_modal(($(this)).children('input').val());
-        });
 
         function load_modal(id) {
             $('body').modalmanager('loading');

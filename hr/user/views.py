@@ -1,5 +1,8 @@
 from oa_model.models import OaUser, OaGroup, OaUserGroup
 from django.shortcuts import render, redirect
+from django.template import RequestContext
+from dongtaoy_oa.views import common_context
+from django_ajax.decorators import ajax
 from django.http import HttpResponse
 from random import randint
 from hashlib import md5
@@ -10,7 +13,8 @@ def user_index(request):
     users = OaUser.objects.all()
     groups = OaGroup.objects.all()
     return render(request, 'hr/user/index.html', {'users': users,
-                                                  'groups': groups})
+                                                  'groups': groups},
+                  context_instance=RequestContext(request, processors=[common_context]))
 
 
 # user detail
@@ -66,13 +70,28 @@ def user_save(request):
     OaUserGroup.objects.filter(user=user).delete()
     for user_group in user_groups:
         OaUserGroup(user=user, group=OaGroup.objects.get(id=user_group)).save()
-    return redirect('/#hr/user/')
+    return render_body(request)
 
 
 def user_delete(request):
     OaUser.objects.get(id=request.POST.get('user_id')).delete()
-    return redirect('/#hr/user/')
+    return render_body(request)
+
+
+def user_check(request):
+    try:
+        OaUser.objects.get(username=request.POST.get('user_username'))
+        return HttpResponse('{"valid": false}')
+    except:
+        return HttpResponse('{"valid": true}')
+
+
+def render_body(request):
+    users = OaUser.objects.all()
+    return render(request, 'hr/user/body.html', {"users": users,
+                                                 "success": 1})
 
 
 def generate_salt():
     return chr(randint(65, 122)) + chr(randint(65, 122)) + chr(randint(65, 122)) + chr(randint(65, 122))
+

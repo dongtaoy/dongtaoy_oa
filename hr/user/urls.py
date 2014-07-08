@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'ajax/save/', 'hr.user.views.user_save'),
     url(r'ajax/detail/', 'hr.user.views.user_detail'),
     url(r'ajax/delete/', 'hr.user.views.user_delete'),
+    url(r'ajax/check/', 'hr.user.views.user_check'),
 )

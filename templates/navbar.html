@@ -1,7 +1,7 @@
 <ul class="sidebar-menu">
     {% for permission in sidebars %}
         {% if not permission.1 %}
-            {% if path in permission.0.url %}
+            {% if path == permission.0.url %}
             <li class="active">
                 <a  href="{{ permission.0.url }}">
                     <!--<i class="fa fa-dashboard"></i>--> <span>{{ permission.0.name }}</span>
