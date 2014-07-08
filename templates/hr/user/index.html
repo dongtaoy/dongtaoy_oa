@@ -1,18 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
     {% load staticfiles %}
-    <link href="{% static 'css/bootstrap-multiselect/bootstrap-multiselect.css' %}" rel="stylesheet" type="text/css"/>
     <link href="{% static 'css/bootstrap-datepicker/datepicker.css' %}" rel="stylesheet" type="text/css"/>
-    <script src="{% static 'js/plugins/bootstrap-multiselect/bootstrap-multiselect.js' %}"></script>
+    <link href="{% static 'css/datatables/dataTables.bootstrap.css' %}" rel="stylesheet" type="text/css"/>
     <script src="{% static 'js/plugins/bootstrap-datepicker/bootstrap-datepicker.js' %}"></script>
+    <script src="{% static 'js/plugins/datatables/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'js/plugins/datatables/dataTables.bootstrap.js' %}"></script>
     <section class="content-header">
         <h1>
-            权限设置
+            人力资源
             <!--<small>列表</small>-->
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i>系统</a></li>
-            <li class="active">权限</li>
+            <li><a href="#"><i class="fa fa-dashboard"></i>人力资源</a></li>
+            <li class="active">员工管理</li>
         </ol>
     </section>
 
@@ -23,7 +24,7 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">
-                            人员管理
+                            员工管理
                             <small>
                                 点击列表修改
                             </small>

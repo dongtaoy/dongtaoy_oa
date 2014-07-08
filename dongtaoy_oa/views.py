@@ -16,7 +16,7 @@ def login(request):
         return render(request, 'login.html', {'login_fail': 0})
     try:
         user = OaUser.objects.get(username=request.POST.get('username'))
-        if check_password(user.password, request.POST.get('password')):
+        if check_password(user.password, request.POST.get('password'), user.salt):
             request.session['user_id'] = user.id
             request.session['real_name'] = user.realname
             request.session['username'] = user.username
@@ -46,8 +46,8 @@ def dashboard(request):
                   context_instance=RequestContext(request, processors=[common_context]))
 
 
-def check_password(encrypted, password):
-    return encrypted == md5(password).hexdigest()
+def check_password(encrypted, password, salt):
+    return encrypted == md5(password+salt).hexdigest()
 
 
 def login_status(request):

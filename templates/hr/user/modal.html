@@ -66,7 +66,9 @@
                             <i class="fa fa-calendar"></i>
                         </div>
                         <input value="{{ spec_user.dob | date:"Y-m-d" }}" placeholder="<--点击选日期" class="form-control" name="user_dob"
-                               type="text" disabled="disabled"/>
+                               type="text" readOnly="readOnly"
+                               data-bv-notempty="true"
+                               data-bv-notempty-message="不能为空"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -89,8 +91,8 @@
                            placeholder="eg: 5000"
                            data-bv-notempty="true"
                            data-bv-message="正确输入薪资"
-                           data-bv-regexp="true"
-                           data-bv-regexp-regexp="[0-9\.]+"/>
+                           data-bv-numeric="true"
+                           />
                 </div>
                 <div class="form-group">
                     <label>入职时间:</label>
@@ -101,7 +103,9 @@
                             <i class="fa fa-calendar"></i>
                         </div>
                         <input value="{{ spec_user.dob | date:"Y-m-d" }}" placeholder="<--点击选日期" class="span2 form-control" name="user_regtime"
-                               type="text" disabled="disabled"/>
+                               type="text" readOnly="readOnly"
+                               data-bv-notempty="true"
+                               data-bv-notempty-message="不能为空"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -133,8 +137,8 @@
                 {% if not spec_user %}
                     <div class="form-group username">
                         <label>用户名：</label>
-                        <input class="form-control" name="user_username" type="text"/>
-                               <!--data-bv-notempty="true"
+                        <input class="form-control" name="user_username" type="text"
+                               data-bv-notempty="true"
                                data-bv-notempty-message="不能为空"
 
                                data-bv-regexp="true"
@@ -148,7 +152,7 @@
 
                                data-bv-different="true"
                                data-bv-different-field="user_password"
-                               data-bv-different-message="帐户名和密码不能一致"-->
+                               data-bv-different-message="帐户名和密码不能一致"/>
                     </div>
                     <div class="form-group">
                         <label>密码：</label>

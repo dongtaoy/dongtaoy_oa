@@ -12,6 +12,7 @@
         <th>手机号</th>
         <th>E-mail</th>
         <th>职位</th>
+        <th>入职时间</th>
     </tr>
     </thead>
     <tbody>
@@ -22,11 +23,13 @@
             <td>{{ user.phone }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.position }}</td>
+            <td>{{ user.regtime | date:"Y-m-d"  }}</td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
 <script>
+    $('.table').dataTable();
     $(function () {
         $(".table tbody").on("click", "tr", function () {
             if ($(this).hasClass('selected')) {
