@@ -66,6 +66,7 @@ Select2 Plugin
     font-size: 14px;
     font-weight: normal;
     vertical-align: top;
+    background: none;
     background-color: #ffffff;
     -webkit-box-shadow: none;
             box-shadow: none;
@@ -89,6 +90,7 @@ Select2 Plugin
     background-image: none;
     background-color: #fff;
     filter: none;
+    border: 1px solid #66afe9;
     -webkit-box-shadow: none !important;
             box-shadow: none !important;
 }

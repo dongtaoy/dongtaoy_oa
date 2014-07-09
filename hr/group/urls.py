@@ -5,6 +5,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'dongtaoy_oa.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    # user url
-    url(r'^$', 'hr.group.views.group_index')
+    # group url
+    url(r'^$', 'hr.group.views.group_index'),
+    url(r'ajax/detail/', 'hr.group.views.group_detail')
 )

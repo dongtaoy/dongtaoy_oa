@@ -54,22 +54,11 @@
                 </div>
                 <div class="form-group">
                     <label>生日：</label>
-                    <!--
-                    <input value="{{ spec_user.dob | date:"Y-m-d" }}" class="form-control form_date"
+                    <input value="{{ spec_user.dob | date:"Y-m-d" }}" name="user_dob" class="form-control form_date"
                            data-bv-notempty="true"
-                           data-bv-messgae="正确输入日期"
-                           date-bv-date="true"
-                           date-bv-date-format="yyyy-mm-dd"/>-->
-
-                    <div class="input-group input-append date" id="dp3" data-date-format="yyyy-mm-dd">
-                        <div class="input-group-addon add-on">
-                            <i class="fa fa-calendar"></i>
-                        </div>
-                        <input value="{{ spec_user.dob | date:"Y-m-d" }}" placeholder="<--点击选日期" class="form-control" name="user_dob"
-                               type="text" readOnly="readOnly"
-                               data-bv-notempty="true"
-                               data-bv-notempty-message="不能为空"/>
-                    </div>
+                           data-bv-date="true"
+                           data-bv-date-format="YYYY-MM-DD"
+                           data-bv-message="正确输入日期"/>
                 </div>
                 <div class="form-group">
                     <label>身份证：</label>
@@ -95,21 +84,17 @@
                 </div>
                 <div class="form-group">
                     <label>入职时间:</label>
-                    <!--<input value="{{ spec_user.regtime | date:"Y-m-d" }}" type="text" name="user_regtime"
-                           class="form-control form_date">-->
-                    <div class="input-group input-append date" data-date-format="yyyy-mm-dd">
-                        <div class="input-group-addon add-on">
-                            <i class="fa fa-calendar"></i>
-                        </div>
-                        <input value="{{ spec_user.dob | date:"Y-m-d" }}" placeholder="<--点击选日期" class="span2 form-control" name="user_regtime"
-                               type="text" readOnly="readOnly"
-                               data-bv-notempty="true"
-                               data-bv-notempty-message="不能为空"/>
-                    </div>
+                    <input value="{{ spec_user.regtime | date:"Y-m-d" }}" type="text" name="user_regtime"
+                           class="form-control form_date"
+                           data-bv-notempty="true"
+                           data-bv-message="正确输入日期"
+                           data-bv-date="true"
+                           data-bv-date-format="YYYY-MM-DD"/>
                 </div>
                 <div class="form-group">
                     <label>隶属于：</label>
-                    <select name="user_groups" multiple="multiple" class="form-control" required="required">
+                    <select name="user_groups" multiple="multiple" class="form-control" required="required"
+                            data-bv-message="不能为空">
                         {% for group in groups %}
                             {% if group in user_groups %}
                                 <option value="{{ group.id }}" selected="selected">{{ group.name }}</option>
@@ -132,7 +117,6 @@
                               rows="3">{{ spec_user.description }}</textarea>
 
                 </div>
-
                 {% if not spec_user %}
                     <div class="form-group username">
                         <label>用户名：</label>
@@ -202,7 +186,7 @@
 
     $(document).ready(function () {
         $('select[name=user_groups]').select2();
-        $('.input-append').datepicker();
+        $('input[data-bv-date=true]').inputmask('yyyy-mm-dd');
         $('#user_form').bootstrapValidator({
             excluded: [':disabled'],
             fields:{
@@ -234,8 +218,7 @@
                     }
 
                 });
-            },
-            submitButtons: 'button[type="submit"]'
+            }
         });
     });
 </script>

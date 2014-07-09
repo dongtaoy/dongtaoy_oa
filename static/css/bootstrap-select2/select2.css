@@ -29,7 +29,7 @@ Version: @@ver@@ Timestamp: @@timestamp@@
     display: block;
     height: 26px;
     padding: 0 0 0 8px;
-    overflow: hidden;
+    /*overflow: hidden;*/
     position: relative;
 
     border: 1px solid #ccc;
@@ -38,7 +38,7 @@ Version: @@ver@@ Timestamp: @@timestamp@@
     color: #444;
     text-decoration: none;
 
-    border-radius: 4px;
+    /*border-radius: 4px;*/
 
     background-clip: padding-box;
 

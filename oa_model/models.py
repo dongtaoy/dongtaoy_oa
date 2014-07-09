@@ -101,6 +101,7 @@ class OaGroup(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=50, blank=True)
     description = models.CharField(max_length=100, blank=True)
+    leader = models.ForeignKey('OaUser', db_column='leader', blank=True, null=True)
     class Meta:
         managed = False
         db_table = 'oa_group'

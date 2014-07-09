@@ -97,11 +97,11 @@ div.dataTables_scrollFoot table {
 
 
 table.dataTable tbody tr.selected {
-  background-color: rgb(171, 183, 183);
+  #background-color: rgb(171, 183, 183);
 }
 
 table.dataTable tbody tr.selected:hover td{
-  background-color: rgb(171, 183, 183) !important;
+  #background-color: rgb(171, 183, 183) !important;
 }
 
 /*
