@@ -58,11 +58,11 @@
             }, 1000);
         }
 
-        function del(user_id) {
+        function del(group_id) {
             $.ajax({
-                url: 'hr/user/ajax/delete/',
+                url: '/hr/group/ajax/delete/',
                 type: 'POST',
-                data: {user_id: user_id},
+                data: {group_id: group_id},
                 success: function (response) {
                     $('#user_detail').modal('hide');
                     $('.box-body').html(response);

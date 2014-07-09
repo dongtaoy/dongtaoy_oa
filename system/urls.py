@@ -16,5 +16,5 @@ urlpatterns = patterns('',
     url(r'permission/order/ajax/save/$', 'system.views.permission_order_save'),
 
     # permission url
-    url(r'permission/', include('system.permission.urls'))
+    url(r'^permission/', include('system.permission.urls'))
 )

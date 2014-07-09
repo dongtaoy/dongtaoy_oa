@@ -6,7 +6,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^$', 'system.permission.views.permission_index'),
-    url(r'save/$', 'system.permission.views.permission_mod'),
-    url(r'ajax/detail/', 'system.permission.views.permission_detail'),
-    url(r'ajax/delete/$', 'system.permission.views.permission_delete'),
+    url(r'^save/$', 'system.permission.views.permission_mod'),
+    url(r'^ajax/detail/', 'system.permission.views.permission_detail'),
+    url(r'^ajax/delete/$', 'system.permission.views.permission_delete'),
 )

@@ -6,8 +6,8 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     # permission url
-    url(r'user/', include('hr.user.urls')),
+    url(r'^user/', include('hr.user.urls')),
 
     # group url
-    url(r'group/', include('hr.group.urls'))
+    url(r'^group/', include('hr.group.urls'))
 )

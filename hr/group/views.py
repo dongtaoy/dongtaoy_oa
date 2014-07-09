@@ -13,14 +13,29 @@ def group_index(request):
 
 
 def group_detail(request):
-
-    spec_group = OaGroup.objects.get(id=request.GET.get('group_id'))
     users = OaUser.objects.all()
-    print users
-    # try:
-    #     spec_group = OaGroup.objects.get(id=request.GET.get('group_id'))
-    # except Exception, e:
-    #     print e
-    #     spec_group = None
+    try:
+        spec_group = OaGroup.objects.get(id=request.GET.get('group_id'))
+    except Exception, e:
+        print e
+        spec_group = None
     return render(request, 'hr/group/modal.html', {"spec_group": spec_group,
                                                    "users": users})
+
+
+def group_mod(request):
+    print request.POST
+    OaGroup(id=request.POST.get('group_id'),
+            name=request.POST.get('group_name'),
+            leader=OaUser.objects.get(id=request.POST.get('group_leader')),
+            description=request.POST.get('group_description')).save()
+    groups = OaGroup.objects.all()
+    return render(request, 'hr/group/body.html', {"success": True,
+                                                  "groups": groups})
+
+
+def group_delete(request):
+    OaGroup.objects.get(id=request.POST.get('group_id')).delete()
+    groups = OaGroup.objects.all()
+    return render(request, 'hr/group/body.html', {"success": True,
+                                                  "groups": groups})
