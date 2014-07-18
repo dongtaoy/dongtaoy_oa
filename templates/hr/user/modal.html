@@ -186,7 +186,7 @@
 
     $(document).ready(function () {
         $('select[name=user_groups]').select2();
-        $('input[data-bv-date=true]').inputmask('yyyy-mm-dd');
+        $('input[data-bv-date=true]').inputmask({ "mask": 'yyyy-mm-dd', 'autoUnmask' : true});
         $('#user_form').bootstrapValidator({
             excluded: [':disabled'],
             fields:{
