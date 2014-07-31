@@ -2,36 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="356e5239-5325-405a-8919-dcd300f952c6" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/hr/status/body.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/hr/status/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/hr/status/modal.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hr/models.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/system/models.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hr/status/urls.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hr/status/views.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/oa_model/models.py" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/oa_model/__init__.py" afterPath="$PROJECT_DIR$/hr/status/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/hr/group/body.html" afterPath="$PROJECT_DIR$/templates/hr/group/body.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/hr/user/body.html" afterPath="$PROJECT_DIR$/templates/hr/user/body.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/hr/group/index.html" afterPath="$PROJECT_DIR$/templates/hr/group/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/hr/group/permission/index.html" afterPath="$PROJECT_DIR$/templates/hr/group/permission/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/hr/user/index.html" afterPath="$PROJECT_DIR$/templates/hr/user/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/system/permission/index.html" afterPath="$PROJECT_DIR$/templates/system/permission/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dongtaoy_oa/middleware.py" afterPath="$PROJECT_DIR$/dongtaoy_oa/middleware.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/hr/group/permission/mod.html" afterPath="$PROJECT_DIR$/templates/hr/group/permission/mod.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/hr/group/modal.html" afterPath="$PROJECT_DIR$/templates/hr/group/modal.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/hr/user/modal.html" afterPath="$PROJECT_DIR$/templates/hr/user/modal.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/system/permission/modal.html" afterPath="$PROJECT_DIR$/templates/system/permission/modal.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dongtaoy_oa/settings.py" afterPath="$PROJECT_DIR$/dongtaoy_oa/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hr/urls.py" afterPath="$PROJECT_DIR$/hr/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dongtaoy_oa/views.py" afterPath="$PROJECT_DIR$/dongtaoy_oa/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hr/group/views.py" afterPath="$PROJECT_DIR$/hr/group/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hr/group/permission/views.py" afterPath="$PROJECT_DIR$/hr/group/permission/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hr/user/views.py" afterPath="$PROJECT_DIR$/hr/user/views.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/templates/system/group_permission/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/templates/system/group_permission/mod.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/templates/system/user_group/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/templates/system/user_group/mod.html" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/views.py" afterPath="$PROJECT_DIR$/system/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/system/permission/views.py" afterPath="$PROJECT_DIR$/system/permission/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dongtaoy_oa.iws" />
@@ -103,7 +78,6 @@
         <option value="$PROJECT_DIR$/dongtaoy_oa/middleware.py" />
         <option value="$PROJECT_DIR$/hr/group/views.py" />
         <option value="$PROJECT_DIR$/hr/status/views.py" />
-        <option value="$PROJECT_DIR$/system/views.py" />
         <option value="$PROJECT_DIR$/system/permission/views.py" />
         <option value="$PROJECT_DIR$/system/models.py" />
         <option value="$PROJECT_DIR$/hr/user/views.py" />
@@ -113,6 +87,7 @@
         <option value="$PROJECT_DIR$/dongtaoy_oa/settings.py" />
         <option value="$PROJECT_DIR$/hr/models.py" />
         <option value="$PROJECT_DIR$/templates/hr/user/modal.html" />
+        <option value="$PROJECT_DIR$/system/views.py" />
       </list>
     </option>
   </component>
@@ -183,6 +158,52 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="dongtaoy_oa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dongtaoy_oa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dongtaoy_oa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dongtaoy_oa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dongtaoy_oa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="system" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dongtaoy_oa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dongtaoy_oa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="system" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -397,7 +418,11 @@
       <created>1404899921527</created>
       <updated>1404899921527</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="init.d">
+      <created>1406802946810</created>
+      <updated>1406802946810</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -718,16 +743,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/system/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.1245902" vertical-offset="0" max-vertical-offset="1782">
-          <caret line="72" column="17" selection-start-line="72" selection-start-column="17" selection-end-line="72" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/system/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.11612903" vertical-offset="0" max-vertical-offset="620">
@@ -870,6 +885,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.29032257" vertical-offset="540" max-vertical-offset="1872">
           <caret line="40" column="10" selection-start-line="40" selection-start-column="10" selection-end-line="40" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/system/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="620">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
