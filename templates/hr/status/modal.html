@@ -1,0 +1,142 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form id="userstatus_form" action="/hr/status/ajax/save/" method="POST"
+              data-bv-message="This value is not valid"
+              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+              data-bv-submitbuttons='button[type="submit"]'
+              data-bv-live="enabled">
+            {% csrf_token %}
+
+            <div class="modal-header">
+                <button type="button" class="close cancel" data-dismiss="modal"><span
+                        aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">员工状态</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>名字：</label>
+                    <input class="form-control" type="text" value="{{ spec_userstatus.name }}" name="userstatus_name"
+                           data-bv-notempty="true"
+                           data-bv-message="正确填写名字"/>
+                </div>
+                <div class="form-group">
+                    <label>描述：</label>
+                    <textarea class="form-control" name="userstatus_description"
+                              rows="3" data-bv-notempty="true"
+                              data-bv-message="不能为空">{{ spec_userstatus.description }}</textarea>
+
+                </div>
+                <div class="form-group">
+
+                    <label>颜色：</label>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="radio">
+                                <label>
+                                    {% if spec_userstatus.label == 'label-default' %}
+                                        <input type="radio" name="userstatus_label" value="label-default" checked>
+                                    {% else %}
+                                        <input type="radio" name="userstatus_label" value="label-default">
+                                    {% endif %}
+                                    <span class="label label-default">Default</span>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    {% if spec_userstatus.label == 'label-primary' %}
+                                        <input type="radio" name="userstatus_label" value="label-primary" checked>
+                                    {% else %}
+                                        <input type="radio" name="userstatus_label" value="label-primary">
+                                    {% endif %}
+                                    <span class="label label-primary">Primary</span>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    {% if spec_userstatus.label == 'label-success' %}
+                                        <input type="radio" name="userstatus_label" value="label-success" checked>
+                                    {% else %}
+                                        <input type="radio" name="userstatus_label" value="label-success">
+                                    {% endif %}
+                                    <span class="label label-success">Success</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="radio">
+                                <label>
+                                    {% if spec_userstatus.label == 'label-info' %}
+                                        <input type="radio" name="userstatus_label" value="label-info" checked>
+                                    {% else %}
+                                        <input type="radio" name="userstatus_label" value="label-info">
+                                    {% endif %}
+                                    <span class="label label-info">Info</span>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    {% if spec_userstatus.label == 'label-warning' %}
+                                        <input type="radio" name="userstatus_label" value="label-warning" checked>
+                                    {% else %}
+                                        <input type="radio" name="userstatus_label" value="label-warning">
+                                    {% endif %}
+                                    <span class="label label-warning">Warning</span>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    {% if spec_userstatus.label == 'label-danger' %}
+                                        <input type="radio" name="userstatus_label" value="label-danger" checked>
+                                    {% else %}
+                                        <input type="radio" name="userstatus_label" value="label-danger">
+                                    {% endif %}
+                                    <span class="label label-danger">Danger</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                {% if spec_userstatus %}
+                    <input type="hidden" name="userstatus_id" value="{{ spec_userstatus.id }}">
+                    <button type="button" onclick="del({{ spec_userstatus.id }})" class="pull-left btn btn-danger">删除
+                    </button>
+                {% endif %}
+                <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-primary">保存</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#userstatus_form').bootstrapValidator({
+            excluded: [':disabled'],
+            fields: {
+                userstatus_label:{
+                    validators: {
+                        notEmpty: {
+                            message: '不能为空'
+                        }
+                    }
+                }
+            },
+            submitHandler: function () {
+                $('#userstatus_form').ajaxSubmit({
+                    success: function (response) {
+                        $('#userstatus_detail').modal('hide');
+                        $('.box-body').html(response);
+                    }
+                });
+            }
+        });
+    });
+</script>

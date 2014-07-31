@@ -1,28 +1,15 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block extensions %}
-    <!-- datatables -->
-    <link href="{% static 'css/datatables/dataTables.bootstrap.css' %}" rel="stylesheet" type="text/css"/>
     <!-- Bootstrap modal -->
     <link href="{% static 'css/bootstrap-modal/bootstrap-modal.css' %}" rel="stylesheet" type="text/css"/>
-    <!-- select2 -->
-    <link href="{% static 'css/bootstrap-select2/select2.css' %}" rel="stylesheet" type="text/css"/>
-    <link href="{% static 'css/bootstrap-select2/select2-bootstrap.css' %}" rel="stylesheet" type="text/css"/>
     <!-- validator -->
     <link href="{% static 'css/bootstrap-validator/bootstrapValidator.min.css' %}" rel="stylesheet" type="text/css"/>
-    <!-- inputmask -->
-    <script src="{% static 'js/plugins/input-mask/jquery.inputmask.js' %}"></script>
-    <script src="{% static 'js/plugins/input-mask/jquery.inputmask.date.extensions.js' %}"></script>
-    <!-- datatables -->
-    <script src="{% static 'js/plugins/datatables/jquery.dataTables.js' %}"></script>
-    <script src="{% static 'js/plugins/datatables/dataTables.bootstrap.js' %}"></script>
     <!-- Jquery form -->
     <script src="{% static 'js/plugins/jquery.form/jquery.form.js' %}"></script>
     <!-- bootstrap modal -->
     <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modal.js' %}"></script>
     <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modalmanager.js' %}"></script>
-    <!-- select 2 -->
-    <script src="{% static 'js/plugins/bootstrap-select2/bootstrap-select2.js' %}"></script>
     <!-- validator -->
     <script src="{% static 'js/plugins/bootstrap-validator/bootstrapValidator.min.js' %}"></script>
 {% endblock %}
@@ -34,7 +21,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i>人力资源</a></li>
-            <li class="active">部门管理</li>
+            <li class="active">员工状态</li>
         </ol>
     </section>
 
@@ -45,15 +32,11 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">
-                            部门管理
-                            <small>
-                                点击列表修改
-                            </small>
+                            员工状态列表
                         </h3>
                     </div>
-                    <div class="box-body table-responsive">
-                        {% include 'hr/group/body.html' %}
-
+                    <div class="box-body table-responsive no-padding">
+                        {% include 'hr/status/body.html' %}
                     </div>
                     <div class="box-footer">
                         <button class="btn btn-default show" onclick="loadmodal();">新增</button>
@@ -62,31 +45,32 @@
             </div>
         </div>
     </section><!-- /.content -->
-    <!-- mod permission -->
-    <div class="modal fade" id="user_detail" data-backdrop="static" tabindex="-1" role="dialog"
+    <!-- mod status -->
+    <div class="modal fade" id="userstatus_detail" data-backdrop="static" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel"
          aria-hidden="true">
-        {% include 'hr/group/modal.html' %}
+        {% include 'hr/status/modal.html' %}
     </div>
 {% endblock %}
 {% block js %}
     <script>
+
         function loadmodal(id) {
             $('body').modalmanager('loading');
             setTimeout(function () {
-                $('#user_detail').load('/hr/group/ajax/detail/' + '?group_id=' + id, function () {
-                    $('#user_detail').modal();
+                $('#userstatus_detail').load('/hr/status/ajax/detail/' + '?userstatus_id=' + id, function () {
+                    $('#userstatus_detail').modal();
                 });
             }, 1000);
         }
 
-        function del(group_id) {
+        function del(userstatus_id) {
             $.ajax({
-                url: '/hr/group/ajax/delete/',
+                url: '/hr/status/ajax/delete/',
                 type: 'POST',
-                data: {group_id: group_id},
+                data: {userstatus_id: userstatus_id},
                 success: function (response) {
-                    $('#user_detail').modal('hide');
+                    $('#userstatus_detail').modal('hide');
                     $('.box-body').html(response);
                 }
             })

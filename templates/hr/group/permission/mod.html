@@ -1,5 +1,6 @@
 <div class="box">
     <form action="/hr/group/permission/ajax/save/" method="POST">
+    {% csrf_token %}
         <div class="box-header">
             <h3 class="box-title">
                 权限
@@ -67,8 +68,7 @@
     </form>
 </div>
 <script>
-
-    $('form').submit(function () {
+    $('form').submit(function() {
         $(this).ajaxSubmit({
             success: function (response) {
                 $(".result").html(response)

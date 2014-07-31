@@ -36,7 +36,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_ajax'
+    'hr',
+    'system',
+    'south'
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -60,8 +63,8 @@ WSGI_APPLICATION = 'dongtaoy_oa.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dongtaoy-oa',
-        'USER': 'dongtaoy',
+        'NAME': 'oa',
+        'USER': 'root',
         'PASSWORD': 'yudanny1',
         'HOST': '127.0.0.1',
         'PORT': '3306'

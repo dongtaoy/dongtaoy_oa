@@ -24,7 +24,7 @@
                 </div>
                 <div class="form-group">
                     <label>领导：</label>
-                    <select class="form-control" name="group_leader" data-bv-notempty="true" data-bv-message="正确填写名字">
+                    <select class="form-control" name="group_leader" data-bv-message="正确填写名字">
                         {% for user in users %}
                             {% if user == spec_group.leader %}
                                 <option value="{{ user.id }}" selected="selected">{{ user.realname }}</option>

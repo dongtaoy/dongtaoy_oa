@@ -1,12 +1,32 @@
 {% extends 'base.html' %}
-{% block content %}
-    {% load staticfiles %}
-    <link href="{% static 'css/bootstrap-datepicker/datepicker.css' %}" rel="stylesheet" type="text/css"/>
+{% load staticfiles %}
+{% block extensions %}
+    <!-- datatables -->
     <link href="{% static 'css/datatables/dataTables.bootstrap.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- Bootstrap modal -->
+    <link href="{% static 'css/bootstrap-modal/bootstrap-modal.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- select2 -->
+    <link href="{% static 'css/bootstrap-select2/select2.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/bootstrap-select2/select2-bootstrap.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- validator -->
+    <link href="{% static 'css/bootstrap-validator/bootstrapValidator.min.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- inputmask -->
     <script src="{% static 'js/plugins/input-mask/jquery.inputmask.js' %}"></script>
     <script src="{% static 'js/plugins/input-mask/jquery.inputmask.date.extensions.js' %}"></script>
+    <!-- datatables -->
     <script src="{% static 'js/plugins/datatables/jquery.dataTables.js' %}"></script>
     <script src="{% static 'js/plugins/datatables/dataTables.bootstrap.js' %}"></script>
+    <!-- Jquery form -->
+    <script src="{% static 'js/plugins/jquery.form/jquery.form.js' %}"></script>
+    <!-- bootstrap modal -->
+    <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modal.js' %}"></script>
+    <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modalmanager.js' %}"></script>
+    <!-- select 2 -->
+    <script src="{% static 'js/plugins/bootstrap-select2/bootstrap-select2.js' %}"></script>
+    <!-- validator -->
+    <script src="{% static 'js/plugins/bootstrap-validator/bootstrapValidator.min.js' %}"></script>
+{% endblock %}
+{% block content %}
     <section class="content-header">
         <h1>
             人力资源

@@ -8,25 +8,24 @@
 <table class="table table-hover">
     <thead>
     <tr>
-        <th>ID</th>
-        <th>名称</th>
-        <th>领导</th>
-        <th>描述</th>
+        <td>ID</td>
+        <td>状态名称</td>
+        <td>状态介绍</td>
     </tr>
     </thead>
     <tbody>
-    {% for group in groups %}
+    {% for userstatus in userstatuses %}
         <tr>
-            <td>{{ group.id }}</td>
-            <td>{{ group.name }}</td>
-            <td>{{ group.leader.realname }}</td>
-            <td>{{ group.description }}</td>
+            <td>{{ userstatus.id }}</td>
+            <td>
+                <span class="label {{ userstatus.label }}">{{ userstatus.name }}</span>
+            </td>
+            <td>{{ userstatus.description }}</td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
 <script>
-    $('.table').dataTable();
     $(function () {
         $(".table tbody").on("click", "tr", function () {
             if ($(this).hasClass('selected')) {

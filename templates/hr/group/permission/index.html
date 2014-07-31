@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+{% block extensions %}
+<script src="{% static 'js/plugins/jquery.form/jquery.form.js' %}"></script>
+
+{% endblock %}
 {% block content %}
 <section class="content-header">
     <h1>

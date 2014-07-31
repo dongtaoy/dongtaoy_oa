@@ -1,21 +1,21 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
-from oa_model.models import OaGroup, OaUser
+from hr.models import Group, User
 
 from dongtaoy_oa.views import common_context
 
 
 def group_index(request):
-    groups = OaGroup.objects.all()
+    groups = Group.objects.all()
     return render(request, 'hr/group/index.html', {"groups": groups},
                   context_instance=RequestContext(request, processors=[common_context]))
 
 
 def group_detail(request):
-    users = OaUser.objects.all()
+    users = User.objects.all()
     try:
-        spec_group = OaGroup.objects.get(id=request.GET.get('group_id'))
+        spec_group = Group.objects.get(id=request.GET.get('group_id'))
     except Exception, e:
         print e
         spec_group = None
@@ -25,17 +25,17 @@ def group_detail(request):
 
 def group_mod(request):
     print request.POST
-    OaGroup(id=request.POST.get('group_id'),
+    Group(id=request.POST.get('group_id'),
             name=request.POST.get('group_name'),
-            leader=OaUser.objects.get(id=request.POST.get('group_leader')),
+            leader=User.objects.get(id=request.POST.get('group_leader')),
             description=request.POST.get('group_description')).save()
-    groups = OaGroup.objects.all()
+    groups = Group.objects.all()
     return render(request, 'hr/group/body.html', {"success": True,
                                                   "groups": groups})
 
 
 def group_delete(request):
-    OaGroup.objects.get(id=request.POST.get('group_id')).delete()
-    groups = OaGroup.objects.all()
+    Group.objects.get(id=request.POST.get('group_id')).delete()
+    groups = Group.objects.all()
     return render(request, 'hr/group/body.html', {"success": True,
                                                   "groups": groups})

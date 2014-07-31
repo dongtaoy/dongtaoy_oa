@@ -61,23 +61,6 @@
     </div>
 </div>
 <script>
-    /*
-    $('#permission_form').validate({
-        submitHandler: function (form) {
-            $.ajax({
-                url: '/system/permission/save/',
-                type: 'POST',
-                data: $(form).serialize(),
-                success: function (response) {
-                    $('#permission_detail').find('.modal-body').prepend('<div class="alert alert-success alert-dismissable">' +
-                            '<i class="fa fa-check"></i>' +
-                            '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
-                            '<b>保存成功！</b></div>');
-
-                }
-            })
-        }
-    });*/
     $('#permission_form').submit(function (){
         $(this).ajaxSubmit({
             success: function (response){

@@ -13,6 +13,7 @@
         <th>E-mail</th>
         <th>职位</th>
         <th>入职时间</th>
+        <th>状态</th>
     </tr>
     </thead>
     <tbody>
@@ -24,6 +25,9 @@
             <td>{{ user.email }}</td>
             <td>{{ user.position }}</td>
             <td>{{ user.regtime | date:"Y-m-d"  }}</td>
+            <td>
+                <span class="label {{ user.status.label }}">{{ user.status.name }}</span>
+            </td>
         </tr>
     {% endfor %}
     </tbody>
