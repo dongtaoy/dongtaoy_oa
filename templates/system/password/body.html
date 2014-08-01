@@ -1,0 +1,74 @@
+<form id="password_form" action="/system/password/ajax/save/" method="POST"
+      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+      data-bv-live="enabled">
+    <div class="box-header">
+        <h3 class="box-title">
+            密码设置
+        </h3>
+    </div>
+
+    <div class="box-body">
+        {% if success %}
+            <div class="alert alert-success alert-dismissable">
+                <i class="fa fa-check"></i>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <b>修改成功！</b>
+            </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-12">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>旧密码:</label>
+                    <input type="password" name="old_password" class="form-control"
+                           required="required"
+                           data-bv-remote="true"
+                           data-bv-remote-url="/system/password/ajax/check/"
+                           data-bv-message="正确输入旧密码"/>
+                </div>
+                <div class="form-group">
+                    <label>新密码:</label>
+                    <input type="password" name="new_password" class="form-control"
+                           required="required"
+                           data-bv-notempty-message="不能为空"
+
+                           data-bv-identical="true"
+                           data-bv-identical-field="confim_password"
+                           data-bv-identical-message="前后密码不一致"
+
+                           data-bv-different="true"
+                           data-bv-different-field="old_password"
+                           data-bv-different-message="不能和旧密码相同"/>
+                </div>
+                <div class="form-group">
+                    <label>重复密码:</label>
+                    <input type="password" name="confim_password" class="form-control"
+                           required="required"
+                           data-bv-notempty-message="不能为空"
+
+                           data-bv-identical="true"
+                           data-bv-identical-field="new_password"
+                           data-bv-identical-message="前后密码不一致"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <button class="btn btn-default" type="submit">递交</button>
+    </div>
+</form>
+<script>
+    $(document).ready(function () {
+        $('#password_form').bootstrapValidator({
+            submitHandler: function () {
+                $('#password_form').ajaxSubmit({
+                    success: function (response) {
+                        $('.box').html(response);
+                    }
+                })
+            }
+        });
+    });
+</script>

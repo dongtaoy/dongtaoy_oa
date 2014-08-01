@@ -72,11 +72,9 @@ def user_save(request):
                             password=md5(request.POST.get('user_password') + salt).hexdigest(),
                             salt=salt)
         user = User.objects.get(username=request.POST.get('user_username'))
-    user_groups = request.POST.getlist('user_groups')
+    user_groups = Group.objects.filter(id__in=request.POST.getlist('user_groups'))
     with transaction.atomic():
-        user.groups.clear()
-        for user_group in user_groups:
-            user.groups.add(Group.objects.get(id=user_group))
+        user.groups = user_groups
     print user_groups
     return render_body(request)
 

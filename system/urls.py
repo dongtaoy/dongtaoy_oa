@@ -4,17 +4,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'dongtaoy_oa.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-    url(r'^group_permission/$', 'system.views.group_permission_index'),
-    url(r'^group_permission/ajax/detail/', 'system.views.group_permission_detail'),
-    url(r'^group_permission/ajax/save/', 'system.views.group_permission_save'),
-
-    url(r'user_group/$', 'system.views.user_group_index'),
-    url(r'user_group/ajax/detail/', 'system.views.user_group_detail'),
-    url(r'user_group/ajax/save/', 'system.views.user_group_save'),
-
-    url(r'permission/order/$', 'system.views.permission_order_index'),
-    url(r'permission/order/ajax/save/$', 'system.views.permission_order_save'),
-
     # permission url
-    url(r'^permission/', include('system.permission.urls'))
+    url(r'^permission/', include('system.permission.urls')),
+    url(r'^password/', include('system.password.urls'))
 )

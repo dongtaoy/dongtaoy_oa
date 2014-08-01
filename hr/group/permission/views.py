@@ -25,14 +25,10 @@ def group_permission_detail(request):
 
 
 def group_permission_save(request):
-    new_permissions = request.POST.getlist('permissions[]')
+    new_permissions = Permission.objects.filter(id__in=request.POST.getlist('permissions[]'))
     group = Group.objects.get(id=request.POST.get('group_id'))
     with transaction.atomic():
-        group.permissions.clear()
-        for new_permission in new_permissions:
-            print new_permission
-            group.permissions.add(Permission.objects.get(id=new_permission))
-
+        group.permissions = new_permissions
     all_permissions = Permission.objects.all()
     return render(request, 'hr/group/permission/mod.html', {"all_permissions": permission_tree(all_permissions),
                                                             "group_permissions": group.permissions.all(),

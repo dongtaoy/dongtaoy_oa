@@ -15,7 +15,6 @@ def login(request):
     if request.method == 'GET':
         return render(request, 'login.html', {'login_fail': 0})
     try:
-        print request.POST.get('username')
         user = User.objects.get(username=request.POST.get('username'))
         if check_password(user.password, request.POST.get('password'), user.salt):
             request.session['user_id'] = user.id
@@ -25,7 +24,6 @@ def login(request):
         else:
             return render(request, 'login.html', {'login_fail': 1})
     except Exception, ex:
-        print ex
         return render(request, 'login.html', {'login_fail': 1})
 
 
