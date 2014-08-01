@@ -20,7 +20,6 @@ def permission_detail(request):
         spec_permission = Permission.objects.get(id=request.GET.get('permission_id'))
     except:
         spec_permission = None
-    print spec_permission
     all_permissions = Permission.objects.all()
     return render(request, 'system/permission/modal.html', {"spec_permission": spec_permission,
                                                             "permissions": permission_tree(all_permissions)})
