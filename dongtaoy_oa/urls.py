@@ -13,9 +13,15 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'dongtaoy_oa.views.logout'),
     url(r'^lock/$', 'dongtaoy_oa.views.lock'),
 
-
+    # system urls
     url(r'^system/', include('system.urls')),
+
+    # hr urls
     url(r'^hr/', include('hr.urls')),
+
+    # administration urls
+    url(r'^administration/', include('administration.urls')),
+
 
     url(r'^test/', 'dongtaoy_oa.views.test'),
 
