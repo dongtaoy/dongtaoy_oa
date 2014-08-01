@@ -35,7 +35,6 @@ def logout(request):
 
 
 def lock(request):
-    del request.session['user_id']
     return render(request, 'lockscreen.html', {},
                   context_instance=RequestContext(request, processors=[common_context]))
 
@@ -53,7 +52,6 @@ def login_status(request):
     try:
         return request.session['user_id']
     except Exception, e:
-        print e
         return None
 
 
@@ -78,7 +76,6 @@ def permission_tree(permissions):
     permission_list = permission_dic.items()
     permission_list = [(x[0], sorted(x[1], key=lambda d: d.order)) for x in permission_list]
     return sorted(permission_list, key=lambda (k, v): (k.order, v))
-    #return sorted(permission_dic.iteritems(), key=lambda (k, v): (k.order, v))
 
 
 def common_context(request):
