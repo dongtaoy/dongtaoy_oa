@@ -25,4 +25,13 @@ def category_save(request):
                   name=request.POST.get('category_name'),
                   description=request.POST.get('category_description'),
                   label=request.POST.get('category_label')).save()
-    return HttpResponse(1)
+    categories = AssetCategory.objects.all()
+    return render(request, 'administration/asset/category/body.html', {'categories': categories,
+                                                                       'success': True})
+
+
+def category_delete(request):
+    AssetCategory.objects.get(id=request.POST.get('category_id')).delete()
+    categories = AssetCategory.objects.all()
+    return render(request, 'administration/asset/category/body.html', {'categories': categories,
+                                                                       'success': True})

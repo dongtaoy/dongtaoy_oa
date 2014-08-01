@@ -12,7 +12,9 @@ urlpatterns = patterns('',
     url(r'^ajax/detail/', 'administration.asset.category.views.category_detail'),
 
     # save
-    url(r'^ajax/save/', 'administration.asset.category.views.category_save')
+    url(r'^ajax/save/', 'administration.asset.category.views.category_save'),
 
+    # delete
+    url(r'^ajax/delete/', 'administration.asset.category.views.category_delete')
 
 )

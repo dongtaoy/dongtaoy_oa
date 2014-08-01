@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block extensions %}
-
+    <!-- validator -->
+    <link href="{% static 'css/bootstrap-validator/bootstrapValidator.min.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- validator -->
+    <script src="{% static 'js/plugins/bootstrap-validator/bootstrapValidator.min.js' %}"></script>
     <!-- Bootstrap modal -->
     <link href="{% static 'css/bootstrap-modal/bootstrap-modal.css' %}" rel="stylesheet" type="text/css"/>
     <!-- bootstrap modal -->
     <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modal.js' %}"></script>
     <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modalmanager.js' %}"></script>
+    <!-- Jquery form -->
+    <script src="{% static 'js/plugins/jquery.form/jquery.form.js' %}"></script>
 {% endblock %}
 {% block content %}
     <section class="content-header">
@@ -40,6 +45,18 @@
                     $('#category_detail').modal();
                 });
             }, 1000);
+        }
+
+        function del(category_id) {
+            $.ajax({
+                url: '/administration/asset/category/ajax/delete/',
+                type: 'POST',
+                data: {category_id: category_id},
+                success: function (response) {
+                    $('#category_detail').modal('hide');
+                    $('.content').html(response);
+                }
+            })
         }
     </script>
 {% endblock %}

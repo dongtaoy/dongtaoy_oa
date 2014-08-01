@@ -1,7 +1,7 @@
 <!-- Modal -->
 <div class="modal-dialog">
     <div class="modal-content">
-        <form id="" action="/administration/asset/category/ajax/save/" method="POST"
+        <form id="category_form" action="/administration/asset/category/ajax/save/" method="POST"
               data-bv-message="This value is not valid"
               data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
               data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
@@ -119,5 +119,24 @@
 
 <script>
     $(document).ready(function () {
+        $('#category_form').bootstrapValidator({
+            fields: {
+                category_label:{
+                    validators: {
+                        notEmpty: {
+                            message: '不能为空'
+                        }
+                    }
+                }
+            },
+            submitHandler: function(){
+                $('#category_form').ajaxSubmit({
+                    success: function(response){
+                        $('#category_detail').modal('hide');
+                        $('.content').html(response);
+                    }
+                })
+            }
+        })
     });
 </script>
