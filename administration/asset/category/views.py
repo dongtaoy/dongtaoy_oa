@@ -16,12 +16,13 @@ def category_detail(request):
         spec_category = AssetCategory.objects.get(id=request.GET.get('category_id'))
     except:
         spec_category = None
-    return render(request, 'administration/asset/category/modal.html', {'category': spec_category})
+    return render(request, 'administration/asset/category/modal.html', {'spec_category': spec_category})
 
 
 def category_save(request):
     print request.POST
     AssetCategory(id=request.POST.get('category_id'),
                   name=request.POST.get('category_name'),
-                  description=request.POST.get('category_description')).save()
+                  description=request.POST.get('category_description'),
+                  label=request.POST.get('category_label')).save()
     return HttpResponse(1)
