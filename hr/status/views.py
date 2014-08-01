@@ -15,7 +15,6 @@ def userstatus_detail(request):
     try:
         spec_userstatus = Userstatus.objects.get(id=request.GET.get('userstatus_id'))
     except Exception, e:
-        print e
         spec_userstatus = None
     return render(request, 'hr/status/modal.html', {'spec_userstatus': spec_userstatus})
 

@@ -14,11 +14,8 @@ def group_permission_index(request):
 
 
 def group_permission_detail(request):
-    print request
     all_permissions = Permission.objects.all()
-    print all_permissions
     group_permissions = Permission.objects.filter(group=Group.objects.get(id=request.GET.get('groupid')))
-    print group_permissions
     return render(request, 'hr/group/permission/mod.html', {"all_permissions": permission_tree(all_permissions),
                                                             "group_permissions": group_permissions,
                                                             "groupid": request.GET.get('groupid')})

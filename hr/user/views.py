@@ -53,7 +53,6 @@ def user_save(request):
                                                                    status=Userstatus.objects.get(
                                                                        id=request.POST.get('user_status')))
         user = User.objects.get(id=request.POST.get('user_id'))
-
     else:
         salt = generate_salt()
         User.objects.create(realname=request.POST.get('user_realname'),
@@ -75,7 +74,6 @@ def user_save(request):
     user_groups = Group.objects.filter(id__in=request.POST.getlist('user_groups'))
     with transaction.atomic():
         user.groups = user_groups
-    print user_groups
     return render_body(request)
 
 
@@ -91,7 +89,6 @@ def user_check(request):
         User.objects.get(username=request.POST.get('user_username'))
         return HttpResponse('{"valid": false}')
     except Exception, e:
-        print e
         return HttpResponse('{"valid": true}')
 
 
