@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block extensions %}
+
+    <!-- Bootstrap modal -->
+    <link href="{% static 'css/bootstrap-modal/bootstrap-modal.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- bootstrap modal -->
+    <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modal.js' %}"></script>
+    <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modalmanager.js' %}"></script>
+{% endblock %}
+{% block content %}
+    <section class="content-header">
+        <h1>
+            行政办公
+            <!--<small>Control panel</small>-->
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>行政办公</a></li>
+            <li class="active">资产类型管理</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        {% include 'administration/asset/category/body.html' %}
+
+    </section><!-- /.content -->
+    <div class="modal fade" id="category_detail" data-backdrop="static" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        {% include 'administration/asset/category/modal.html' %}
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        function loadmodal(id) {
+            $('body').modalmanager('loading');
+            setTimeout(function () {
+                $('#category_detail').load('/administration/asset/category/ajax/detail/' + '?category_id=' + id, function () {
+                    $('#category_detail').modal();
+                });
+            }, 1000);
+        }
+    </script>
+{% endblock %}

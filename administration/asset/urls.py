@@ -6,5 +6,9 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     # index
-    url(r'^$', 'administration.asset.views.asset_index')
+    url(r'^$', 'administration.asset.views.asset_index'),
+
+
+    # category
+    url(r'^category/', include('administration.asset.category.urls'))
 )

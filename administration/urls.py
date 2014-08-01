@@ -8,6 +8,4 @@ urlpatterns = patterns('',
     # assets urls
     url(r'^asset/', include('administration.asset.urls')),
 
-    # assets category urls
-    url(r'^category/', include('administration.category.urls'))
 )
