@@ -1,0 +1,104 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form id="asset_form" action="/administration/asset/ajax/save/" method="POST"
+              data-bv-message="This value is not valid"
+              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+              data-bv-submitbuttons='button[type="submit"]'
+              data-bv-live="enabled">
+            {% csrf_token %}
+
+            <div class="modal-header">
+                <button type="button" class="close cancel" data-dismiss="modal"><span
+                        aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">办公资产</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>品牌：</label>
+                    <input class="form-control" type="text" value="{{ spec_asset.brand }}" name="asset_brand"
+                           data-bv-notempty="true"
+                           data-bv-message="正确填写名字"/>
+                </div>
+                <div class="form-group">
+                    <label>型号：</label>
+                    <input class="form-control" type="text" value="{{ spec_asset.brand }}" name="asset_model"
+                           data-bv-notempty="true"
+                           data-bv-message="正确填写名字"/>
+                </div>
+                <div class="form-group">
+                    <label>描述：</label>
+                    <textarea class="form-control" name="asset_description"
+                              rows="3" data-bv-notempty="true"
+                              data-bv-message="不能为空">{{ spec_asset.description }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>类型：</label>
+                    <select multiple="multiple" name="asset_categories" class="form-control" required="required"
+                            data-bv-message="不能为空">
+                        {% for category in categories %}
+                            {% if category in spec_asset.categories.all %}
+                                <option value="{{ category.id }}" selected="selected">{{ category.name }}</option>
+                            {% else %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>隶属于：</label>
+                    <select class="form-control" name="asset_group" required="required"
+                            data-bv-messgae="不能为空">
+                        {% for group in groups %}
+                            {% if group == spec_asset.group %}
+                                <option value="{{ group.id }}" selected="selected">{{ group.name }}</option>
+                            {% else %}
+                                <option value="{{ group.id }}">{{ group.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>使用情况：</label>
+                    <select class="form-control" name="asset_usage" required="required">
+                        {% if spec_asset.usage %}
+                            <option value="1" selected="selected">使用</option>
+                            <option value="0">闲置</option>
+                        {% else %}
+                            <option value="1">使用</option>
+                            <option value="0" selected="selected">闲置</option>
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                {% if spec_asset %}
+                    <input type="hidden" name="asset_id" value="{{ spec_asset.id }}">
+                    <button type="button" onclick="del({{ spec_asset.id }})" class="pull-left btn btn-danger">删除
+                    </button>
+                {% endif %}
+                <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-primary">保存</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('select[name=asset_group]').select2();
+        $('select[name=asset_categories]').select2();
+        $('#asset_form').bootstrapValidator({
+            submitHandler: function () {
+                $('#asset_form').ajaxSubmit({
+                    success: function (response) {
+                        $('#asset_detail').modal('hide');
+                        $('.content').html(response);
+                    }
+                });
+            }
+        });
+    });
+</script>

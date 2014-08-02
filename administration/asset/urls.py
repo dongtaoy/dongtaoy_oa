@@ -7,7 +7,8 @@ urlpatterns = patterns('',
 
     # index
     url(r'^$', 'administration.asset.views.asset_index'),
-
+    url(r'^ajax/detail/', 'administration.asset.views.asset_detail'),
+    url(r'^ajax/save/', 'administration.asset.views.asset_save'),
 
     # category
     url(r'^category/', include('administration.asset.category.urls'))

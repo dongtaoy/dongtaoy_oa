@@ -68,7 +68,7 @@ DATABASES = {
         'NAME': 'oa',
         'USER': 'root',
         'PASSWORD': 'yudanny1',
-        'HOST': '203.153.207.195',
+        'HOST': '127.0.0.1',
         'PORT': '3306'
     }
 }
