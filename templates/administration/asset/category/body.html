@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">
+                    办公资产类型管理
+                    <small>
+                        点击列表修改
+                    </small>
+                </h3>
+            </div>
+            <div class="box-body table-responsive">
+                {% if success %}
+                    <div class="alert alert-success alert-dismissable">
+                        <i class="fa fa-check"></i>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <b>修改成功！</b>
+                    </div>
+                {% endif %}
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>类型名称</th>
+                        <th>类型描述</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for category in categories %}
+                        <tr>
+                            <td>{{ category.id }}</td>
+                            <td>
+                                <span class="label {{ category.label }}">{{ category.name }}</span>
+                            </td>
+                            <td>{{ category.description }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-footer">
+                <button class="btn btn-default show" onclick="loadmodal();">新增</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $(".table tbody").on("click", "tr", function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                $('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+            var id = ($(this)).children('td:first').text();
+            loadmodal(id);
+        });
+    });
+</script>
