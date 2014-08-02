@@ -6,7 +6,7 @@ class Customer(models.Model):
     address = models.CharField(max_length=100, blank=True, null=True)
     email = models.CharField(max_length=50, blank=True)
     fax = models.IntegerField(blank=True, null=True)
-    type = models.ForeignKey('crm.CustomerType', blank=True, null=True, default=None)
+    type = models.ForeignKey('crm.CustomerType', blank=True, null=True, on_delete=models.SET_NULL)
 
 
 class CustomerType(models.Model):
