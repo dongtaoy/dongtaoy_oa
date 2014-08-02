@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'hr',
     'system',
     'administration',
+    'crm',
     'south'
 
 )
