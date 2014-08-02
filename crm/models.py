@@ -11,5 +11,5 @@ class Customer(models.Model):
 
 class CustomerType(models.Model):
     name = models.CharField(max_length=20)
-    description = address = models.CharField(max_length=100, blank=True, null=True)
-    label = models.CharField(max_length=20, blank=True, null=True)
+    description = models.CharField(max_length=100, blank=True, null=True)
+    label = models.CharField(max_length=100, blank=True)

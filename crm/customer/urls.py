@@ -7,5 +7,5 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
     #url(r'^$','dongtaoy_oa.crm.views.customer_index'),
     #url(r'^$', 'crm.customer.views.customer_index'),
-    #url(r'^type/', include('crm.customer.type.urls')),
+    url(r'^type/', include('crm.customer.type.urls')),
 )
