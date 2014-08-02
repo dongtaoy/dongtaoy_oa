@@ -7,8 +7,8 @@ from hashlib import md5
 
 
 def type_index(request):
-    categories = AssetCategory.objects.all()
-    return render(request, 'administration/asset/category/index.html', {'categories': categories},
+    types = CustomerType.objects.all()
+    return render(request, 'crm/customer/type/index.html', {'types': types},
                   context_instance=RequestContext(request, processors=[common_context]))
 
 
