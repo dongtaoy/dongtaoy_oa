@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render
 from dongtaoy_oa.views import common_context
@@ -27,7 +26,6 @@ def asset_detail(request):
 
 
 def asset_save(request):
-    print request.POST
     asset = Asset(id=request.POST.get('asset_id'),
                   brand=request.POST.get('asset_brand'),
                   model=request.POST.get('asset_model'),
