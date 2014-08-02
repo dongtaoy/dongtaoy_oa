@@ -10,6 +10,7 @@ class Customers(models.Model):
     fax = models.IntegerField(blank=True,null=True)
     ctype = models.ForeignKey('crm.Ctype', blank=True, null=True, default=None)
 
+
 class Ctype(models.Model):
     name = models.CharField(max_length=20)
     description = address = models.CharField(max_length=100,blank=True, null=True)
