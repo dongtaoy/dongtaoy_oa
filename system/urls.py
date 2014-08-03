@@ -6,5 +6,6 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
     # permission url
     url(r'^permission/', include('system.permission.urls')),
-    url(r'^password/', include('system.password.urls'))
+    url(r'^password/', include('system.password.urls')),
+    url(r'^label/', include('system.label.urls'))
 )

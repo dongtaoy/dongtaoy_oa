@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block extensions %}
+    <!-- validator -->
+    <link href="{% static 'css/bootstrap-validator/bootstrapValidator.min.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- validator -->
+    <script src="{% static 'js/plugins/bootstrap-validator/bootstrapValidator.min.js' %}"></script>
+    <!-- Bootstrap modal -->
+    <link href="{% static 'css/bootstrap-modal/bootstrap-modal.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- bootstrap modal -->
+    <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modal.js' %}"></script>
+    <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modalmanager.js' %}"></script>
+    <!-- Jquery form -->
+    <script src="{% static 'js/plugins/jquery.form/jquery.form.js' %}"></script>
+{% endblock %}
+{% block content %}
+    <section class="content-header">
+        <h1>
+            标签管理
+            <!--<small>Control panel</small>-->
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>权限管理</a></li>
+            <li class="active">标签管理</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        {% include 'system/label/body.html' %}
+
+    </section><!-- /.content -->
+    <div class="modal fade" id="label_detail" data-backdrop="static" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        {% include 'system/label/modal.html' %}
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        function loadmodal(id) {
+            $('body').modalmanager('loading');
+            setTimeout(function () {
+                $('#label_detail').load('/system/label/ajax/detail/' + '?label_id=' + id, function () {
+                    $('#label_detail').modal();
+                });
+            }, 1000);
+        }
+
+        function del(label_id) {
+            $.ajax({
+                url: 'system/label/ajax/delete/',
+                type: 'POST',
+                data: {label_id: label_id},
+                success: function (response) {
+                    $('#label_detail').modal('hide');
+                    $('.content').html(response);
+                }
+            })
+        }
+    </script>
+{% endblock %}
