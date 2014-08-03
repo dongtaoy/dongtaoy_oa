@@ -1,7 +1,7 @@
 <!-- Modal -->
 <div class="modal-dialog">
     <div class="modal-content">
-        <form id="user_form" action="hr/user/ajax/save/" method="POST"
+        <form id="customer_form" action="/crm/customer/ajax/save/" method="POST"
               data-bv-message="This value is not valid"
               data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
               data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
@@ -13,177 +13,71 @@
                 <button type="button" class="close cancel" data-dismiss="modal"><span
                         aria-hidden="true">&times;</span><span
                         class="sr-only">Close</span></button>
-                <h4 class="modal-title">人员</h4>
+                <h4 class="modal-title">客户</h4>
             </div>
             <div class="modal-body">
 
                 <div class="form-group">
                     <label>名字:</label>
-                    <input value="{{ spec_user.realname }}" type="text" name="user_realname" class="form-control"
+                    <input value="{{ spec_customer.name }}" type="text" name="customer_name" class="form-control"
                            placeholder="eg: 张三"
                            data-bv-notempty="true"
                            data-bv-notempty-message="不能为空"/>
                 </div>
                 <div class="form-group">
                     <label>手机：</label>
-                    <input value="{{ spec_user.phone }}" type="text" name="user_phone" class="form-control"
+                    <input value="{{ spec_customer.phone }}" type="text" name="customer_phone" class="form-control"
                            placeholder="eg: 13800138000"
                            data-bv-notempty="true"
                            data-bv-notempty-message="不能为空"/>
                 </div>
                 <div class="form-group">
                     <label>E-mail:</label>
-                    <input value="{{ spec_user.email }}" type="email" name="user_email" class="form-control"
+                    <input value="{{ spec_customer.email }}" type="email" name="customer_email" class="form-control"
                            placeholder="eg: test@163.com"
                            data-bv-notempty="true"
                            data-bv-notempty-message="不能为空"
                            data-bv-emailaddress="true"
                            data-bv-emailaddress-message="正确输入E-mail"/>
                 </div>
+
                 <div class="form-group">
-                    <label>性别：</label>
-                    <select name="user_sex" class="form-control">
-                        {% if spec_user.sex %}
-                            <option value="1" selected="selected">男</option>
-                            <option value="0">女</option>
-                        {% else %}
-                            <option value="1">男</option>
-                            <option value="0" selected="selected">女</option>
-                        {% endif %}
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>生日：</label>
-                    <input value="{{ spec_user.dob | date:"Y-m-d" }}" name="user_dob" class="form-control form_date"
+                    <label>传真:</label>
+                    <input value="{{ spec_customer.fax }}" type="text" name="customer_fax" class="form-control"
+                           placeholder="eg: 12312313"
                            data-bv-notempty="true"
-                           data-bv-date="true"
-                           data-bv-date-format="YYYY-MM-DD"
-                           data-bv-message="正确输入日期"/>
+                           data-bv-notempty-message="不能为空"/>
                 </div>
+
+
+
                 <div class="form-group">
-                    <label>身份证：</label>
-                    <input value="{{ spec_user.identifier }}" type="text" name="user_identifier" class="form-control"
-                           placeholder="eg: 330....."
-                           data-bv-notempty="true"
-                           data-bv-message="正确输入身份证"/>
-                </div>
-                <div class="form-group">
-                    <label>职位:</label>
-                    <input value="{{ spec_user.position }}" type="text" name="user_position" class="form-control"
-                           placeholder="eg: 督导"
-                           data-bv-notempty="true"
-                           data-bv-message="正确输入职位"/>
-                </div>
-                <div class="form-group">
-                    <label>薪资:</label>
-                    <input value="{{ spec_user.salary }}" name="user_salary" class="form-control"
-                           placeholder="eg: 5000"
-                           data-bv-notempty="true"
-                           data-bv-message="正确输入薪资"
-                           data-bv-numeric="true"/>
-                </div>
-                <div class="form-group">
-                    <label>入职时间:</label>
-                    <input value="{{ spec_user.regtime | date:"Y-m-d" }}" type="text" name="user_regtime"
-                           class="form-control form_date"
-                           data-bv-notempty="true"
-                           data-bv-message="正确输入日期"
-                           data-bv-date="true"
-                           data-bv-date-format="YYYY-MM-DD"/>
-                </div>
-                <div class="form-group">
-                    <label>隶属于：</label>
-                    <select name="user_groups" multiple="multiple" class="form-control" required="required"
+                    <label>类型：</label>
+                    <select name="customer_type" class="form-control" required="required"
                             data-bv-message="不能为空">
-                        {% for group in groups %}
-                            {% if group in user_groups %}
-                                <option value="{{ group.id }}" selected="selected">{{ group.name }}</option>
+                        {% for type in types %}
+                            {% if type == spec_customer.type %}
+                                <option value="{{ type.id }}" selected="selected">{{ type.name }}</option>
                             {% else %}
-                                <option value="{{ group.id }}">{{ group.name }}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>状态：</label>
-                    <select name="user_status" class="form-control" required="required"
-                            data-bv-message="不能为空">
-                        {% for userstatus in userstatuses %}
-                            {% if userstatus == spec_user.status %}
-                                <option value="{{ userstatus.id }}" selected="selected">{{ userstatus.name }}</option>
-                            {% else %}
-                                <option value="{{ userstatus.id }}">{{ userstatus.name }}</option>
+                                <option value="{{ type.id }}">{{ type.name }}</option>
                             {% endif %}
                         {% endfor %}
                     </select>
                 </div>
                 <div class="form-group">
                     <label>地址:</label>
-                    <textarea class="form-control" name="user_address" rows="3"
+                    <textarea class="form-control" name="customer_address" rows="3"
                               required="required"
                               data-bv-notempty="true"
-                              data-bv-message="正确输入地址">{{ spec_user.address }}</textarea>
+                              data-bv-message="正确输入地址">{{ spec_customer.address }}</textarea>
                 </div>
-                <div class="form-group">
-                    <label>描述:</label>
-                    <textarea class="form-control" name="user_description"
-                              rows="3">{{ spec_user.description }}</textarea>
 
-                </div>
-                {% if not spec_user %}
-                    <div class="form-group username">
-                        <label>用户名：</label>
-                        <input class="form-control" name="user_username" type="text"
-                               data-bv-notempty="true"
-                               data-bv-notempty-message="不能为空"
 
-                               data-bv-regexp="true"
-                               data-bv-regexp-regexp="[a-zA-Z0-9_\.]+"
-                               data-bv-regexp-message="用户名只能由英文字母、数字、_、.组成"
-
-                               data-bv-stringlength="true"
-                               data-bv-stringlength-min="4"
-                               data-bv-stringlength-max="20"
-                               data-bv-stringlength-message="长度要求：4-20"
-
-                               data-bv-different="true"
-                               data-bv-different-field="user_password"
-                               data-bv-different-message="帐户名和密码不能一致"/>
-                    </div>
-                    <div class="form-group">
-                        <label>密码：</label>
-                        <input class="form-control" name="user_password" type="password"
-                               data-bv-notempty="true"
-                               data-bv-notempty-message="不能为空"
-
-                               data-bv-identical="true"
-                               data-bv-identical-field="user_repassword"
-                               data-bv-identical-message="前后密码不一致"
-
-                               data-bv-different="true"
-                               data-bv-different-field="user_username"
-                               data-bv-different-message="密码和帐户名不能一致"/>
-                    </div>
-                    <div class="form-group">
-                        <label>确认密码：</label>
-                        <input class="form-control" name="user_repassword" type="password"
-                               data-bv-notempty="true"
-                               data-bv-notempty-message="不能为空"
-
-                               data-bv-identical="true"
-                               data-bv-identical-field="user_password"
-                               data-bv-identical-message="前后密码不一致"
-
-                               data-bv-different="true"
-                               data-bv-different-field="user_username"
-                               data-bv-different-message="密码和帐户名不能一致"/>
-                    </div>
-                {% endif %}
             </div>
             <div class="modal-footer">
-                {% if spec_user %}
-                    <input type="hidden" name="user_id" value="{{ spec_user.id }}">
-                    <button type="button" onclick="del({{ spec_user.id }})" class="pull-left btn btn-danger">删除
+                {% if spec_customer %}
+                    <input type="hidden" name="customer_id" value="{{ spec_customer.id }}">
+                    <button type="button" onclick="del({{ spec_customer.id }})" class="pull-left btn btn-danger">删除
                     </button>
                 {% endif %}
                 <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
@@ -198,17 +92,12 @@
 <script>
 
     $(document).ready(function () {
-        $('select[name=user_groups]').select2();
-        $('input[data-bv-date=true]').inputmask({ "mask": 'y-m-d'});
-        $('#user_form').bootstrapValidator({
+        $('#customer_form').bootstrapValidator({
             excluded: [':disabled'],
             fields:{
-              user_username:{
+              customer_name:{
                   validators:{
-                      remote:{
-                          message: '帐号重复',
-                          url: '/hr/user/ajax/check/'
-                      },
+
                       notEmpty:{
                           message:'不能为空'
                       }
@@ -216,13 +105,13 @@
               }
             },
             submitHandler: function () {
-                $('#user_form').ajaxSubmit({
+                $('#customer_form').ajaxSubmit({
                     success: function (response) {
-                        $('#user_detail').modal('hide');
+                        $('#customer_detail').modal('hide');
                         $('.box-body').html(response);
                     },
                     error: function (response) {
-                        $('#user_detail').modal('hide');
+                        $('#customer_detail').modal('hide');
                         alert('保存失败');
                     }
 

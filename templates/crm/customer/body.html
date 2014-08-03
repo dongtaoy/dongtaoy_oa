@@ -11,22 +11,22 @@
         <th>姓名</th>
         <th>手机号</th>
         <th>E-mail</th>
-        <th>职位</th>
-        <th>入职时间</th>
-        <th>状态</th>
+        <th>传真</th>
+        <th>住址</th>
+        <th>类型</th>
     </tr>
     </thead>
     <tbody>
-    {% for user in users %}
+    {% for customer in customers %}
         <tr>
-            <input type="hidden" value="{{ user.id }}"/>
-            <td>{{ user.realname }}</td>
-            <td>{{ user.phone }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.position }}</td>
-            <td>{{ user.regtime | date:"Y-m-d"  }}</td>
+            <input type="hidden" value="{{ customer.id }}"/>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.phone }}</td>
+            <td>{{ customer.email }}</td>
+            <td>{{ customer.fax }}</td>
+            <td>{{ customer.address }}</td>
             <td>
-                <span class="label {{ user.status.label }}">{{ user.status.name }}</span>
+                <span class="label {{ customer.type.label }}">{{ customer.type.name }}</span>
             </td>
         </tr>
     {% endfor %}
