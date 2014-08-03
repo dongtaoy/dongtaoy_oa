@@ -110,15 +110,6 @@
         $('select[name=customer_groups]').select2();
         $('#customer_form').bootstrapValidator({
             excluded: [':disabled'],
-              customer_name:{
-                  validators:{
-
-                      notEmpty:{
-                          message:'不能为空'
-                      }
-                  }
-              }
-            },
             submitHandler: function () {
                 $('#customer_form').ajaxSubmit({
                     success: function (response) {
