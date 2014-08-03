@@ -12,8 +12,9 @@
         <th>手机号</th>
         <th>E-mail</th>
         <th>传真</th>
-        <th>住址</th>
+        <th>地址</th>
         <th>类型</th>
+        <th>隶属于</th>
     </tr>
     </thead>
     <tbody>
@@ -27,6 +28,11 @@
             <td>{{ customer.address }}</td>
             <td>
                 <span class="label {{ customer.type.label }}">{{ customer.type.name }}</span>
+            </td>
+            <td>
+                {% for group in customer.groups.all %}
+                    {{ group.name }}
+                {% endfor %}
             </td>
         </tr>
     {% endfor %}

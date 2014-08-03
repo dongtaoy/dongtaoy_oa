@@ -22,6 +22,7 @@ class User(models.Model):
     groups = models.ManyToManyField('hr.Group', blank=True, null=True)
 
 
+
 class Group(models.Model):
     name = models.CharField(max_length=50, blank=True)
     description = models.CharField(max_length=100, blank=True)
