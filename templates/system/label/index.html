@@ -49,7 +49,7 @@
 
         function del(label_id) {
             $.ajax({
-                url: 'system/label/ajax/delete/',
+                url: '/system/label/ajax/delete/',
                 type: 'POST',
                 data: {label_id: label_id},
                 success: function (response) {

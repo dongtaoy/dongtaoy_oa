@@ -5,6 +5,7 @@ from django.db import transaction
 from system.models import Label
 from django.http import HttpResponse
 
+
 def label_index(request):
     labels = Label.objects.all()
     return render(request, 'system/label/index.html', {'labels': labels},
@@ -20,16 +21,17 @@ def label_detail(request):
 
 
 def label_save(request):
-    Label(id=request.POST.get('label_id'),
-                  name=request.POST.get('label_name'),
-                  css=request.POST.get('label_css'))
+    with transaction.atomic():
+        Label(id=request.POST.get('label_id'),
+              name=request.POST.get('label_name'),
+              css=request.POST.get('label_css')).save()
     labels = Label.objects.all()
     return render(request, 'system/label/body.html', {'labels': labels,
-                                                                       'success': True})
+                                                      'success': True})
 
 
 def label_delete(request):
     Label.objects.get(id=request.POST.get('label_id')).delete()
     labels = Label.objects.all()
     return render(request, 'system/label/body.html', {'labels': labels,
-                                                                       'success': True})
+                                                      'success': True})
