@@ -18,9 +18,9 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>名字：</label>
-                    <input  class="form-control" type="text" value="{{ spec_group.name }}" name="group_name"
-                            data-bv-notempty="true"
-                            data-bv-message="正确填写名字"/>
+                    <input class="form-control" type="text" value="{{ spec_group.name }}" name="group_name"
+                           data-bv-notempty="true"
+                           data-bv-message="正确填写名字"/>
                 </div>
                 <div class="form-group">
                     <label>领导：</label>
@@ -39,6 +39,75 @@
                     <textarea class="form-control" name="group_description"
                               rows="3">{{ spec_group.description }}</textarea>
 
+                </div>
+                <div class="form-group">
+                    <label>颜色：</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="radio">
+                                <label>
+                                    {% if spec_group.label == 'label-default' %}
+                                        <input type="radio" name="group_label" value="label-default" checked>
+                                    {% else %}
+                                        <input type="radio" name="group_label" value="label-default">
+                                    {% endif %}
+                                    <span class="label label-default">Default</span>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    {% if spec_group.label == 'label-primary' %}
+                                        <input type="radio" name="group_label" value="label-primary" checked>
+                                    {% else %}
+                                        <input type="radio" name="group_label" value="label-primary">
+                                    {% endif %}
+                                    <span class="label label-primary">Primary</span>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    {% if spec_group.label == 'label-success' %}
+                                        <input type="radio" name="group_label" value="label-success" checked>
+                                    {% else %}
+                                        <input type="radio" name="group_label" value="label-success">
+                                    {% endif %}
+                                    <span class="label label-success">Success</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="radio">
+                                <label>
+                                    {% if spec_group.label == 'label-info' %}
+                                        <input type="radio" name="group_label" value="label-info" checked>
+                                    {% else %}
+                                        <input type="radio" name="group_label" value="label-info">
+                                    {% endif %}
+                                    <span class="label label-info">Info</span>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    {% if spec_group.label == 'label-warning' %}
+                                        <input type="radio" name="group_label" value="label-warning" checked>
+                                    {% else %}
+                                        <input type="radio" name="group_label" value="label-warning">
+                                    {% endif %}
+                                    <span class="label label-warning">Warning</span>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    {% if spec_group.label == 'label-danger' %}
+                                        <input type="radio" name="group_label" value="label-danger" checked>
+                                    {% else %}
+                                        <input type="radio" name="group_label" value="label-danger">
+                                    {% endif %}
+                                    <span class="label label-danger">Danger</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
