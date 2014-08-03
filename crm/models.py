@@ -13,4 +13,4 @@ class Customer(models.Model):
 class CustomerType(models.Model):
     name = models.CharField(max_length=20)
     description = models.CharField(max_length=100, blank=True, null=True)
-    label = models.CharField(max_length=100, blank=True)
+    label = models.ForeignKey('system.Label', blank=True, null=True, on_delete=models.SET_NULL)

@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.template import RequestContext
 from dongtaoy_oa.views import common_context
 from hr.models import Userstatus
+from system.models import Label
 
 
 def userstatus_index(request):
@@ -12,18 +13,20 @@ def userstatus_index(request):
 
 
 def userstatus_detail(request):
+    labels = Label.objects.all()
     try:
         spec_userstatus = Userstatus.objects.get(id=request.GET.get('userstatus_id'))
     except Exception, e:
         spec_userstatus = None
-    return render(request, 'hr/status/modal.html', {'spec_userstatus': spec_userstatus})
+    return render(request, 'hr/status/modal.html', {'spec_userstatus': spec_userstatus,
+                                                    'labels': labels})
 
 
 def userstatus_save(request):
     Userstatus(id=request.POST.get('userstatus_id'),
-                 name=request.POST.get('userstatus_name'),
-                 description=request.POST.get('userstatus_description'),
-                 label=request.POST.get('userstatus_label')).save()
+               name=request.POST.get('userstatus_name'),
+               description=request.POST.get('userstatus_description'),
+               label=Label.objects.get(id=request.POST.get('userstatus_label'))).save()
     userstatuses = Userstatus.objects.all()
     return render(request, 'hr/status/body.html', {'userstatuses': userstatuses,
                                                    'success': 1})

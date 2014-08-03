@@ -29,77 +29,25 @@
 
                 </div>
                 <div class="form-group">
-
-                    <label>颜色：</label>
-
+                    <label>标签：</label>
+                    <br/>
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="radio">
-                                <label>
-                                    {% if spec_type.label == 'label-default' %}
-                                        <input type="radio" name="type_label" value="label-default" checked>
-                                    {% else %}
-                                        <input type="radio" name="type_label" value="label-default">
-                                    {% endif %}
-                                    <span class="label label-default">Default</span>
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    {% if spec_type.label == 'label-primary' %}
-                                        <input type="radio" name="type_label" value="label-primary" checked>
-                                    {% else %}
-                                        <input type="radio" name="type_label" value="label-primary">
-                                    {% endif %}
-                                    <span class="label label-primary">Primary</span>
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    {% if spec_type.label == 'label-success' %}
-                                        <input type="radio" name="type_label" value="label-success" checked>
-                                    {% else %}
-                                        <input type="radio" name="type_label" value="label-success">
-                                    {% endif %}
-                                    <span class="label label-success">Success</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="radio">
-                                <label>
-                                    {% if spec_type.label == 'label-info' %}
-                                        <input type="radio" name="type_label" value="label-info" checked>
-                                    {% else %}
-                                        <input type="radio" name="type_label" value="label-info">
-                                    {% endif %}
-                                    <span class="label label-info">Info</span>
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    {% if spec_type.label == 'label-warning' %}
-                                        <input type="radio" name="type_label" value="label-warning" checked>
-                                    {% else %}
-                                        <input type="radio" name="type_label" value="label-warning">
-                                    {% endif %}
-                                    <span class="label label-warning">Warning</span>
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    {% if spec_type.label == 'label-danger' %}
-                                        <input type="radio" name="type_label" value="label-danger" checked>
-                                    {% else %}
-                                        <input type="radio" name="type_label" value="label-danger">
-                                    {% endif %}
-                                    <span class="label label-danger">Danger</span>
-                                </label>
-                            </div>
+                        <div class="col-lg-11">
+                            {% for label in labels %}
+                                {% if spec_type.label == label %}
+                                    <label>
+                                        <input type="radio" name="type_label" value="{{ label.id }}">
+                                        <span class="label {{ label.css }}">{{ label.name }}</span>
+                                    </label>
+                                {% else %}
+                                    <label>
+                                        <input type="radio" name="type_label" value="{{ label.id }}">
+                                        <span class="label {{ label.css }}">{{ label.name }}</span>
+                                    </label>
+                                {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
-
-
                 </div>
             </div>
             <div class="modal-footer">
