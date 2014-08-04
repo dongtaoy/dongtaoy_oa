@@ -43,7 +43,8 @@ INSTALLED_APPS = (
     'crm',
     'masterdata',
     'public',
-    'south'
+    'south',
+    'bootstrapform'
 
 )
 

@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.forms import ModelForm
 
 class Asset(models.Model):
     brand = models.CharField(max_length=50, blank=True, null=True)
@@ -11,7 +11,14 @@ class Asset(models.Model):
     usage = models.BooleanField(blank=True, default=True)
 
 
+
 class AssetCategory(models.Model):
     name = models.CharField(max_length=45)
     description = models.CharField(max_length=100, blank=True)
     label = models.CharField(max_length=100, blank=True)
+
+
+class AssetCategoryForm(ModelForm):
+    class Meta:
+        model = AssetCategory
+        fields = '__all__'

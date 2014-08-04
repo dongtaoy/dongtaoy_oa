@@ -7,6 +7,7 @@ urlpatterns = patterns(
     # url(r'^blog/', include('blog.urls')),
 
     # announcement url
-    url(r'^publish/', 'public.announcement.views.announcement_publish'),
+    url(r'^publish/', 'public.announcement.views.announcement_publish_index'),
+    url(r'^ajax/save/', 'public.announcement.views.announcement_save')
 
 )
