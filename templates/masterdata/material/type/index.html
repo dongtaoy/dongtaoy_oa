@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block extensions %}
+    <!-- validator -->
+    <link href="{% static 'css/bootstrap-validator/bootstrapValidator.min.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- validator -->
+    <script src="{% static 'js/plugins/bootstrap-validator/bootstrapValidator.min.js' %}"></script>
+    <!-- Bootstrap modal -->
+    <link href="{% static 'css/bootstrap-modal/bootstrap-modal.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- bootstrap modal -->
+    <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modal.js' %}"></script>
+    <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modalmanager.js' %}"></script>
+    <!-- Jquery form -->
+    <script src="{% static 'js/plugins/jquery.form/jquery.form.js' %}"></script>
+{% endblock %}
+{% block content %}
+    <section class="content-header">
+        <h1>
+            资料管理
+            <!--<small>Control panel</small>-->
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>资料管理</a></li>
+            <li class="active">资料类型管理</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        {% include 'masterdata/material/type/body.html' %}
+
+    </section><!-- /.content -->
+    <div class="modal fade" id="type_detail" data-backdrop="static" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        {% include 'masterdata/material/type/modal.html' %}
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        function loadmodal(id) {
+            $('body').modalmanager('loading');
+            setTimeout(function () {
+                $('#type_detail').load('/masterdata/material/type/ajax/detail/' + '?type_id=' + id, function () {
+                    $('#type_detail').modal();
+                });
+            }, 1000);
+        }
+
+        function del(type_id) {
+            $.ajax({
+                url: '/masterdata/material/type/ajax/delete/',
+                type: 'POST',
+                data: {type_id: type_id},
+                success: function (response) {
+                    $('#type_detail').modal('hide');
+                    $('.content').html(response);
+                }
+            })
+        }
+    </script>
+{% endblock %}

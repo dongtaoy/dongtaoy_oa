@@ -8,12 +8,9 @@ urlpatterns = patterns('',
                        # url(r'^$','dongtaoy_oa.crm.views.customer_index'),
                        #url(r'^$', 'crm.customer.views.customer_index'),
 
-                       #include
-                       url(r'^type/', include('crm.customer.type.urls')),
 
-                       #views
-                       url(r'^$', 'crm.customer.views.customer_index'),
-                       url(r'^ajax/detail/', 'crm.customer.views.customer_detail'),
-                       url(r'^ajax/save/', 'crm.customer.views.customer_save'),
-                       url(r'^ajax/delete/', 'crm.customer.views.customer_delete')
+                       url(r'^$', 'masterdata.material.type.views.type_index'),
+                       url(r'^ajax/detail/', 'masterdata.material.type.views.type_detail'),
+                       url(r'^ajax/save/', 'masterdata.material.type.views.type_save'),
+                       url(r'^ajax/delete/', 'masterdata.material.type.views.type_delete')
 )
