@@ -22,15 +22,15 @@ class User(models.Model):
     groups = models.ManyToManyField('hr.Group', blank=True, null=True)
 
 
-
 class Group(models.Model):
     name = models.CharField(max_length=50, blank=True)
     description = models.CharField(max_length=100, blank=True)
     permissions = models.ManyToManyField('system.Permission', blank=True, null=True)
     leader = models.ForeignKey('hr.User', blank=True, null=True, default=None)
-    label = models.CharField(max_length=20, blank=True, null=True)
+    label = models.ForeignKey('system.Label', blank=True, null=True, default=None, on_delete=models.SET_NULL)
+
 
 class Userstatus(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
-    label = models.CharField(max_length=45)
+    label = models.ForeignKey('system.Label', blank=True, null=True, default=None, on_delete=models.SET_NULL)
