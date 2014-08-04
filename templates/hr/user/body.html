@@ -13,6 +13,7 @@
         <th>E-mail</th>
         <th>职位</th>
         <th>入职时间</th>
+        <th>隶属于</th>
         <th>状态</th>
     </tr>
     </thead>
@@ -25,6 +26,11 @@
             <td>{{ user.email }}</td>
             <td>{{ user.position }}</td>
             <td>{{ user.regtime | date:"Y-m-d"  }}</td>
+            <td>
+                {% for group in user.groups.all %}
+                    <span class="label {{ group.label.css }}">{{ group.name }}</span>
+                {% endfor %}
+            </td>
             <td>
                 <span class="label {{ user.status.label.css }}">{{ user.status.name }}</span>
             </td>
