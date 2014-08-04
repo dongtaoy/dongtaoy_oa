@@ -27,19 +27,20 @@ def material_detail(request):
 
 
 def material_save(request):
-    if request.POST.get('material_id'):
-        material = Material(id=request.POST.get('material_id'),
-                            name=request.POST.get('material_name'),
-                            description=request.POST.get('material_description'),
-                            type=MaterialType.objects.get(id=request.POST.get('material_type')))
-    else:
-        material = Material(name=request.POST.get('material_name'),
-                            regtime=time.strftime('%Y-%m-%d'),
-                            description=request.POST.get('material_description'),
-                            user=User.objects.get(id=request.session.get('user_id')),
-                            type=MaterialType.objects.get(id=request.POST.get('material_type')))
     with transaction.atomic():
-        material.save()
+        if request.POST.get('material_id'):
+            material = Material(id=request.POST.get('material_id'),
+                                name=request.POST.get('material_name'),
+                                description=request.POST.get('material_description'),
+                                type=MaterialType.objects.get(id=request.POST.get('material_type')))
+            material.save(update_fields=['name', 'description', 'type'])
+        else:
+            material = Material(name=request.POST.get('material_name'),
+                                regtime=time.strftime('%Y-%m-%d'),
+                                description=request.POST.get('material_description'),
+                                user=User.objects.get(id=request.session.get('user_id')),
+                                type=MaterialType.objects.get(id=request.POST.get('material_type')))
+            material.save()
         material.groups.clear()
         material.groups = Group.objects.filter(id__in=request.POST.getlist('material_groups'))
     return render_body(request)

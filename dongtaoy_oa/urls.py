@@ -1,12 +1,9 @@
 from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
-
 admin.autodiscover()
 
-urlpatterns = patterns(
-
-    '',
+urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'dongtaoy_oa.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
@@ -22,6 +19,8 @@ urlpatterns = patterns(
     url(r'^crm/', include('crm.urls')),
     url(r'^administration/', include('administration.urls')),
     url(r'^masterdata/', include('masterdata.urls')),
+    url(r'^public/', include('public.urls')),
     url(r'^test/', 'dongtaoy_oa.views.test'),
+
     url(r'^admin/', include(admin.site.urls)),
 )
