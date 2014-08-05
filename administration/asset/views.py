@@ -3,7 +3,7 @@ from django.shortcuts import render
 from dongtaoy_oa.views import common_context
 from django.db import transaction
 from administration.models import Asset, AssetCategory, AssetForm
-from hr.models import Group
+from hr.models import Department
 import time
 
 
@@ -20,7 +20,7 @@ def asset_detail(request):
         spec_asset = None
     form = AssetForm(instance=spec_asset)
     categories = AssetCategory.objects.all()
-    groups = Group.objects.all()
+    groups = Department.objects.all()
     return render(request, 'administration/asset/modal.html', {'form': form,
                                                                'spec_asset': spec_asset,
                                                                'categories': categories,

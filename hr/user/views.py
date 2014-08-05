@@ -1,4 +1,4 @@
-from hr.models import Employee, Group, Userstatus
+from hr.models import Employee, Department, UserStatus
 from django.shortcuts import render
 from django.template import RequestContext
 from django.http import HttpResponse
@@ -11,7 +11,7 @@ from hashlib import md5
 # user index
 def user_index(request):
     users = Employee.objects.all()
-    groups = Group.objects.all()
+    groups = Department.objects.all()
     return render(request, 'hr/user/index.html', {'users': users,
                                                   'groups': groups},
                   context_instance=RequestContext(request, processors=[common_context]))
@@ -26,8 +26,8 @@ def user_detail(request):
         spec_user = None
         user_group = None
     users = Employee.objects.all()
-    groups = Group.objects.all()
-    user_statuses = Userstatus.objects.all()
+    groups = Department.objects.all()
+    user_statuses = UserStatus.objects.all()
     return render(request, 'hr/user/modal.html', {'spec_user': spec_user,
                                                   'users': users,
                                                   'groups': groups,
@@ -50,7 +50,7 @@ def user_save(request):
                                                                    identifier=request.POST.get('user_identifier'),
                                                                    position=request.POST.get('user_position'),
                                                                    address=request.POST.get('user_address'),
-                                                                   status=Userstatus.objects.get(
+                                                                   status=UserStatus.objects.get(
                                                                        id=request.POST.get('user_status')))
         user = Employee.objects.get(id=request.POST.get('user_id'))
     else:
@@ -66,12 +66,12 @@ def user_save(request):
                             identifier=request.POST.get('user_identifier'),
                             position=request.POST.get('user_position'),
                             address=request.POST.get('user_address'),
-                            status=Userstatus.objects.get(id=request.POST.get('user_status')),
+                            status=UserStatus.objects.get(id=request.POST.get('user_status')),
                             username=request.POST.get('user_username'),
                             password=md5(request.POST.get('user_password') + salt).hexdigest(),
                             salt=salt)
         user = Employee.objects.get(username=request.POST.get('user_username'))
-    user_groups = Group.objects.filter(id__in=request.POST.getlist('user_groups'))
+    user_groups = Department.objects.filter(id__in=request.POST.getlist('user_groups'))
     with transaction.atomic():
         user.groups = user_groups
     return render_body(request)

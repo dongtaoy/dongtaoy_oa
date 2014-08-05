@@ -1,3 +1,5 @@
+
+{% load  bootstrap3%}
 <div class="modal-dialog">
     <div class="modal-content">
         <form id="permission_form" action="/system/permission/save/" method="POST">
@@ -11,6 +13,8 @@
             </div>
 
             <div class="modal-body">
+            {% bootstrap_form form %}
+            <!--
                 <div class="form-group">
                     <label>名字:</label>
                     <input value="{{ spec_permission.name }}" type="text" name="permission_name"
@@ -42,7 +46,7 @@
                            class="form-control"
                            placeholder="eg: 1" pattern="\d{1,2}" title="请输入纯数字！">
 
-                </div>
+                </div>-->
             </div>
             <div class="modal-footer">
                 {% if spec_permission %}
@@ -61,6 +65,7 @@
     </div>
 </div>
 <script>
+    $('select').select2();
     $('#permission_form').submit(function (){
         $(this).ajaxSubmit({
             success: function (response){

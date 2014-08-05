@@ -7,7 +7,7 @@ class Material(models.Model):
     regtime = models.DateField(blank=True, null=True)
     type = models.ForeignKey('masterdata.MaterialType', blank=True, null=True, on_delete=models.SET_NULL)
     user = models.ForeignKey('hr.Employee', blank=True, null=True, on_delete=models.SET_NULL)
-    groups = models.ManyToManyField('hr.Group', blank=True, null=True)
+    groups = models.ManyToManyField('hr.Department', blank=True, null=True)
 
 
 class MaterialType(models.Model):

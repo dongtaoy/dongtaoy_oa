@@ -3,7 +3,7 @@ from django.shortcuts import render
 from dongtaoy_oa.views import common_context
 from django.db import transaction
 from masterdata.models import Material, MaterialType
-from hr.models import Group, Employee
+from hr.models import Department, Employee
 import time
 from django.http import HttpResponse
 
@@ -16,7 +16,7 @@ def material_index(request):
 
 def material_detail(request):
     types = MaterialType.objects.all()
-    groups = Group.objects.all()
+    groups = Department.objects.all()
     try:
         spec_material = Material.objects.get(id=request.GET.get('material_id'))
     except:
@@ -42,7 +42,7 @@ def material_save(request):
                                 type=MaterialType.objects.get(id=request.POST.get('material_type')))
             material.save()
         material.groups.clear()
-        material.groups = Group.objects.filter(id__in=request.POST.getlist('material_groups'))
+        material.groups = Department.objects.filter(id__in=request.POST.getlist('material_groups'))
     return render_body(request)
 
 

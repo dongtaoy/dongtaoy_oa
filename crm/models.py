@@ -7,7 +7,7 @@ class Customer(models.Model):
     email = models.CharField(max_length=50, blank=True)
     fax = models.IntegerField(blank=True, null=True)
     type = models.ForeignKey('crm.CustomerType', blank=True, null=True, on_delete=models.SET_NULL)
-    groups = models.ManyToManyField('hr.Group', blank=True, null=True)
+    groups = models.ManyToManyField('hr.Department', blank=True, null=True)
 
 
 class CustomerType(models.Model):

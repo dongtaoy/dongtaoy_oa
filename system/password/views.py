@@ -1,9 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
-from dongtaoy_oa.views import common_context, check_password
-from hr.models import Employee
-from hashlib import md5
+from dongtaoy_oa.views import common_context
 
 
 def password_index(request):
@@ -12,14 +10,11 @@ def password_index(request):
 
 
 def password_mod(request):
-    user = Employee.objects.get(id=request.session.get('user_id'))
-    user.password = md5(request.POST.get('new_password')+user.salt).hexdigest()
-    user.save()
+    request.user.set_password(request.POST.get('new_password'))
     return render(request, 'system/password/body.html', {'success': True})
 
 
 def old_password_check(request):
-    user = Employee.objects.get(id=request.session.get('user_id'))
-    if check_password(user.password, request.POST.get('old_password'), user.salt):
+    if request.user.check_password(request.POST.get('old_password')):
         return HttpResponse('{"valid": true}')
     return HttpResponse('{"valid": false}')

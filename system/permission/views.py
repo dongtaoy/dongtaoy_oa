@@ -1,14 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.db import transaction, models
-from system.models import Permission
+from system.models import Sidebar, SidebarForm
 from dongtaoy_oa.views import permission_tree, common_context
 from django.template import RequestContext
-from django.http import HttpResponse
 
 
 # permission index
 def permission_index(request):
-    all_permissions = Permission.objects.all()
+    all_permissions = Sidebar.objects.all()
     return render(request, 'system/permission/index.html', {'success': request.GET.get('success'),
                                                             'permissions': permission_tree(all_permissions)},
                   context_instance=RequestContext(request, processors=[common_context]))
@@ -17,30 +16,37 @@ def permission_index(request):
 # permission detail
 def permission_detail(request):
     try:
-        spec_permission = Permission.objects.get(id=request.GET.get('permission_id'))
+        spec_permission = Sidebar.objects.get(id=request.GET.get('permission_id'))
     except:
         spec_permission = None
-    all_permissions = Permission.objects.all()
+    form = SidebarForm(instance=spec_permission)
+    all_permissions = Sidebar.objects.all()
     return render(request, 'system/permission/modal.html', {"spec_permission": spec_permission,
-                                                            "permissions": permission_tree(all_permissions)})
+                                                            "permissions": permission_tree(all_permissions),
+                                                            "form": form})
 
 
 # save permission
 def permission_mod(request):
-    parent = Permission.objects.get(id=request.POST.get('permission_parent')) \
-        if request.POST.get('permission_parent') != 'NULL' else None
-    if not request.POST.get('permission_order'):
-        try:
-            order = Permission.objects.filter(parent=parent).aggregate(models.Max('order'))['order__max'] + 1
-        except Exception, e:
-            print e
-            order = 1
+    # parent = Sidebar.objects.get(id=request.POST.get('permission_parent')) \
+    #     if request.POST.get('permission_parent') != 'NULL' else None
+    # if not request.POST.get('permission_order'):
+    #     try:
+    #         order = Sidebar.objects.filter(parent=parent).aggregate(models.Max('order'))['order__max'] + 1
+    #     except Exception, e:
+    #         print e
+    #         order = 1
+    # else:
+    #     order = request.POST.get('permission_order')
+
+    if request.POST.get("permission_id"):
+        SidebarForm(request.POST, instance=Sidebar.objects.get(id=request.POST.get("permission_id"))).save()
     else:
-        order = request.POST.get('permission_order')
-    with transaction.atomic():
-        Permission(id=request.POST.get("permission_id"), url=request.POST.get("permission_url"),
-                     name=request.POST.get("permission_name"), parent=parent, order=order).save()
-    all_permissions = Permission.objects.all()
+        SidebarForm(request.POST).save()
+    # with transaction.atomic():
+    #     Sidebar(id=request.POST.get("permission_id"), url=request.POST.get("permission_url"),
+    #                  name=request.POST.get("permission_name"), parent=parent, order=order).save()
+    all_permissions = Sidebar.objects.all()
     return render(request, 'system/permission/body.html', {"permissions": permission_tree(all_permissions),
                                                            "success": 1})
 
@@ -48,7 +54,7 @@ def permission_mod(request):
 # delete permission
 def permission_delete(request):
     with transaction.atomic():
-        Permission.objects.get(id=request.POST.get("permission_id")).delete()
-    all_permissions = Permission.objects.all()
+        Sidebar.objects.get(id=request.POST.get("permission_id")).delete()
+    all_permissions = Sidebar.objects.all()
     return render(request, 'system/permission/body.html', {"permissions": permission_tree(all_permissions),
                                                            "success": 1})

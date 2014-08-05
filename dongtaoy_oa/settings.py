@@ -44,7 +44,8 @@ INSTALLED_APPS = (
     'masterdata',
     'public',
     'south',
-    'bootstrap3'
+    'bootstrap3',
+    'guardian',
 
 )
 
@@ -55,8 +56,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'guardian.backends.ObjectPermissionBackend',
     #'dongtaoy_oa.middleware.AuthenticationMiddleware'
 )
+
+ANONYMOUS_USER_ID = -1
 
 ROOT_URLCONF = 'dongtaoy_oa.urls'
 
@@ -69,7 +73,7 @@ WSGI_APPLICATION = 'dongtaoy_oa.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'oa',
+        'NAME': 'office_automation',
         'USER': 'root',
         'PASSWORD': 'yudanny1',
         'HOST': '10.10.10.5',

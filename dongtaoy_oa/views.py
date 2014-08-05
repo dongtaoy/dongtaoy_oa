@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from hr.models import Employee
-from system.models import Permission
+from system.models import Sidebar
 from django.template import RequestContext
 from collections import defaultdict
-from hashlib import md5
+from django.contrib import auth
+from django.contrib.auth.models import Permission
 
 
 def index(request):
@@ -14,23 +14,16 @@ def index(request):
 def login(request):
     if request.method == 'GET':
         return render(request, 'login.html', {'login_fail': 0})
-    try:
-        user = Employee.objects.get(username=request.POST.get('username'))
-        if check_password(user.password, request.POST.get('password'), user.salt):
-            request.session['user_id'] = user.id
-            request.session['real_name'] = user.realname
-            request.session['username'] = user.username
-            return redirect('/')
-        else:
-            return render(request, 'login.html', {'login_fail': 1})
-    except Exception, ex:
+    user = auth.authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
+    if user is not None and user.is_active:
+        auth.login(request, user)
+        return redirect('/')
+    else:
         return render(request, 'login.html', {'login_fail': 1})
 
 
 def logout(request):
-    del request.session['user_id']
-    del request.session['real_name']
-    del request.session['username']
+    auth.logout(request)
     return redirect('/login/')
 
 
@@ -44,25 +37,8 @@ def dashboard(request):
                   context_instance=RequestContext(request, processors=[common_context]))
 
 
-def check_password(encrypted, password, salt):
-    return encrypted == md5(password+salt).hexdigest()
-
-
-def login_status(request):
-    try:
-        return request.session['user_id']
-    except Exception, e:
-        return None
-
-
 def side_bar(request):
-    return get_all_permissions(request)
-
-
-def get_all_permissions(request):
-    groups = Employee.objects.get(id=request.session.get('user_id')).groups.all()
-    permissions = Permission.objects.filter(group__in=groups)
-    return permission_tree(permissions)
+    return permission_tree(Sidebar.objects.all())
 
 
 def permission_tree(permissions):

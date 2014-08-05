@@ -4,7 +4,7 @@ from dongtaoy_oa.views import common_context
 from django.db import transaction
 from system.models import Label
 from masterdata.models import Material,MaterialType
-from hr.models import Group
+from hr.models import Department
 from django.http import HttpResponse
 
 

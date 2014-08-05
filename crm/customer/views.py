@@ -4,7 +4,7 @@ from dongtaoy_oa.views import common_context
 from django.db import transaction
 from crm.models import Customer
 from crm.models import CustomerType
-from hr.models import Group
+from hr.models import Department
 from django.http import HttpResponse
 
 
@@ -16,7 +16,7 @@ def customer_index(request):
 
 def customer_detail(request):
     types = CustomerType.objects.all()
-    groups = Group.objects.all()
+    groups = Department.objects.all()
     try:
         spec_customer = Customer.objects.get(id=request.GET.get('customer_id'))
     except:
@@ -37,7 +37,7 @@ def customer_save(request):
     with transaction.atomic():
         customer.save()
         customer.groups.clear()
-        customer.groups = Group.objects.filter(id__in=request.POST.getlist('customer_groups'))
+        customer.groups = Department.objects.filter(id__in=request.POST.getlist('customer_groups'))
     customers = Customer.objects.all()
     return render_body(request)
 

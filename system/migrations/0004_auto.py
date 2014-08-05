@@ -8,18 +8,19 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Label'
-        db.create_table(u'system_label', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length='50', null=True, blank=True)),
-            ('css', self.gf('django.db.models.fields.CharField')(max_length='50', null=True, blank=True)),
-        ))
-        db.send_create_signal(u'system', ['Label'])
+        # Removing M2M table for field permissions on 'Sidebar'
+        db.delete_table(db.shorten_name(u'system_sidebar_permissions'))
 
 
     def backwards(self, orm):
-        # Deleting model 'Label'
-        db.delete_table(u'system_label')
+        # Adding M2M table for field permissions on 'Sidebar'
+        m2m_table_name = db.shorten_name(u'system_sidebar_permissions')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('sidebar', models.ForeignKey(orm[u'system.sidebar'], null=False)),
+            ('permission', models.ForeignKey(orm[u'auth.permission'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['sidebar_id', 'permission_id'])
 
 
     models = {
@@ -29,12 +30,12 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': "'50'", 'null': 'True', 'blank': 'True'})
         },
-        u'system.permission': {
-            'Meta': {'object_name': 'Permission'},
+        u'system.sidebar': {
+            'Meta': {'object_name': 'Sidebar'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '45', 'blank': 'True'}),
             'order': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'parent': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['system.Permission']", 'null': 'True', 'blank': 'True'}),
+            'parent': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['system.Sidebar']", 'null': 'True', 'blank': 'True'}),
             'url': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'})
         }
     }

@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block extensions %}
-<!-- Bootstrap modal -->
+    <!-- Bootstrap modal -->
     <link href="{% static 'css/bootstrap-modal/bootstrap-modal.css' %}" rel="stylesheet" type="text/css"/>
     <!-- bootstrap modal -->
     <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modal.js' %}"></script>
     <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modalmanager.js' %}"></script>
     <!-- jquery form -->
+
     <script src="{% static 'js/plugins/jquery.form/jquery.form.js' %}"></script>
+    <!-- select2 -->
+    <link href="{% static 'css/bootstrap-select2/select2.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/bootstrap-select2/select2-bootstrap.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- select 2 -->
+    <script src="{% static 'js/plugins/bootstrap-select2/bootstrap-select2.js' %}"></script>
 {% endblock %}
 {% block content %}
 
@@ -49,7 +55,6 @@
     <!-- Modal -->
     <div class="modal fade" id="permission_detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
-        {% include 'system/permission/modal.html' %}
     </div>
 {% endblock %}
 {% block js %}

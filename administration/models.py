@@ -14,7 +14,7 @@ class Asset(models.Model):
     description = models.TextField(max_length=100, blank=True, null=True)
     regtime = models.DateField()
     categories = models.ManyToManyField('administration.AssetCategory')
-    group = models.ForeignKey('hr.Group', blank=True, null=True, on_delete=models.SET_NULL)
+    group = models.ForeignKey('hr.Department', blank=True, null=True, on_delete=models.SET_NULL)
     usage = models.CharField(max_length=1, choices=USAGE_CHOICE)
 
 
