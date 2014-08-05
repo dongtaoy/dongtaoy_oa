@@ -40,7 +40,7 @@
                             <td>{{ asset.regtime | date:"Y-m-d" }}</td>
                             <td>
                                 {% for category in asset.categories.all %}
-                                     <span class="label {{ category.label }}">{{ category.name }}</span>
+                                     <span class="label {{ category.label.css }}">{{ category.name }}</span>
                                 {% endfor %}
                             </td>
                             <td>

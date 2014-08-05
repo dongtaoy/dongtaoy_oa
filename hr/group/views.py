@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.template import RequestContext
 from django.db import transaction
-from hr.models import Group, User
+from hr.models import Group, Employee
 from system.models import Label
 from dongtaoy_oa.views import common_context
 
@@ -13,7 +13,7 @@ def group_index(request):
 
 
 def group_detail(request):
-    users = User.objects.all()
+    users = Employee.objects.all()
     labels = Label.objects.all()
     try:
         spec_group = Group.objects.get(id=request.GET.get('group_id'))
@@ -28,7 +28,7 @@ def group_mod(request):
     with transaction.atomic():
         Group(id=request.POST.get('group_id'),
               name=request.POST.get('group_name'),
-              leader=User.objects.get(id=request.POST.get('group_leader')),
+              leader=Employee.objects.get(id=request.POST.get('group_leader')),
               description=request.POST.get('group_description'),
               label=Label.objects.get(id=request.POST.get('group_label'))).save()
     groups = Group.objects.all()

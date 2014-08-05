@@ -1,6 +1,7 @@
 from django.db import models
+from django.contrib import admin
 
-class User(models.Model):
+class Employee(models.Model):
     username = models.CharField(unique=True, max_length=45)
     password = models.CharField(max_length=45)
     realname = models.CharField(max_length=45, blank=True)
@@ -20,17 +21,28 @@ class User(models.Model):
     salt = models.CharField(max_length=4, blank=True)
     status = models.ForeignKey('hr.Userstatus', blank=True, null=True, on_delete=models.SET_NULL)
     groups = models.ManyToManyField('hr.Group', blank=True, null=True)
+    user = models.OneToOneField('auth.User')
+
+    def __unicode__(self):
+        return self.realname
 
 
 class Group(models.Model):
     name = models.CharField(max_length=50, blank=True)
     description = models.CharField(max_length=100, blank=True)
     permissions = models.ManyToManyField('system.Permission', blank=True, null=True)
-    leader = models.ForeignKey('hr.User', blank=True, null=True, default=None)
+    leader = models.ForeignKey('hr.Employee', blank=True, null=True, default=None)
     label = models.ForeignKey('system.Label', blank=True, null=True, default=None, on_delete=models.SET_NULL)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Userstatus(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
     label = models.ForeignKey('system.Label', blank=True, null=True, default=None, on_delete=models.SET_NULL)
+
+
+admin.site.register(Employee)
+admin.site.register(Group)

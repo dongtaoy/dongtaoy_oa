@@ -55,7 +55,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'dongtaoy_oa.middleware.AuthenticationMiddleware'
+    #'dongtaoy_oa.middleware.AuthenticationMiddleware'
 )
 
 ROOT_URLCONF = 'dongtaoy_oa.urls'

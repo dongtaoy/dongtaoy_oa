@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from hr.models import User
+from hr.models import Employee
 from system.models import Permission
 from django.template import RequestContext
 from collections import defaultdict
@@ -15,7 +15,7 @@ def login(request):
     if request.method == 'GET':
         return render(request, 'login.html', {'login_fail': 0})
     try:
-        user = User.objects.get(username=request.POST.get('username'))
+        user = Employee.objects.get(username=request.POST.get('username'))
         if check_password(user.password, request.POST.get('password'), user.salt):
             request.session['user_id'] = user.id
             request.session['real_name'] = user.realname
@@ -60,7 +60,7 @@ def side_bar(request):
 
 
 def get_all_permissions(request):
-    groups = User.objects.get(id=request.session.get('user_id')).groups.all()
+    groups = Employee.objects.get(id=request.session.get('user_id')).groups.all()
     permissions = Permission.objects.filter(group__in=groups)
     return permission_tree(permissions)
 

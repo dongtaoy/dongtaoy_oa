@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.template import RequestContext
 from dongtaoy_oa.views import common_context
 from administration.models import AssetCategory, AssetCategoryForm
+from system.models import Label
 
 
 def category_index(request):
@@ -17,8 +18,10 @@ def category_detail(request):
     except:
         spec_category = None
     form = AssetCategoryForm(instance=spec_category)
-    return render(request, 'administration/asset/category/modal.html', {'spec_category': spec_category,
-                                                                        'form': form})
+    labels = Label.objects.all()
+    return render(request, 'administration/asset/category/modal.html', {'form': form,
+                                                                        'spec_category': spec_category,
+                                                                        'labels': labels})
 
 
 def category_save(request):

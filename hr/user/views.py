@@ -1,4 +1,4 @@
-from hr.models import User, Group, Userstatus
+from hr.models import Employee, Group, Userstatus
 from django.shortcuts import render
 from django.template import RequestContext
 from django.http import HttpResponse
@@ -10,7 +10,7 @@ from hashlib import md5
 
 # user index
 def user_index(request):
-    users = User.objects.all()
+    users = Employee.objects.all()
     groups = Group.objects.all()
     return render(request, 'hr/user/index.html', {'users': users,
                                                   'groups': groups},
@@ -20,12 +20,12 @@ def user_index(request):
 # user detail
 def user_detail(request):
     try:
-        spec_user = User.objects.get(id=request.GET.get('user_id'))
+        spec_user = Employee.objects.get(id=request.GET.get('user_id'))
         user_group = spec_user.groups.all()
     except Exception, e:
         spec_user = None
         user_group = None
-    users = User.objects.all()
+    users = Employee.objects.all()
     groups = Group.objects.all()
     user_statuses = Userstatus.objects.all()
     return render(request, 'hr/user/modal.html', {'spec_user': spec_user,
@@ -38,7 +38,7 @@ def user_detail(request):
 # save user detail
 def user_save(request):
     if request.POST.get('user_id'):
-        User.objects.filter(id=request.POST.get('user_id')).update(realname=request.POST.get('user_realname'),
+        Employee.objects.filter(id=request.POST.get('user_id')).update(realname=request.POST.get('user_realname'),
                                                                    sex=request.POST.get('user_sex'),
                                                                    regtime=request.POST.get('user_regtime').replace('_',
                                                                                                                     ''),
@@ -52,10 +52,10 @@ def user_save(request):
                                                                    address=request.POST.get('user_address'),
                                                                    status=Userstatus.objects.get(
                                                                        id=request.POST.get('user_status')))
-        user = User.objects.get(id=request.POST.get('user_id'))
+        user = Employee.objects.get(id=request.POST.get('user_id'))
     else:
         salt = generate_salt()
-        User.objects.create(realname=request.POST.get('user_realname'),
+        Employee.objects.create(realname=request.POST.get('user_realname'),
                             sex=request.POST.get('user_sex'),
                             regtime=request.POST.get('user_regtime').replace('_', ''),
                             email=request.POST.get('user_email'),
@@ -70,7 +70,7 @@ def user_save(request):
                             username=request.POST.get('user_username'),
                             password=md5(request.POST.get('user_password') + salt).hexdigest(),
                             salt=salt)
-        user = User.objects.get(username=request.POST.get('user_username'))
+        user = Employee.objects.get(username=request.POST.get('user_username'))
     user_groups = Group.objects.filter(id__in=request.POST.getlist('user_groups'))
     with transaction.atomic():
         user.groups = user_groups
@@ -79,14 +79,14 @@ def user_save(request):
 
 # delete user
 def user_delete(request):
-    User.objects.get(id=request.POST.get('user_id')).delete()
+    Employee.objects.get(id=request.POST.get('user_id')).delete()
     return render_body(request)
 
 
 # check username existence
 def user_check(request):
     try:
-        User.objects.get(username=request.POST.get('user_username'))
+        Employee.objects.get(username=request.POST.get('user_username'))
         return HttpResponse('{"valid": false}')
     except Exception, e:
         return HttpResponse('{"valid": true}')
@@ -94,7 +94,7 @@ def user_check(request):
 
 # render user body
 def render_body(request):
-    users = User.objects.all()
+    users = Employee.objects.all()
     return render(request, 'hr/user/body.html', {"users": users,
                                                  "success": True})
 

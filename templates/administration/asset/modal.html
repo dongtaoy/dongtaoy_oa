@@ -1,3 +1,4 @@
+{% load bootstrap3 %}
 <div class="modal-dialog">
     <div class="modal-content">
         <form id="asset_form" action="/administration/asset/ajax/save/" method="POST"
@@ -17,6 +18,8 @@
             </div>
 
             <div class="modal-body">
+                {% bootstrap_form form %}
+            <!--
                 <div class="form-group">
                     <label>品牌：</label>
                     <input class="form-control" type="text" value="{{ spec_asset.brand }}" name="asset_brand"
@@ -72,7 +75,7 @@
                             <option value="0" selected="selected">闲置</option>
                         {% endif %}
                     </select>
-                </div>
+                </div>-->
             </div>
             <div class="modal-footer">
                 {% if spec_asset %}
@@ -88,8 +91,8 @@
 </div>
 <script>
     $(document).ready(function () {
-        $('select[name=asset_group]').select2();
-        $('select[name=asset_categories]').select2();
+        $('select[name=group]').select2();
+        $('select[name=categories]').select2();
         $('#asset_form').bootstrapValidator({
             submitHandler: function () {
                 $('#asset_form').ajaxSubmit({

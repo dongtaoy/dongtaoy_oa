@@ -3,7 +3,7 @@ from django.shortcuts import render
 from dongtaoy_oa.views import common_context
 from django.db import transaction
 from masterdata.models import Material, MaterialType
-from hr.models import Group, User
+from hr.models import Group, Employee
 import time
 from django.http import HttpResponse
 
@@ -38,7 +38,7 @@ def material_save(request):
             material = Material(name=request.POST.get('material_name'),
                                 regtime=time.strftime('%Y-%m-%d'),
                                 description=request.POST.get('material_description'),
-                                user=User.objects.get(id=request.session.get('user_id')),
+                                user=Employee.objects.get(id=request.session.get('user_id')),
                                 type=MaterialType.objects.get(id=request.POST.get('material_type')))
             material.save()
         material.groups.clear()

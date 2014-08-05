@@ -10,6 +10,7 @@
     <link href="{% static 'css/bootstrap-validator/bootstrapValidator.min.css' %}" rel="stylesheet" type="text/css"/>
     <!-- validator -->
     <script src="{% static 'js/plugins/bootstrap-validator/bootstrapValidator.min.js' %}"></script>
+    <script src="{% static 'js/plugins/bootstrap-validator/zh_CN.js' %}"></script>
     <!-- Bootstrap modal -->
     <link href="{% static 'css/bootstrap-modal/bootstrap-modal.css' %}" rel="stylesheet" type="text/css"/>
     <!-- bootstrap modal -->
@@ -42,7 +43,6 @@
     <div class="modal fade" id="asset_detail" data-backdrop="static" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel"
          aria-hidden="true">
-        {% include 'administration/asset/modal.html' %}
     </div>
 {% endblock %}
 {% block js %}
