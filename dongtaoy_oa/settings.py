@@ -44,7 +44,7 @@ INSTALLED_APPS = (
     'masterdata',
     'public',
     'south',
-    'bootstrapform'
+    'bootstrap3'
 
 )
 

@@ -1,4 +1,5 @@
 <!-- Modal -->
+{% load bootstrap3 %}
 <div class="modal-dialog">
     <div class="modal-content">
         <form id="category_form" action="/administration/asset/category/ajax/save/" method="POST"
@@ -16,6 +17,8 @@
                 <h4 class="modal-title">办公资产类型</h4>
             </div>
             <div class="modal-body">
+                {% bootstrap_form form %}
+                <!--
                 <div class="form-group">
                     <label>名字：</label>
                     <input class="form-control" type="text" value="{{ spec_category.name }}" name="name"
@@ -100,7 +103,7 @@
                     </div>
 
 
-                </div>
+                </div>-->
             </div>
             <div class="modal-footer">
                 {% if spec_category %}
@@ -120,15 +123,6 @@
 <script>
     $(document).ready(function () {
         $('#category_form').bootstrapValidator({
-            fields: {
-                label:{
-                    validators: {
-                        notEmpty: {
-                            message: '不能为空'
-                        }
-                    }
-                }
-            },
             submitHandler: function(){
                 $('#category_form').ajaxSubmit({
                     success: function(response){

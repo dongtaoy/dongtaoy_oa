@@ -13,9 +13,10 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('brand', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
             ('model', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('description', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
+            ('description', self.gf('django.db.models.fields.TextField')(max_length=100, null=True, blank=True)),
             ('regtime', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
             ('group', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['hr.Group'], null=True, on_delete=models.SET_NULL, blank=True)),
+            ('usage', self.gf('django.db.models.fields.BooleanField')(default=True)),
         ))
         db.send_create_signal(u'administration', ['Asset'])
 
@@ -32,8 +33,8 @@ class Migration(SchemaMigration):
         db.create_table(u'administration_assetcategory', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=45)),
-            ('description', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
-            ('label', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
+            ('description', self.gf('django.db.models.fields.TextField')(max_length=100, blank=True)),
+            ('label', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['system.Label'], null=True, on_delete=models.SET_NULL, blank=True)),
         ))
         db.send_create_signal(u'administration', ['AssetCategory'])
 
@@ -54,23 +55,25 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Asset'},
             'brand': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
             'categories': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['administration.AssetCategory']", 'null': 'True', 'blank': 'True'}),
-            'description': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'description': ('django.db.models.fields.TextField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'group': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['hr.Group']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'model': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
-            'regtime': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'})
+            'regtime': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
+            'usage': ('django.db.models.fields.BooleanField', [], {'default': 'True'})
         },
         u'administration.assetcategory': {
             'Meta': {'object_name': 'AssetCategory'},
-            'description': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'description': ('django.db.models.fields.TextField', [], {'max_length': '100', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'label': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'label': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['system.Label']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '45'})
         },
         u'hr.group': {
             'Meta': {'object_name': 'Group'},
             'description': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'label': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'to': u"orm['system.Label']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'}),
             'leader': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'to': u"orm['hr.User']", 'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50', 'blank': 'True'}),
             'permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['system.Permission']", 'null': 'True', 'blank': 'True'})
@@ -102,8 +105,14 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Userstatus'},
             'description': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'label': ('django.db.models.fields.CharField', [], {'max_length': '45'}),
+            'label': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'to': u"orm['system.Label']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
+        u'system.label': {
+            'Meta': {'object_name': 'Label'},
+            'css': ('django.db.models.fields.CharField', [], {'max_length': "'50'", 'null': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': "'50'", 'null': 'True', 'blank': 'True'})
         },
         u'system.permission': {
             'Meta': {'object_name': 'Permission'},
