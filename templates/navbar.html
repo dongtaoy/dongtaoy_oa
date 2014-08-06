@@ -1,6 +1,5 @@
 <ul class="sidebar-menu">
     {% for permission in sidebars %}
-        {% if permission.0.content.app_label in perms %}
             {% if not permission.1 %}
                 {% if path == permission.0.url %}
                     <li class="active">
@@ -28,7 +27,6 @@
             </a>
             <ul class="treeview-menu">
                 {% for subpermission in permission.1 %}
-                    {% if subpermission.content.app_label in perms %}
                         {% if path == subpermission.url %}
                             <li class="active">
                                 {% else %}
@@ -37,11 +35,9 @@
                     <a href="{{ subpermission.url }}"><i class="fa fa-angle-double-right"></i>{{ subpermission.name }}
                     </a>
                     </li>
-                    {% endif %}
                 {% endfor %}
             </ul>
             </li>
             {% endif %}
-        {% endif %}
     {% endfor %}
 </ul>
