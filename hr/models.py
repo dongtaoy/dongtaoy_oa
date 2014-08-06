@@ -1,6 +1,8 @@
 # coding=utf-8
 from django.db import models
 from django.contrib import admin
+from django.forms import ModelForm
+from system.models import Label
 
 SEX_CHOICE = (
     ('1', '男'),
@@ -13,8 +15,8 @@ class Employee(models.Model):
     sex = models.CharField(max_length=1, choices=SEX_CHOICE)
     email = models.CharField(max_length=100, blank=True)
     phone = models.CharField(max_length=45, blank=True)
-    salary = models.FloatField(blank=True, null=True)
-    description = models.CharField(max_length=100, blank=True)
+    salary = models.IntegerField(blank=True, null=True)
+    description = models.TextField(blank=True)
     position = models.CharField(max_length=45, blank=True)
     dob = models.DateField(blank=True, null=True)
     identifier = models.CharField(max_length=45, blank=True)
@@ -43,6 +45,25 @@ class UserStatus(models.Model):
 
     def __unicode__(self):
         return self.name
+
+
+class EmployeeForm(ModelForm):
+    class Meta:
+        model = Employee
+        exclude = ['user']
+        fields = '__all__'
+
+
+class DepartmentForm(ModelForm):
+    class Meta:
+        model = Department
+        fields = '__all__'
+
+
+class UserStatusForm(ModelForm):
+    class Meta:
+        model = Department
+        fields = '__all__'
 
 
 admin.site.register(Employee)

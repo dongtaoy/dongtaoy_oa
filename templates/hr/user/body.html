@@ -25,10 +25,10 @@
             <td>{{ user.phone }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.position }}</td>
-            <td>{{ user.regtime | date:"Y-m-d"  }}</td>
+            <td>{{ user.user.date_joined | date:"Y-m-d"  }}</td>
             <td>
-                {% for group in user.groups.all %}
-                    <span class="label {{ group.label.css }}">{{ group.name }}</span>
+                {% for group in user.user.groups.all %}
+                    <span class="label {{ group.department.label.css }}">{{ group.name }}</span>
                 {% endfor %}
             </td>
             <td>

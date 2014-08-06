@@ -5,6 +5,27 @@
         <b>修改成功！</b>
     </div>
 {% endif %}
+<!--
+<ol id='sidebar_tree' data-name='foo'>
+    {% for sidebar in permissions %}
+        <li class='expanded' data-value='{{ sidebar.0.id }}'>{{ sidebar.0.name }}{{ sidebar.0.url }}
+            <ol>
+                {% for subsidebar in sidebar.1 %}
+                    <li data-value='{{ subsidebar }}'>{{ subsidebar.name }}{{ subsidebar.url }}</li>
+                {% endfor %}
+            </ol>
+        </li>
+    {% endfor %}
+</ol>
+<script>
+    $('#sidebar_tree').bonsai({
+        expandAll: true,
+        createCheckboxes: true // takes values from data-name and data-value, and data-name is inherited
+    });
+</script>-->
+
+
+
 <table class="table table-hover">
     <thead>
     <tr>
