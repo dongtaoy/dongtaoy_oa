@@ -1,8 +1,8 @@
 from django.template import RequestContext
 from django.shortcuts import render
 from dongtaoy_oa.views import common_context
-from django.db import transaction
-from administration.models import Asset, AssetCategory, AssetForm
+from administration.models import Asset, AssetCategory
+from administration.forms import AssetForm
 from hr.models import Department
 import time
 

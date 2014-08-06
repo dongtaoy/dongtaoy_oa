@@ -1,8 +1,8 @@
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
 from dongtaoy_oa.views import common_context
-from administration.models import AssetCategory, AssetCategoryForm
+from administration.models import AssetCategory
+from administration.forms import AssetCategoryForm
 from system.models import Label
 
 

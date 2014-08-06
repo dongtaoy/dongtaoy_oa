@@ -1,7 +1,5 @@
 __author__ = 'dongtaoy'
 from django.db import models
-from django.forms import ModelForm
-from django.contrib import admin
 from django.contrib.contenttypes.models import ContentType
 
 
@@ -24,19 +22,5 @@ class Label(models.Model):
         return self.name
 
 
-class LabelForm(ModelForm):
-    class Meta:
-        model = Label
-        fields = '__all__'
 
 
-class SidebarForm(ModelForm):
-    class Meta:
-        model = Sidebar
-        fields = '__all__'
-
-
-
-
-admin.site.register(Label)
-admin.site.register(Sidebar)

@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.db import transaction, models
-from system.models import Sidebar, SidebarForm
+from django.db import transaction
+from system.models import Sidebar
+from system.forms import SidebarForm
 from dongtaoy_oa.views import permission_tree, common_context
 from django.template import RequestContext
 

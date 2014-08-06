@@ -1,8 +1,5 @@
 # coding=utf-8
 from django.db import models
-from django.contrib import admin
-from django.forms import ModelForm
-from system.models import Label
 
 SEX_CHOICE = (
     ('1', '男'),
@@ -45,27 +42,3 @@ class UserStatus(models.Model):
 
     def __unicode__(self):
         return self.name
-
-
-class EmployeeForm(ModelForm):
-    class Meta:
-        model = Employee
-        exclude = ['user']
-        fields = '__all__'
-
-
-class DepartmentForm(ModelForm):
-    class Meta:
-        model = Department
-        fields = '__all__'
-
-
-class UserStatusForm(ModelForm):
-    class Meta:
-        model = Department
-        fields = '__all__'
-
-
-admin.site.register(Employee)
-admin.site.register(Department)
-admin.site.register(UserStatus)

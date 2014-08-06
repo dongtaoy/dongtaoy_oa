@@ -45,7 +45,6 @@ INSTALLED_APPS = (
     'public',
     'south',
     'bootstrap3',
-    'guardian',
 
 )
 
@@ -56,7 +55,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'guardian.backends.ObjectPermissionBackend',
     #'dongtaoy_oa.middleware.AuthenticationMiddleware'
 )
 

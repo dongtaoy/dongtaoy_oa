@@ -1,4 +1,5 @@
-from hr.models import Employee, Department, UserStatus, EmployeeForm
+from hr.models import Employee
+from hr.forms import EmployeeForm
 from django.shortcuts import render
 from django.template import RequestContext
 from django.http import HttpResponse
