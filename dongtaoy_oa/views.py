@@ -62,13 +62,7 @@ def permission_tree(permissions):
 
 
 def common_context(request):
-    user_id = request.session.get('user_id')
-    real_name = request.session.get('real_name')
-    username = request.session.get('username')
     return {
-        "user_id": user_id,
-        "real_name": real_name,
-        "username": username,
         "path": request.path,
         "sidebars": side_bar(request)
     }

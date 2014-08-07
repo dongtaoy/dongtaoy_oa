@@ -21,7 +21,7 @@
             <td>
                 <span class="label {{ group.label.css }}">{{ group.group.name }}</span>
             </td>
-            <td>{{ group.leader.realname }}</td>
+            <td>{{ group.leader }}</td>
             <td>{{ group.description }}</td>
         </tr>
     {% endfor %}
@@ -39,7 +39,7 @@
                 $(this).addClass('selected');
             }
             var id = ($(this)).children('td:first').text();
-            loadmodal(id);
+            mod(id);
         });
     });
 </script>

@@ -67,7 +67,7 @@
             }
             //alert(($(this).children('td:first').text()));
             $.ajax({
-                url: '/hr/group/permission/ajax/detail/',
+                url: '/hr/department/permission/ajax/detail/',
                 type: "GET",
                 data: {groupid: $(this).children('td:first').text()},
                 success: function (response) {

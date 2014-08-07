@@ -25,6 +25,7 @@
     <script src="{% static 'js/plugins/bootstrap-select2/bootstrap-select2.js' %}"></script>
     <!-- validator -->
     <script src="{% static 'js/plugins/bootstrap-validator/bootstrapValidator.min.js' %}"></script>
+    <script src="{% static 'js/plugins/bootstrap-validator/zh_CN.js' %}"></script>
 {% endblock %}
 {% block content %}
     <section class="content-header">
@@ -34,7 +35,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i>人力资源</a></li>
-            <li class="active">员工管理</li>
+            <li class="active">部门管理</li>
         </ol>
     </section>
 
@@ -45,18 +46,18 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">
-                            员工管理
+                            部门管理
                             <small>
                                 点击列表修改
                             </small>
                         </h3>
                     </div>
                     <div class="box-body table-responsive">
-                        {% include 'hr/user/body.html' %}
+                        {% include 'hr/department/body.html' %}
 
                     </div>
                     <div class="box-footer">
-                        <button class="btn btn-default show" onclick="loadmodal();">新增</button>
+                        <button class="btn btn-default show" onclick="add();">新增</button>
                     </div>
                 </div>
             </div>
@@ -70,26 +71,41 @@
 {% endblock %}
 {% block js %}
     <script>
-
-        function loadmodal(id) {
+        {% if perms.hr.add_department %}
+        function add() {
             $('body').modalmanager('loading');
             setTimeout(function () {
-                $('#user_detail').load('/hr/user/ajax/detail/' + '?user_id=' + id, function () {
+                $('#user_detail').load('/hr/department/ajax/add/', function () {
                     $('#user_detail').modal();
                 });
             }, 1000);
         }
+        {% endif %}
 
-        function del(user_id) {
+        {% if perms.hr.change_department %}
+        function mod(id) {
+            $('body').modalmanager('loading');
+            setTimeout(function () {
+                $('#user_detail').load('/hr/department/ajax/mod/' + id, function () {
+                    $('#user_detail').modal();
+                });
+            }, 1000);
+        }
+        {% endif %}
+
+
+        {% if perms.hr.delete_department %}
+        function del(group_id) {
             $.ajax({
-                url: 'hr/user/ajax/delete/',
+                url: '/hr/department/ajax/delete/',
                 type: 'POST',
-                data: {user_id: user_id},
+                data: {group_id: group_id},
                 success: function (response) {
                     $('#user_detail').modal('hide');
                     $('.box-body').html(response);
                 }
             })
         }
+        {% endif %}
     </script>
 {% endblock %}

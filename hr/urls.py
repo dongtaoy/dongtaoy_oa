@@ -6,10 +6,10 @@ urlpatterns = patterns('',
                        # url(r'^blog/', include('blog.urls')),
 
                        # user url
-                       url(r'^user/', include('hr.user.urls')),
+                       url(r'^employee/', include('hr.employee.urls')),
 
                        # group url
-                       url(r'^group/', include('hr.group.urls')),
+                       url(r'^department/', include('hr.department.urls')),
 
                        # status url
                        url(r'^status/', include('hr.status.urls'))

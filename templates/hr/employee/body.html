@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">
+                    员工管理
+                    <small>
+                        点击列表修改
+                    </small>
+                </h3>
+            </div>
+            <div class="box-body table-responsive">
+                {% if success %}
+                    <div class="alert alert-success alert-dismissable">
+                        <i class="fa fa-check"></i>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <b>修改成功！</b>
+                    </div>
+                {% endif %}
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <th>手机号</th>
+                        <th>E-mail</th>
+                        <th>职位</th>
+                        <th>入职时间</th>
+                        <th>隶属于</th>
+                        <th>状态</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <input type="hidden" value="{{ user.id }}"/>
+                            <td>{{ user.employee.full_name }}</td>
+                            <td>{{ user.employee.phone }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.employee.position }}</td>
+                            <td>{{ user.date_joined | date:"Y-m-d" }}</td>
+                            <td>
+                                {% for group in user.groups.all %}
+                                    <span class="label {{ group.department.label.css }}">{{ group.name }}</span>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                <span class="label {{ user.employee.status.label.css }}">{{ user.employee.status.name }}</span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="box-footer">
+                <button class="btn btn-default show" onclick="add();">新增</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('.table').dataTable();
+        $(function () {
+            $(".table tbody").on("click", "tr", function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    $('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+                var id = ($(this)).children('input').val();
+                mod(id);
+            });
+
+
+        });
+    </script>
+</div>

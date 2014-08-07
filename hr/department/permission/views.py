@@ -9,14 +9,14 @@ from system.models import Sidebar
 
 def group_permission_index(request):
     groups = Department.objects.all()
-    return render(request, 'hr/group/permission/index.html', {"groups": groups},
+    return render(request, 'hr/department/permission/index.html', {"groups": groups},
                   context_instance=RequestContext(request, processors=[common_context]))
 
 
 def group_permission_detail(request):
     all_permissions = Sidebar.objects.all()
     group_permissions = Sidebar.objects.filter(group=Department.objects.get(id=request.GET.get('groupid')))
-    return render(request, 'hr/group/permission/mod.html', {"all_permissions": permission_tree(all_permissions),
+    return render(request, 'hr/department/permission/mod.html', {"all_permissions": permission_tree(all_permissions),
                                                             "group_permissions": group_permissions,
                                                             "groupid": request.GET.get('groupid')})
 
@@ -27,7 +27,7 @@ def group_permission_save(request):
     with transaction.atomic():
         group.permissions = new_permissions
     all_permissions = Sidebar.objects.all()
-    return render(request, 'hr/group/permission/mod.html', {"all_permissions": permission_tree(all_permissions),
+    return render(request, 'hr/department/permission/mod.html', {"all_permissions": permission_tree(all_permissions),
                                                             "group_permissions": group.permissions.all(),
                                                             "groupid": group.id,
                                                             "success": True})
