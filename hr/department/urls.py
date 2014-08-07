@@ -13,24 +13,19 @@ urlpatterns = patterns(
 
     # group url
     url(r'^$',
-        permission_required('hr', login_url='/login/')(ListView.as_view(
+        permission_required('hr', raise_exception=True)(ListView.as_view(
             model=Department,
             context_object_name='groups',
             template_name='hr/department/index.html'))),
 
-    # (r'^ajax/detail/$', 'hr.department.views.group_detail'),
-
-
-    # url(r'^ajax/detail/(?P<department>\d*)/$', 'hr.department.views.group_detail'),
-
 
     url(r'^ajax/add/',
-        permission_required('hr.add_department', login_url='/login/')(DepartmentCreateView.as_view()),
+        permission_required('hr.add_department', raise_exception=True)(DepartmentCreateView.as_view()),
         name='department_create'),
 
 
     url(r'^ajax/mod/(?P<department>\d*)/$',
-        permission_required('hr.change_department', login_url='/login/')(DepartmentUpdateView.as_view()),
+        permission_required('hr.change_department', raise_exception=True)(DepartmentUpdateView.as_view()),
         name='department_mod'),
 
 

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import Group
 from django.views.generic.edit import CreateView, UpdateView
+from django.contrib.auth.decorators import permission_required
 from hr.models import Department
 from hr.forms import DepartmentForm
 from django.http import HttpResponse
@@ -45,7 +46,7 @@ class DepartmentUpdateView(UpdateView):
         return render(self.request, 'hr/department/body.html', {"success": True,
                                                                 "groups": Department.objects.all()})
 
-
+@permission_required('hr.department_delete')
 def group_delete(request):
     department = Department.objects.get(id=request.POST.get('group_id'))
     department.group.delete()

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.models import User, Group
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import permission_required
 from django.views.generic.edit import CreateView, UpdateView
 from hr.models import Employee
 from hr.forms import EmployeeForm
@@ -67,6 +67,7 @@ class EmployeeUpdateView(UpdateView):
 
 
 # delete user
+@permission_required('hr.employee_delete')
 def user_delete(request):
     user = Employee.objects.get(id=request.POST.get('user_id')).user
     user.is_active = 0
