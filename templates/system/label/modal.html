@@ -1,7 +1,8 @@
 <!-- Modal -->
+{% load bootstrap3 %}
 <div class="modal-dialog">
     <div class="modal-content">
-        <form id="label_form" action="/system/label/ajax/save/" method="POST"
+        <form id="label_form" action="{{ url }}" method="POST"
               data-bv-message="This value is not valid"
               data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
               data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
@@ -16,22 +17,13 @@
                 <h4 class="modal-title">标签</h4>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label>名字：</label>
-                    <input class="form-control" type="text" value="{{ spec_label.name }}" name="label_name"
-                           data-bv-notempty="true"
-                           data-bv-message="正确填写名字"/>
-                </div>
-                <div class="form-group">
-                    <label>css：</label>
-                    <textarea class="form-control" name="label_css"
-                              rows="3">{{ spec_label.css }}</textarea>
-                </div>
+                {% bootstrap_form form %}
             </div>
             <div class="modal-footer">
                 {% if spec_label %}
-                    <input type="hidden" name="label_id" value="{{ spec_label.id }}">
+                    {% if perms.system.delete_label %}
                     <button type="button" onclick="del({{ spec_label.id }})" class="pull-left btn btn-danger">删除
+                    {% endif %}
                     </button>
                 {% endif %}
                 <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>

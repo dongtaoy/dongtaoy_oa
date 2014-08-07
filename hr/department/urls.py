@@ -13,7 +13,7 @@ urlpatterns = patterns(
 
     # group url
     url(r'^$',
-        permission_required('hr', raise_exception=True)(ListView.as_view(
+        (ListView.as_view(
             model=Department,
             context_object_name='groups',
             template_name='hr/department/index.html'))),

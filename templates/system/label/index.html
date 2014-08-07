@@ -33,20 +33,33 @@
     <div class="modal fade" id="label_detail" data-backdrop="static" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel"
          aria-hidden="true">
-        {% include 'system/label/modal.html' %}
     </div>
 {% endblock %}
 {% block js %}
     <script>
-        function loadmodal(id) {
+        {% if perms.system.add_label %}
+        function add(){
             $('body').modalmanager('loading');
             setTimeout(function () {
-                $('#label_detail').load('/system/label/ajax/detail/' + '?label_id=' + id, function () {
+                $('#label_detail').load('/system/label/ajax/add/', function () {
                     $('#label_detail').modal();
                 });
             }, 1000);
         }
+        {% endif %}
 
+        {% if perms.system.change_label %}
+        function mod(id) {
+            $('body').modalmanager('loading');
+            setTimeout(function () {
+                $('#label_detail').load('/system/label/ajax/mod/'+ id, function () {
+                    $('#label_detail').modal();
+                });
+            }, 1000);
+        }
+        {% endif %}
+
+        {% if perms.system.delete_lavel %}
         function del(label_id) {
             $.ajax({
                 url: '/system/label/ajax/delete/',
@@ -58,5 +71,6 @@
                 }
             })
         }
+        {% endif %}
     </script>
 {% endblock %}

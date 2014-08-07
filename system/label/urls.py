@@ -1,5 +1,8 @@
-from django.conf.urls import patterns, include, url
-
+from django.conf.urls import patterns, url
+from django.views.generic import ListView
+from django.contrib.auth.decorators import permission_required
+from system.models import Label
+from system.label.views import LabelCreateView, LabelUpdateView
 
 urlpatterns = patterns('',
     # Examples:
@@ -7,8 +10,16 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
     #url(r'^$','dongtaoy_oa.crm.views.customer_index'),
 
-    url(r'^$', 'system.label.views.label_index'),
-    url(r'^ajax/save/', 'system.label.views.label_save'),
-    url(r'^ajax/detail/', 'system.label.views.label_detail'),
+    url(r'^$', ListView.as_view(
+        model=Label,
+        context_object_name='labels',
+        template_name='system/label/index.html')),
+
+    url(r'^ajax/add/', permission_required('system.add_label')(LabelCreateView.as_view())),
+
+
+    url(r'^ajax/mod/(?P<label>\d+)', permission_required('system.change_label')(LabelUpdateView.as_view())),
+
+
     url(r'^ajax/delete/', 'system.label.views.label_delete'),
 )

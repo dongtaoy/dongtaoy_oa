@@ -39,7 +39,7 @@
                 </table>
             </div>
             <div class="box-footer">
-                <button class="btn btn-default show" onclick="loadmodal();">新增</button>
+                <button class="btn btn-default show" onclick="add();">新增</button>
             </div>
         </div>
     </div>
@@ -55,7 +55,7 @@
                 $(this).addClass('selected');
             }
             var id = ($(this)).children('td:first').text();
-            loadmodal(id);
+            mod(id);
         });
     });
 </script>

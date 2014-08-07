@@ -97,8 +97,10 @@
 </div>
 <div class="modal-footer">
     {% if spec_employee %}
+        {% if perms.hr.delete_employee %}
         <button type="button" onclick="del({{ spec_employee.id }})" class="pull-left btn btn-danger">删除
         </button>
+        {% endif %}
     {% endif %}
     <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
     <button type="submit" class="btn btn-primary">保存</button>

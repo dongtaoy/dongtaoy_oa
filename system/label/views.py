@@ -1,35 +1,45 @@
-from django.template import RequestContext
+from django.views.generic.edit import CreateView, UpdateView
 from django.shortcuts import render
-from dongtaoy_oa.views import common_context
-from django.db import transaction
+from django.contrib.auth.decorators import permission_required
 from system.models import Label
-from django.http import HttpResponse
+from system.forms import LabelForm
 
 
-def label_index(request):
-    labels = Label.objects.all()
-    return render(request, 'system/label/index.html', {'labels': labels},
-                  context_instance=RequestContext(request, processors=[common_context]))
+class LabelCreateView(CreateView):
+    form_class = LabelForm
+    template_name = 'system/label/modal.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(LabelCreateView, self).get_context_data(**kwargs)
+        context['url'] = '/system/label/ajax/add/'
+        return context
+
+    def form_valid(self, form):
+        form.save()
+        return render(self.request, 'system/label/body.html', {'labels': Label.objects.all(),
+                                                               'success': True})
 
 
-def label_detail(request):
-    try:
-        spec_label = Label.objects.get(id=request.GET.get('label_id'))
-    except:
-        spec_label = None
-    return render(request, 'system/label/modal.html', {'spec_label': spec_label})
+class LabelUpdateView(UpdateView):
+    form_class = LabelForm
+    template_name = 'system/label/modal.html'
+    context_object_name = 'spec_label'
+
+    def get_object(self, queryset=None):
+        return Label.objects.get(id=self.kwargs['label'])
+
+    def get_context_data(self, **kwargs):
+        context = super(LabelUpdateView, self).get_context_data(**kwargs)
+        context['url'] = '/system/label/ajax/mod/%d/' % self.object.id
+        return context
+
+    def form_valid(self, form):
+        form.save()
+        return render(self.request, 'system/label/body.html', {'labels': Label.objects.all(),
+                                                               'success': True})
 
 
-def label_save(request):
-    with transaction.atomic():
-        Label(id=request.POST.get('label_id'),
-              name=request.POST.get('label_name'),
-              css=request.POST.get('label_css')).save()
-    labels = Label.objects.all()
-    return render(request, 'system/label/body.html', {'labels': labels,
-                                                      'success': True})
-
-
+@permission_required('system.delete_label')
 def label_delete(request):
     Label.objects.get(id=request.POST.get('label_id')).delete()
     labels = Label.objects.all()
