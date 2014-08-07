@@ -24,7 +24,7 @@ urlpatterns = patterns(
         name='department_create'),
 
 
-    url(r'^ajax/mod/(?P<department>\d*)/$',
+    url(r'^ajax/mod/(?P<department>\d+)/$',
         permission_required('hr.change_department', raise_exception=True)(DepartmentUpdateView.as_view()),
         name='department_mod'),
 
