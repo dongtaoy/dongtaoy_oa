@@ -14,6 +14,11 @@ class LabelForm(ModelForm):
 
 
 class SidebarForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(SidebarForm, self).__init__(*args, **kwargs)
+        self.fields['permissions'].label_from_instance = lambda obj: "%s.%s" % (obj.content_type.app_label, obj.codename)
+        self.fields['permissions'].help_text = ''
+
     class Meta:
         model = Sidebar
         fields = '__all__'
@@ -21,6 +26,5 @@ class SidebarForm(ModelForm):
             'name': '名称',
             'order': '顺序',
             'parent': '父层',
-            'permission': '权限',
-            'level': '层级'
+            'permissions': '权限',
         }

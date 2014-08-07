@@ -10,7 +10,7 @@ class Sidebar(models.Model):
     url = models.CharField(max_length=100, blank=True)
     order = models.IntegerField(blank=True, null=True)
     parent = models.ForeignKey('self', blank=True, null=True)
-
+    permissions = models.ManyToManyField(Permission, blank=True, null=True)
     def __unicode__(self):
         return self.name
 
