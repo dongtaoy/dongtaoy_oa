@@ -7,8 +7,7 @@ from django.contrib.auth.models import Permission
 
 
 def index(request):
-    return render(request, 'index.html', {'permissions': side_bar(request)},
-                  context_instance=RequestContext(request, processors=[common_context]))
+    return render(request, 'index.html', {'permissions': side_bar(request)})
 
 
 def login(request):
@@ -28,13 +27,14 @@ def logout(request):
 
 
 def lock(request):
-    return render(request, 'lockscreen.html', {},
-                  context_instance=RequestContext(request, processors=[common_context]))
+    name = request.user.employee.full_name()
+    username = request.user.get_username()
+    auth.logout(request)
+    return render(request, 'lockscreen.html', {'name': name, 'username': username})
 
 
 def dashboard(request):
-    return render(request, 'dashboard.html', {},
-                  context_instance=RequestContext(request, processors=[common_context]))
+    return render(request, 'dashboard.html', {})
 
 
 def side_bar(request):

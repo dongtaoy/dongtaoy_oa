@@ -27,7 +27,7 @@
             </div><!-- /.headline -->
             
             <!-- User name -->
-            <div class="lockscreen-name">你好，{{ real_name }}</div>
+            <div class="lockscreen-name">你好，{{ name }}</div>
             
             <!-- START LOCK SCREEN ITEM -->
             <div class="lockscreen-item">
@@ -40,7 +40,7 @@
                     <div class="input-group">
                         {% csrf_token %}
 
-                            <input type="hidden" name="username" value="{{username}}">
+                            <input type="hidden" name="username" value="{{ username }}">
                             <input type="password" name="password" class="form-control" placeholder="密码" />
                             <div class="input-group-btn">
                                 <button class="btn btn-flat" type="submit"><i class="fa fa-arrow-right text-muted"></i></button>
