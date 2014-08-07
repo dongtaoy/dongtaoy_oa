@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import Group
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.decorators import permission_required
+from django.db import transaction
 from hr.models import Department
 from hr.forms import DepartmentForm
 from django.http import HttpResponse
@@ -17,10 +18,11 @@ class DepartmentCreateView(CreateView):
         return context
 
     def form_valid(self, form):
-        group = Group.objects.create(name=self.request.POST.get('group_name'))
-        department = DepartmentForm(self.request.POST).save(commit=False)
-        department.group = group
-        department.save()
+        with transaction.atomic():
+            group = Group.objects.create(name=self.request.POST.get('group_name'))
+            department = DepartmentForm(self.request.POST).save(commit=False)
+            department.group = group
+            department.save()
         return render(self.request, 'hr/department/body.html', {"success": True,
                                                                 "groups": Department.objects.all()})
 
@@ -39,12 +41,14 @@ class DepartmentUpdateView(UpdateView):
         return context
 
     def form_valid(self, form):
-        department = DepartmentForm(self.request.POST,
-                                    instance=Department.objects.get(id=self.kwargs['department'])).save()
-        department.group.name = self.request.POST.get('group_name')
-        department.group.save()
+        with transaction.atomic():
+            department = DepartmentForm(self.request.POST,
+                                        instance=Department.objects.get(id=self.kwargs['department'])).save()
+            department.group.name = self.request.POST.get('group_name')
+            department.group.save()
         return render(self.request, 'hr/department/body.html', {"success": True,
                                                                 "groups": Department.objects.all()})
+
 
 @permission_required('hr.department_delete')
 def group_delete(request):
