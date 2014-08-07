@@ -1,71 +1,131 @@
-{% if success %}
-    <div class="alert alert-success alert-dismissable">
-        <i class="fa fa-check"></i>
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <b>修改成功！</b>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">
+                    权限管理
+                    <small>
+                        点击列表修改
+                    </small>
+                </h3>
+            </div>
+            <div class="box-body table-responsive">
+                {% if success %}
+                    <div class="alert alert-success alert-dismissable">
+                        <i class="fa fa-check"></i>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <b>修改成功！</b>
+                    </div>
+                {% endif %}
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>一级类目</th>
+                        <th>URL</th>
+                        <th>二级类目</th>
+                        <th>URL</th>
+{#                        <th>三级类目</th>#}
+{#                        <th>URL</th>#}
+                    </tr>
+                    </thead>
+                    <tbody>
+{#                    {% for level_one in permissions %}#}
+{#                        {% if level_one.parent == None %}#}
+{#                            <tr>#}
+{#                                <input type="hidden" value="{{ level_one.id }}"/>#}
+{#                                <td>#}
+{#                                    {{ level_one.order }}. {{ level_one.name }}#}
+{#                                </td>#}
+{#                                <td>#}
+{#                                    {{ level_one.url }}#}
+{#                                </td>#}
+{#                                <td></td>#}
+{#                                <td></td>#}
+{#                                <td></td>#}
+{#                                <td></td>#}
+{#                            </tr>#}
+{#                            {% for level_two in permissions %}#}
+{#                                    {% if level_two.parent == level_one %}#}
+{#                                        <tr>#}
+{#                                            <input type="hidden" value="{{ level_two.id }}"/>#}
+{#                                            <td>#}
+{#                                            </td>#}
+{#                                            <td>#}
+{#                                            </td>#}
+{#                                            <td>#}
+{#                                                {{ level_two.order }}. {{ level_two.name }}#}
+{#                                            </td>#}
+{#                                            <td>#}
+{#                                                {{ level_two.url }}#}
+{#                                            </td>#}
+{#                                            <td></td>#}
+{#                                            <td></td>#}
+{#                                        </tr>#}
+{#                                        {% for level_three in permissions %}#}
+{#                                            {% if level_three.parent == level_two %}#}
+{#                                                <tr>#}
+{#                                                    <input type="hidden" value="{{ level_three.id }}"/>#}
+{#                                                    <td>#}
+{#                                                    </td>#}
+{#                                                    <td>#}
+{#                                                    </td>#}
+{#                                                    <td>#}
+{#                                                    </td>#}
+{#                                                    <td>#}
+{#                                                    </td>#}
+{#                                                    <td>#}
+{#                                                        {{ level_three.order }}. {{ level_three.name }}#}
+{#                                                    </td>#}
+{#                                                    <td>#}
+{#                                                        {{ level_three.url }}#}
+{##}
+{#                                                    </td>#}
+{#                                                </tr>#}
+{#                                            {% endif %}#}
+{#                                        {% endfor %}#}
+{#                                    {% endif %}#}
+{#                            {% endfor %}#}
+{#                        {% endif %}#}
+{#                    {% endfor %}#}
+                                        {% for permission in permissions %}
+                                            <tr>
+                                                <input type="hidden" value="{{ permission.0.id }}"/>
+                                                <td>
+                                                    {{ permission.0.order }}. {{ permission.0.name }}
+                                                </td>
+                                                <td>
+                                                    {{ permission.0.url }}
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            {% if permission.1 %}
+                                                {% for subpermission in permission.1 %}
+                                                    <tr>
+                                                        <input type="hidden" value="{{ subpermission.id }}"/>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>
+                                                            {{ subpermission.order }}. {{ subpermission.name }}
+                                                        </td>
+                                                        <td>
+                                                            {{ subpermission.url }}
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="box-footer">
+                <button class="btn btn-default" onclick="add()">新增</button>
+            </div>
+        </div>
     </div>
-{% endif %}
-<!--
-<ol id='sidebar_tree' data-name='foo'>
-    {% for sidebar in permissions %}
-        <li class='expanded' data-value='{{ sidebar.0.id }}'>{{ sidebar.0.name }}{{ sidebar.0.url }}
-            <ol>
-                {% for subsidebar in sidebar.1 %}
-                    <li data-value='{{ subsidebar }}'>{{ subsidebar.name }}{{ subsidebar.url }}</li>
-                {% endfor %}
-            </ol>
-        </li>
-    {% endfor %}
-</ol>
-<script>
-    $('#sidebar_tree').bonsai({
-        expandAll: true,
-        createCheckboxes: true // takes values from data-name and data-value, and data-name is inherited
-    });
-</script>-->
-
-
-
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <td>父</td>
-        <td>URL</td>
-        <td>子</td>
-        <td>URL</td>
-    </tr>
-    </thead>
-    <tbody>
-    {% for permission in permissions %}
-        <tr>
-            <input type="hidden" value="{{ permission.0.id }}"/>
-            <td>
-                {{ permission.0.order }}. {{ permission.0.name }}
-            </td>
-            <td>
-                {{ permission.0.url }}
-            </td>
-            <td></td>
-            <td></td>
-        </tr>
-        {% if permission.1 %}
-            {% for subpermission in permission.1 %}
-                <tr>
-                    <input type="hidden" value="{{ subpermission.id }}"/>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        {{ subpermission.order }}. {{ subpermission.name }}
-                    </td>
-                    <td>
-                        {{ subpermission.url }}
-                    </td>
-                </tr>
-            {% endfor %}
-        {% endif %}
-    {% endfor %}
-    </tbody>
-</table>
+</div>
 <script>
     $(".table tbody").on("click", "tr", function () {
         if ($(this).hasClass('selected')) {
@@ -76,6 +136,6 @@
             $(this).addClass('selected');
         }
         //console.log(($(this)).children('input').val());
-        load_modal(($(this)).children('input').val());
+        mod(($(this)).children('input').val());
     });
 </script>

@@ -38,14 +38,7 @@ def dashboard(request):
 
 
 def side_bar(request):
-    side_bars = []
-    permissions = [(permission.split('.')[0], permission.split('_')[1])
-                   for permission in request.user.get_all_permissions()]
-    for sidebar in Sidebar.objects.all():
-        for content in sidebar.content.all():
-            if (content.app_label, content.model) in permissions:
-                side_bars.append(sidebar)
-    return permission_tree(side_bars)
+    return permission_tree(Sidebar.objects.all())
 
 
 def permission_tree(permissions):
