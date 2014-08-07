@@ -50,7 +50,7 @@ class DepartmentUpdateView(UpdateView):
                                                                 "groups": Department.objects.all()})
 
 
-@permission_required('hr.department_delete')
+@permission_required('hr.delete_department')
 def group_delete(request):
     department = Department.objects.get(id=request.POST.get('group_id'))
     department.group.delete()
