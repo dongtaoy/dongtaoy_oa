@@ -44,7 +44,6 @@ def side_bar(request):
 
     for sidebar in Sidebar.objects.all():
         for permission in sidebar.permissions.all():
-            print permission.content_type.app_label
             if (permission.content_type.app_label, permission.codename) in permissions:
                 sidebars.append(sidebar)
 
