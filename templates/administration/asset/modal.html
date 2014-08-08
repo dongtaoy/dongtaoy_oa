@@ -1,7 +1,7 @@
 {% load bootstrap3 %}
 <div class="modal-dialog">
     <div class="modal-content">
-        <form id="asset_form" action="/administration/asset/ajax/save/" method="POST"
+        <form id="asset_form" action="{{ url }}" method="POST"
               data-bv-message="This value is not valid"
               data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
               data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
@@ -79,9 +79,10 @@
             </div>
             <div class="modal-footer">
                 {% if spec_asset %}
-                    <input type="hidden" name="asset_id" value="{{ spec_asset.id }}">
+                    {% if perms.administration.delete_asset %}
                     <button type="button" onclick="del({{ spec_asset.id }})" class="pull-left btn btn-danger">删除
                     </button>
+                    {% endif %}
                 {% endif %}
                 <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
                 <button type="submit" class="btn btn-primary">保存</button>
@@ -93,15 +94,6 @@
     $(document).ready(function () {
         $('select[name=group]').select2();
         $('select[name=categories]').select2();
-        $('#asset_form').bootstrapValidator({
-            submitHandler: function () {
-                $('#asset_form').ajaxSubmit({
-                    success: function (response) {
-                        $('#asset_detail').modal('hide');
-                        $('.content').html(response);
-                    }
-                });
-            }
-        });
+        $('#asset_form').bootstrapValidator();
     });
 </script>

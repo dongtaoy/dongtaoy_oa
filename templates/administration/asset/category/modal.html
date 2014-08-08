@@ -2,7 +2,7 @@
 {% load bootstrap3 %}
 <div class="modal-dialog">
     <div class="modal-content">
-        <form id="category_form" action="/administration/asset/category/ajax/save/" method="POST"
+        <form id="category_form" action="{{ url }}" method="POST"
               data-bv-message="This value is not valid"
               data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
               data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
@@ -17,59 +17,26 @@
                 <h4 class="modal-title">办公资产类型</h4>
             </div>
             <div class="modal-body">
-                {% for field in form %}
-                    {% if field.name != 'label' %}
-                        {% bootstrap_field field %}
-                    {% endif %}
-                {% endfor %}
-                <div class="form-group">
-                    <label>标签：</label>
-                    <br/>
-                    <div class="row">
-                        <div class="col-lg-11">
-                            {% for label in labels %}
-                                {% if form.label.value == label.id %}
-                                    <label>
-                                        <input type="radio" name="label" value="{{ label.id }}" checked>
-                                        <span class="label {{ label.css }}">{{ label.name }}</span>
-                                    </label>
-                                {% else %}
-                                    <label>
-                                        <input type="radio" name="label" value="{{ label.id }}">
-                                        <span class="label {{ label.css }}">{{ label.name }}</span>
-                                    </label>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
+                {% bootstrap_form form %}
             </div>
             <div class="modal-footer">
                 {% if spec_category %}
-                    <input type="hidden" name="id" value="{{ spec_category.id }}">
-                    <button type="button" onclick="del({{ spec_category.id }})" class="pull-left btn btn-danger">删除
-                    </button>
+                    {% if perms.administration.delete_assetcategory %}
+                        <button type="button"
+                                onclick="window.location.href='{% url 'delete_assetcategory' category=spec_category.id %}'"
+                                class="pull-left btn btn-danger">删除
+                        </button>
+                    {% endif %}
                 {% endif %}
                 <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
                 <button type="submit" class="btn btn-primary">保存</button>
             </div>
         </form>
-
-
     </div>
 </div>
 
 <script>
     $(document).ready(function () {
-        $('#category_form').bootstrapValidator({
-            submitHandler: function () {
-                $('#category_form').ajaxSubmit({
-                    success: function (response) {
-                        $('#category_detail').modal('hide');
-                        $('.content').html(response);
-                    }
-                })
-            }
-        })
+        $('#category_form').bootstrapValidator();
     });
 </script>

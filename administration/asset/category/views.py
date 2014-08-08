@@ -1,41 +1,58 @@
-from django.shortcuts import render
-from django.template import RequestContext
-from dongtaoy_oa.views import common_context
+# encoding=utf-8
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.urlresolvers import reverse
+from django.contrib import messages
 from administration.models import AssetCategory
 from administration.forms import AssetCategoryForm
-from system.models import Label
 
 
-def category_index(request):
-    categories = AssetCategory.objects.all()
-    return render(request, 'administration/asset/category/index.html', {'categories': categories},
-                  context_instance=RequestContext(request, processors=[common_context]))
+class AssetCategoryCreateView(SuccessMessageMixin, CreateView):
+    form_class = AssetCategoryForm
+    template_name = 'administration/asset/category/modal.html'
+    success_url = '/administration/asset/category/'
+    success_message = '%(name)s添加成功'.decode("utf-8")
+
+    def get_context_data(self, **kwargs):
+        context = super(AssetCategoryCreateView, self).get_context_data(**kwargs)
+        context['url'] = '/administration/asset/category/ajax/add/'
+        return context
 
 
-def category_detail(request):
-    try:
-        spec_category = AssetCategory.objects.get(id=request.GET.get('category_id'))
-    except:
-        spec_category = None
-    form = AssetCategoryForm(instance=spec_category)
-    labels = Label.objects.all()
-    return render(request, 'administration/asset/category/modal.html', {'form': form,
-                                                                        'spec_category': spec_category,
-                                                                        'labels': labels})
+class AssetCategoryUpdateView(SuccessMessageMixin, UpdateView):
+    form_class = AssetCategoryForm
+    template_name = 'administration/asset/category/modal.html'
+    success_url = '/administration/asset/category/'
+    success_message = '%(name)s修改成功'.decode('utf-8')
+    context_object_name = 'spec_category'
+
+    def get_object(self, queryset=None):
+        return AssetCategory.objects.get(id=self.kwargs['category'])
+
+    def get_context_data(self, **kwargs):
+        context = super(AssetCategoryUpdateView, self).get_context_data(**kwargs)
+        context['url'] = '/administration/asset/category/ajax/mod/%d/' % self.object.id
+        return context
 
 
-def category_save(request):
-    if request.POST.get('id'):
-        category = AssetCategory.objects.get(id=request.POST.get('id'))
-    else:
-        category = None
-    AssetCategoryForm(request.POST, instance=category).save()
-    categories = AssetCategory.objects.all()
-    return render(request, 'administration/asset/category/body.html', {'categories': categories,
-                                                                       'success': True})
+class AssetCategoryDeleteView(DeleteView):
+    template_name = 'common/delete.html'
+    success_url = '/administration/asset/category/'
 
-def category_delete(request):
-    AssetCategory.objects.get(id=request.POST.get('category_id')).delete()
-    categories = AssetCategory.objects.all()
-    return render(request, 'administration/asset/category/body.html', {'categories': categories,
-                                                                       'success': True})
+    def get_object(self, queryset=None):
+        return AssetCategory.objects.get(id=self.kwargs['category'])
+
+    def get_context_data(self, **kwargs):
+        context = super(AssetCategoryDeleteView, self).get_context_data(**kwargs)
+        context['url'] = reverse('delete_assetcategory', kwargs={'category': self.object.id})
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, "删除成功")
+        return super(AssetCategoryDeleteView, self).delete(self.request, *args, **kwargs)
+
+
+
+
+
+

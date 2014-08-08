@@ -1,42 +1,51 @@
-from django.template import RequestContext
-from django.shortcuts import render
-from dongtaoy_oa.views import common_context
-from administration.models import Asset, AssetCategory
+# encoding=utf-8
+from django.shortcuts import render, redirect
+from django.views.generic.edit import CreateView, UpdateView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.decorators import permission_required
+from django.contrib import messages
+from administration.models import Asset
 from administration.forms import AssetForm
-from hr.models import Department
 import time
 
 
-def asset_index(request):
-    assets = Asset.objects.all()
-    return render(request, 'administration/asset/index.html', {'assets': assets},
-                  context_instance=RequestContext(request, processors=[common_context]))
+class AssetCreateView(CreateView):
+    form_class = AssetForm
+    template_name = 'administration/asset/modal.html'
+    success_url = '/administration/asset/'
 
+    def get_context_data(self, **kwargs):
+        context = super(AssetCreateView, self).get_context_data(**kwargs)
+        context['url'] = '/administration/asset/ajax/add/'
+        return context
 
-def asset_detail(request):
-    try:
-        spec_asset = Asset.objects.get(id=request.GET.get('asset_id'))
-    except:
-        spec_asset = None
-    form = AssetForm(instance=spec_asset)
-    categories = AssetCategory.objects.all()
-    groups = Department.objects.all()
-    return render(request, 'administration/asset/modal.html', {'form': form,
-                                                               'spec_asset': spec_asset,
-                                                               'categories': categories,
-                                                               'groups': groups})
-
-
-def asset_save(request):
-    if request.POST.get('asset_id'):
-        AssetForm(request.POST, instance=Asset.objects.get(id=request.POST.get('asset_id'))).save()
-    else:
-        asset = AssetForm(request.POST).save(commit=False)
+    def form_valid(self, form):
+        asset = form.save()
         asset.regtime = time.strftime('%Y-%m-%d')
         asset.save()
-    # with transaction.atomic():
-    #     asset.save()
-    #     asset.categories.clear()
-    #     asset.categories = AssetCategory.objects.filter(id__in=request.POST.getlist('asset_categories'))
-    assets = Asset.objects.all()
-    return render(request, 'administration/asset/body.html', {'assets': assets})
+        messages.success(self.request, "%s添加成功" % asset)
+        return redirect(self.success_url)
+
+
+class AssetUpdateView(SuccessMessageMixin, UpdateView):
+    form_class = AssetForm
+    template_name = 'administration/asset/modal.html'
+    success_url = '/administration/asset/'
+    context_object_name = 'spec_asset'
+    success_message = '%(brand)s-%(model)s 修改成功'.decode('utf-8')
+
+    def get_object(self, queryset=None):
+        return Asset.objects.get(id=self.kwargs['asset'])
+
+    def get_context_data(self, **kwargs):
+        context = super(AssetUpdateView, self).get_context_data(**kwargs)
+        context['url'] = '/administration/asset/ajax/mod/%d/' % self.object.id
+        return context
+
+
+
+@permission_required('administration.delete_asset')
+def asset_delete(request):
+    Asset.objects.get(id=request.POST.get('asset_id')).delete()
+    messages.success(request, "删除成功")
+    return render(request, 'administration/asset/body.html', {'assets': Asset.objects.all()})

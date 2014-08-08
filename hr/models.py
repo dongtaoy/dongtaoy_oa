@@ -19,6 +19,9 @@ class Employee(models.Model):
     user = models.OneToOneField('auth.User')
     description = models.TextField(blank=True)
 
+    class Meta:
+        permissions = (('change_own_password', 'Can change own password'),)
+
     def __unicode__(self):
         return self.user.last_name + self.user.first_name
 

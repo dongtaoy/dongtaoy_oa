@@ -43,25 +43,26 @@
 {% endblock %}
 {% block js %}
     <script>
-        function loadmodal(id) {
+        {% if perms.administration.add_assetcategory %}
+        function add() {
             $('body').modalmanager('loading');
             setTimeout(function () {
-                $('#category_detail').load('/administration/asset/category/ajax/detail/' + '?category_id=' + id, function () {
+                $('#category_detail').load('{% url 'add_assetcategory' %}', function () {
                     $('#category_detail').modal();
                 });
             }, 1000);
         }
+        {% endif %}
 
-        function del(category_id) {
-            $.ajax({
-                url: '/administration/asset/category/ajax/delete/',
-                type: 'POST',
-                data: {category_id: category_id},
-                success: function (response) {
-                    $('#category_detail').modal('hide');
-                    $('.content').html(response);
-                }
-            })
+        {% if perms.administration.change_assetcategory %}
+        function mod(id) {
+            $('body').modalmanager('loading');
+            setTimeout(function () {
+                $('#category_detail').load('/administration/asset/category/ajax/mod/' + id, function () {
+                    $('#category_detail').modal();
+                });
+            }, 1000);
         }
+        {% endif %}
     </script>
 {% endblock %}

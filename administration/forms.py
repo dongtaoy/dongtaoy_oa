@@ -2,6 +2,7 @@
 from django.forms import ModelForm
 from administration.models import Asset, AssetCategory
 
+
 class AssetForm(ModelForm):
     class Meta:
         model = Asset
@@ -27,4 +28,5 @@ class AssetCategoryForm(ModelForm):
         labels = {
             'name': '名称',
             'description': '描述',
+            'label': '标签'
         }
