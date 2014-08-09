@@ -1,6 +1,6 @@
 # coding=utf-8
 from django.forms import ModelForm
-from crm.models import CustomerType,Customer
+from crm.models import Customer,CustomerType
 
 class CustomerTypeForm(ModelForm):
     class Meta:
@@ -8,10 +8,9 @@ class CustomerTypeForm(ModelForm):
         fields = '__all__'
         labels = {
             'name': '名称',
-            'description': '描述',
-            'label': '标签'
+            'css': '样式',
+            'description': '描述'
         }
-
 
 class CustomerForm(ModelForm):
     class Meta:
@@ -19,11 +18,10 @@ class CustomerForm(ModelForm):
         fields = '__all__'
         labels = {
             'name': '名称',
-            'phone': '描述',
-            'address': '标签',
+            'phone': '电话',
+            'address': '地址',
             'email': '邮箱',
             'fax': '传真',
             'type': '类型',
-            'groups': '隶属于'
-
+            'group': '隶属于'
         }

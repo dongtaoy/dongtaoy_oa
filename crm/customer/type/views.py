@@ -1,41 +1,48 @@
-from crm.models import CustomerType
-from system.models import Label
+from django.views.generic.edit import CreateView, UpdateView
 from django.shortcuts import render
-from django.template import RequestContext
-from django.db import transaction
-from dongtaoy_oa.views import common_context
+from django.contrib.auth.decorators import permission_required
+from crm.forms import CustomerTypeForm, CustomerForm
+from crm.models import Customer, CustomerType
+from system.models import Label
+
+class CustomerTypeCreateView(CreateView):
+    form_class = CustomerTypeForm
+    template_name = 'crm/customer/type/modal.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CustomerTypeCreateView, self).get_context_data(**kwargs)
+        context['url'] = '/crm/customer/type/ajax/add/'
+        return context
+
+    def form_valid(self, form):
+        form.save()
+        return render(self.request, 'crm/customer/type/body.html', {'labels': Label.objects.all(),'types': CustomerType.objects.all(),
+                                                               'success': True})
 
 
-def type_index(request):
-    types = CustomerType.objects.all()
-    return render(request, 'crm/customer/type/index.html', {'types': types},
-                  context_instance=RequestContext(request, processors=[common_context]))
+class CustomerTypeUpdateView(UpdateView):
+    form_class = CustomerTypeForm
+    template_name = 'crm/customer/type/modal.html'
+    context_object_name = 'spec_type'
+
+    def get_object(self, queryset=None):
+        return Label.objects.get(id=self.kwargs['label'])
+
+    def get_context_data(self, **kwargs):
+        context = super(CustomerTypeUpdateView, self).get_context_data(**kwargs)
+        context['url'] = '/crm/customer/type/ajax/mod/%d/' % self.object.id
+        return context
+
+    def form_valid(self, form):
+        form.save()
+        return render(self.request, 'crm/customer/type/body.html', {'labels': Label.objects.all(),'types': CustomerType.objects.all(),
+                                                               'success': True})
 
 
-def type_detail(request):
-    labels = Label.objects.all()
-    try:
-        spec_type = CustomerType.objects.get(id=request.GET.get('type_id'))
-    except:
-        spec_type = None
-    return render(request, 'crm/customer/type/modal.html', {'spec_type': spec_type,
-                                                            'labels': labels})
-
-
-def type_save(request):
-    print request.POST
-    with transaction.atomic():
-        CustomerType(id=request.POST.get('type_id'),
-                     name=request.POST.get('type_name'),
-                     description=request.POST.get('type_description'),
-                     label=Label.objects.get(id=request.POST.get('type_label'))).save()
-    types = CustomerType.objects.all()
-    return render(request, 'crm/customer/type/body.html', {'types': types,
-                                                           'success': True})
-
-
+@permission_required('crm.delete_type')
 def type_delete(request):
     CustomerType.objects.get(id=request.POST.get('type_id')).delete()
     types = CustomerType.objects.all()
-    return render(request, 'crm/customer/type/body.html', {'types': types,
-                                                           'success': True})
+    labels = Label.objects.all()
+    return render(request, 'crm/customer/type/body.html', {'labels': labels,'types': types,
+                                                      'success': True})

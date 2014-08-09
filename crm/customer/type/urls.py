@@ -1,5 +1,9 @@
-from django.conf.urls import patterns, include, url
-
+from django.conf.urls import patterns, url
+from django.views.generic import ListView
+from django.contrib.auth.decorators import permission_required
+from system.models import Label
+from crm.models import CustomerType,Customer
+from crm.customer.type.views import CustomerTypeCreateView, CustomerTypeUpdateView
 
 urlpatterns = patterns('',
     # Examples:
@@ -8,14 +12,16 @@ urlpatterns = patterns('',
     #url(r'^$','dongtaoy_oa.crm.views.customer_index'),
 
     #index
-    url(r'^$', 'crm.customer.type.views.type_index'),
+    url(r'^$', ListView.as_view(
+        model=Label,
+        context_object_name='types',
+        template_name='crm/customer/type/index.html')),
 
-    # detail
-    url(r'^ajax/detail/', 'crm.customer.type.views.type_detail'),
+    url(r'^ajax/add/', permission_required('crm.add_label')(CustomerTypeCreateView.as_view())),
 
-    # save
-    url(r'^ajax/save/', 'crm.customer.type.views.type_save'),
 
-    # delete
-    url(r'^ajax/delete/', 'crm.customer.type.views.type_delete')
+    url(r'^ajax/mod/(?P<type>\d+)', permission_required('crm.change_label')(CustomerTypeUpdateView.as_view())),
+
+
+    url(r'^ajax/delete/', 'crm.customer.type.views.label_delete'),
 )
