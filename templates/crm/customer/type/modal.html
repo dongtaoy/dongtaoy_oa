@@ -1,7 +1,8 @@
 <!-- Modal -->
+{% load bootstrap3 %}
 <div class="modal-dialog">
     <div class="modal-content">
-        <form id="type_form" action="/crm/customer/type/ajax/save/" method="POST"
+        <form id="type_form" action="{{ url }}" method="POST"
               data-bv-message="This value is not valid"
               data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
               data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
@@ -13,78 +14,29 @@
                 <button type="button" class="close cancel" data-dismiss="modal"><span
                         aria-hidden="true">&times;</span><span
                         class="sr-only">Close</span></button>
-                <h4 class="modal-title">办公资产类型</h4>
+                <h4 class="modal-title">客户类型</h4>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label>名字：</label>
-                    <input class="form-control" type="text" value="{{ spec_type.name }}" name="type_name"
-                           data-bv-notempty="true"
-                           data-bv-message="正确填写名字"/>
-                </div>
-                <div class="form-group">
-                    <label>描述：</label>
-                    <textarea class="form-control" name="type_description"
-                              rows="3">{{ spec_type.description }}</textarea>
-
-                </div>
-                <div class="form-group">
-                    <label>标签：</label>
-                    <br/>
-                    <div class="row">
-                        <div class="col-lg-11">
-                            {% for label in labels %}
-                                {% if spec_type.label == label %}
-                                    <label>
-                                        <input type="radio" name="type_label" value="{{ label.id }}">
-                                        <span class="label {{ label.css }}">{{ label.name }}</span>
-                                    </label>
-                                {% else %}
-                                    <label>
-                                        <input type="radio" name="type_label" value="{{ label.id }}">
-                                        <span class="label {{ label.css }}">{{ label.name }}</span>
-                                    </label>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
+                {% bootstrap_form form %}
             </div>
             <div class="modal-footer">
                 {% if spec_type %}
-                    <input type="hidden" name="type_id" value="{{ spec_type.id }}">
-                    <button type="button" onclick="del({{ spec_type.id }})" class="pull-left btn btn-danger">删除
-                    </button>
+                    {% if perms.crm.delete_customertype %}
+                        <button type="button"
+                                onclick="window.location.href='{% url 'delete_customertype' type=spec_type.id %}'"
+                                class="pull-left btn btn-danger">删除
+                        </button>
+                    {% endif %}
                 {% endif %}
                 <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
                 <button type="submit" class="btn btn-primary">保存</button>
             </div>
         </form>
-
-
     </div>
 </div>
 
 <script>
     $(document).ready(function () {
-        $('#type_form').bootstrapValidator({
-            fields: {
-                type_label:{
-                    validators: {
-                        notEmpty: {
-                            message: '不能为空'
-                        }
-                    }
-                }
-            },
-            submitHandler: function(){
-                $('#type_form').ajaxSubmit({
-                    success: function(response){
-                        $('#type_detail').modal('hide');
-                        $('.content').html(response);
-                    }
-                })
-            }
-        })
+        $('#type_form').bootstrapValidator();
     });
 </script>

@@ -1,5 +1,8 @@
 from django.conf.urls import patterns, include, url
-
+from django.views.generic import ListView
+from django.contrib.auth.decorators import permission_required
+from crm.models import Customer
+#from administration.asset.views import AssetCreateView, AssetUpdateView
 
 urlpatterns = patterns('',
                        # Examples:

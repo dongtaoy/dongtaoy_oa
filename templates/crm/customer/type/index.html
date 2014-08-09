@@ -5,6 +5,7 @@
     <link href="{% static 'css/bootstrap-validator/bootstrapValidator.min.css' %}" rel="stylesheet" type="text/css"/>
     <!-- validator -->
     <script src="{% static 'js/plugins/bootstrap-validator/bootstrapValidator.min.js' %}"></script>
+    <script src="{% static 'js/plugins/bootstrap-validator/zh_CN.js' %}"></script>
     <!-- Bootstrap modal -->
     <link href="{% static 'css/bootstrap-modal/bootstrap-modal.css' %}" rel="stylesheet" type="text/css"/>
     <!-- bootstrap modal -->
@@ -12,6 +13,11 @@
     <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modalmanager.js' %}"></script>
     <!-- Jquery form -->
     <script src="{% static 'js/plugins/jquery.form/jquery.form.js' %}"></script>
+    <!-- select2 -->
+    <link href="{% static 'css/bootstrap-select2/select2.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/bootstrap-select2/select2-bootstrap.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- select 2 -->
+    <script src="{% static 'js/plugins/bootstrap-select2/bootstrap-select2.js' %}"></script>
 {% endblock %}
 {% block content %}
     <section class="content-header">
@@ -33,30 +39,30 @@
     <div class="modal fade" id="type_detail" data-backdrop="static" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel"
          aria-hidden="true">
-        {% include 'crm/customer/type/modal.html' %}
     </div>
 {% endblock %}
 {% block js %}
     <script>
-        function loadmodal(id) {
+        {% if perms.crm.add_customertype %}
+        function add() {
             $('body').modalmanager('loading');
             setTimeout(function () {
-                $('#type_detail').load('/crm/customer/type/ajax/detail/' + '?type_id=' + id, function () {
+                $('#type_detail').load('{% url 'add_customertype' %}', function () {
                     $('#type_detail').modal();
                 });
             }, 1000);
         }
+        {% endif %}
 
-        function del(type_id) {
-            $.ajax({
-                url: '/crm/customer/type/ajax/delete/',
-                type: 'POST',
-                data: {type_id: type_id},
-                success: function (response) {
-                    $('#type_detail').modal('hide');
-                    $('.content').html(response);
-                }
-            })
+        {% if perms.crm.change_customertype %}
+        function mod(id) {
+            $('body').modalmanager('loading');
+            setTimeout(function () {
+                $('#type_detail').load('/crm/customer/type/ajax/mod/' + id, function () {
+                    $('#type_detail').modal();
+                });
+            }, 1000);
         }
+        {% endif %}
     </script>
 {% endblock %}
