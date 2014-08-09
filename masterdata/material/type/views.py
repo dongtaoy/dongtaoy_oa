@@ -1,43 +1,53 @@
-from django.template import RequestContext
-from django.shortcuts import render
-from dongtaoy_oa.views import common_context
-from django.db import transaction
-from system.models import Label
-from masterdata.models import Material,MaterialType
-from hr.models import Department
-from django.http import HttpResponse
+# encoding=utf-8
+from django.contrib.auth.decorators import permission_required
+from masterdata.forms import MaterialForm, MaterialTypeForm
+from masterdata.models import MaterialType, Material
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.urlresolvers import reverse
+from django.contrib import messages
+import time
+
+class MaterialTypeCreateView(SuccessMessageMixin, CreateView):
+    form_class = MaterialTypeForm
+    template_name = 'masterdata/material/type/modal.html'
+    success_url = '/masterdata/material/type/'
+    success_message = '%(name)s添加成功'.decode("utf-8")
+
+    def get_context_data(self, **kwargs):
+        context = super(MaterialTypeCreateView, self).get_context_data(**kwargs)
+        context['url'] = '/masterdata/material/type/ajax/add/'
+        return context
 
 
-def type_index(request):
-    types = MaterialType.objects.all()
-    return render(request, 'masterdata/material/type/index.html', {'types': types},
-                  context_instance=RequestContext(request, processors=[common_context]))
+class MaterialTypeUpdateView(SuccessMessageMixin, UpdateView):
+    form_class = MaterialTypeForm
+    template_name = 'masterdata/material/type/modal.html'
+    success_url = '/masterdata/material/type/'
+    success_message = '%(name)s修改成功'.decode('utf-8')
+    context_object_name = 'spec_type'
+
+    def get_object(self, queryset=None):
+        return MaterialType.objects.get(id=self.kwargs['type'])
+
+    def get_context_data(self, **kwargs):
+        context = super(MaterialTypeUpdateView, self).get_context_data(**kwargs)
+        context['url'] = '/masterdata/material/type/ajax/mod/%d/' % self.object.id
+        return context
 
 
-def type_detail(request):
-    labels = Label.objects.all()
-    try:
-        spec_type = MaterialType.objects.get(id=request.GET.get('type_id'))
-    except:
-        spec_type = None
-    return render(request, 'masterdata/material/type/modal.html', {'spec_type': spec_type,
-                                                            'labels': labels})
+class MaterialTypeDeleteView(DeleteView):
+    template_name = 'common/delete.html'
+    success_url = '/masterdata/material/type/'
 
+    def get_object(self, queryset=None):
+        return MaterialType.objects.get(id=self.kwargs['type'])
 
-def type_save(request):
-    print request.POST
-    with transaction.atomic():
-        MaterialType(id=request.POST.get('type_id'),
-                     name=request.POST.get('type_name'),
-                     description=request.POST.get('type_description'),
-                     label=Label.objects.get(id=request.POST.get('type_label'))).save()
-    types = MaterialType.objects.all()
-    return render(request, 'masterdata/material/type/body.html', {'types': types,
-                                                           'success': True})
+    def get_context_data(self, **kwargs):
+        context = super(MaterialTypeDeleteView, self).get_context_data(**kwargs)
+        context['url'] = reverse('delete_materialtype', kwargs={'type': self.object.id})
+        return context
 
-
-def type_delete(request):
-    MaterialType.objects.get(id=request.POST.get('type_id')).delete()
-    types = MaterialType.objects.all()
-    return render(request, 'masterdata/material/type/body.html', {'types': types,
-                                                           'success': True})
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, "删除成功")
+        return super(MaterialTypeDeleteView, self).delete(self.request, *args, **kwargs)
