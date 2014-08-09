@@ -17,15 +17,18 @@ urlpatterns = patterns('',
                            context_object_name='assets'
                        )),
 
-                       url(r'^ajax/add/$', permission_required('administration.add_asset')(AssetCreateView.as_view()),
+                       url(r'^ajax/add/$', permission_required('administration.add_asset', raise_exception=True)(
+                           AssetCreateView.as_view()),
                            name='add_asset'),
 
                        url(r'^ajax/mod/(?P<asset>\d+)/',
-                           permission_required('administration.change_asset')(AssetUpdateView.as_view()),
+                           permission_required('administration.change_asset', raise_exception=True)(
+                               AssetUpdateView.as_view()),
                            name='change_asset'),
 
                        url(r'^ajax/delete/(?P<asset>\d+)/',
-                           permission_required('administration.delete_asset')(AssetDeleteView.as_view()),
+                           permission_required('administration.delete_asset', raise_exception=True)(
+                               AssetDeleteView.as_view()),
                            name='delete_asset'),
 
                        # category

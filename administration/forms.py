@@ -4,6 +4,10 @@ from administration.models import Asset, AssetCategory
 
 
 class AssetForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AssetForm, self).__init__(*args, **kwargs)
+        self.fields['categories'].help_text = ''
+
     class Meta:
         model = Asset
         exclude = ['regtime']

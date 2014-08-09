@@ -51,7 +51,7 @@
         function add() {
             $('body').modalmanager('loading');
             setTimeout(function () {
-                $('#asset_detail').load('/administration/asset/ajax/add/', function () {
+                $('#asset_detail').load('{% url 'add_asset' %}', function () {
                     $('#asset_detail').modal();
                 });
             }, 1000);
@@ -69,18 +69,5 @@
         }
         {% endif %}
 
-        {% if perms.administration.delete_asset %}
-        function del(asset_id) {
-            $.ajax({
-                url: '/administration/asset/ajax/delete/',
-                type: 'POST',
-                data: {asset_id: asset_id},
-                success: function (response) {
-                    $('#asset_detail').modal('hide');
-                    $('.content').html(response);
-                }
-            })
-        }
-        {% endif %}
     </script>
 {% endblock %}

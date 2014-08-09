@@ -2,7 +2,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from administration.models import Asset
@@ -17,7 +16,7 @@ class AssetCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(AssetCreateView, self).get_context_data(**kwargs)
-        context['url'] = '/administration/asset/ajax/add/'
+        context['url'] = reverse('add_asset')
         return context
 
     def form_valid(self, form):
@@ -40,7 +39,7 @@ class AssetUpdateView(SuccessMessageMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(AssetUpdateView, self).get_context_data(**kwargs)
-        context['url'] = '/administration/asset/ajax/mod/%d/' % self.object.id
+        context['url'] = reverse('change_asset', kwargs={'asset': self.object.id})
         return context
 
 

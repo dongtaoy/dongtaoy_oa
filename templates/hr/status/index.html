@@ -45,7 +45,7 @@
                         {% include 'hr/status/body.html' %}
                     </div>
                     <div class="box-footer">
-                        <button class="btn btn-default show" onclick="loadmodal();">新增</button>
+                        <button class="btn btn-default show" onclick="add();">新增</button>
                     </div>
                 </div>
             </div>
@@ -55,31 +55,31 @@
     <div class="modal fade" id="userstatus_detail" data-backdrop="static" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel"
          aria-hidden="true">
-        {% include 'hr/status/modal.html' %}
     </div>
 {% endblock %}
 {% block js %}
     <script>
-
-        function loadmodal(id) {
+        {% if perms.hr.add_userstatus %}
+        function add() {
             $('body').modalmanager('loading');
             setTimeout(function () {
-                $('#userstatus_detail').load('/hr/status/ajax/detail/' + '?userstatus_id=' + id, function () {
+                $('#userstatus_detail').load('{% url 'add_userstatus' %}', function () {
                     $('#userstatus_detail').modal();
                 });
             }, 1000);
         }
+        {% endif %}
 
-        function del(userstatus_id) {
-            $.ajax({
-                url: '/hr/status/ajax/delete/',
-                type: 'POST',
-                data: {userstatus_id: userstatus_id},
-                success: function (response) {
-                    $('#userstatus_detail').modal('hide');
-                    $('.box-body').html(response);
-                }
-            })
+        {% if perms.hr.change_userstatus %}
+        function mod(id) {
+            $('body').modalmanager('loading');
+            setTimeout(function () {
+                $('#userstatus_detail').load('/hr/status/ajax/mod/' + id, function () {
+                    $('#userstatus_detail').modal();
+                });
+            }, 1000);
         }
+        {% endif %}
+
     </script>
 {% endblock %}

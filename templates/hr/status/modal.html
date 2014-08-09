@@ -1,6 +1,7 @@
+{% load bootstrap3 %}
 <div class="modal-dialog">
     <div class="modal-content">
-        <form id="userstatus_form" action="/hr/status/ajax/save/" method="POST"
+        <form id="userstatus_form" action="{{ url }}" method="POST"
               data-bv-message="This value is not valid"
               data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
               data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
@@ -17,40 +18,41 @@
             </div>
 
             <div class="modal-body">
-                <div class="form-group">
-                    <label>名字：</label>
-                    <input class="form-control" type="text" value="{{ spec_userstatus.name }}" name="userstatus_name"
-                           data-bv-notempty="true"
-                           data-bv-message="正确填写名字"/>
-                </div>
-                <div class="form-group">
-                    <label>描述：</label>
-                    <textarea class="form-control" name="userstatus_description"
-                              rows="3" data-bv-notempty="true"
-                              data-bv-message="不能为空">{{ spec_userstatus.description }}</textarea>
-
-                </div>
-                <div class="form-group">
-                    <label>标签：</label>
-                    <br/>
-                    <div class="row">
-                        <div class="col-lg-11">
-                            {% for label in labels %}
-                                {% if spec_userstatus.label == label %}
-                                    <label>
-                                        <input type="radio" name="userstatus_label" value="{{ label.id }}">
-                                        <span class="label {{ label.css }}">{{ label.name }}</span>
-                                    </label>
-                                {% else %}
-                                    <label>
-                                        <input type="radio" name="userstatus_label" value="{{ label.id }}">
-                                        <span class="label {{ label.css }}">{{ label.name }}</span>
-                                    </label>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
+            {% bootstrap_form form %}
+{#                <div class="form-group">#}
+{#                    <label>名字：</label>#}
+{#                    <input class="form-control" type="text" value="{{ spec_userstatus.name }}" name="userstatus_name"#}
+{#                           data-bv-notempty="true"#}
+{#                           data-bv-message="正确填写名字"/>#}
+{#                </div>#}
+{#                <div class="form-group">#}
+{#                    <label>描述：</label>#}
+{#                    <textarea class="form-control" name="userstatus_description"#}
+{#                              rows="3" data-bv-notempty="true"#}
+{#                              data-bv-message="不能为空">{{ spec_userstatus.description }}</textarea>#}
+{##}
+{#                </div>#}
+{#                <div class="form-group">#}
+{#                    <label>标签：</label>#}
+{#                    <br/>#}
+{#                    <div class="row">#}
+{#                        <div class="col-lg-11">#}
+{#                            {% for label in labels %}#}
+{#                                {% if spec_userstatus.label == label %}#}
+{#                                    <label>#}
+{#                                        <input type="radio" name="userstatus_label" value="{{ label.id }}">#}
+{#                                        <span class="label {{ label.css }}">{{ label.name }}</span>#}
+{#                                    </label>#}
+{#                                {% else %}#}
+{#                                    <label>#}
+{#                                        <input type="radio" name="userstatus_label" value="{{ label.id }}">#}
+{#                                        <span class="label {{ label.css }}">{{ label.name }}</span>#}
+{#                                    </label>#}
+{#                                {% endif %}#}
+{#                            {% endfor %}#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
             </div>
             <div class="modal-footer">
                 {% if spec_userstatus %}
@@ -80,14 +82,6 @@
                         }
                     }
                 }
-            },
-            submitHandler: function () {
-                $('#userstatus_form').ajaxSubmit({
-                    success: function (response) {
-                        $('#userstatus_detail').modal('hide');
-                        $('.box-body').html(response);
-                    }
-                });
             }
         });
     });
