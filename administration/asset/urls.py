@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.views.generic import ListView
 from django.contrib.auth.decorators import permission_required
 from administration.models import Asset
-from administration.asset.views import AssetCreateView, AssetUpdateView
+from administration.asset.views import AssetCreateView, AssetUpdateView, AssetDeleteView
 
 
 urlpatterns = patterns('',
@@ -17,11 +17,19 @@ urlpatterns = patterns('',
                            context_object_name='assets'
                        )),
 
-                       url(r'^ajax/add/$', permission_required('administration.add_asset')(AssetCreateView.as_view())),
+                       url(r'^ajax/add/$', permission_required('administration.add_asset', raise_exception=True)(
+                           AssetCreateView.as_view()),
+                           name='add_asset'),
 
-                       url(r'^ajax/mod/(?P<asset>\d+)/', permission_required('administration.change_asset')(AssetUpdateView.as_view())),
+                       url(r'^ajax/mod/(?P<asset>\d+)/',
+                           permission_required('administration.change_asset', raise_exception=True)(
+                               AssetUpdateView.as_view()),
+                           name='change_asset'),
 
-                       url(r'^ajax/delete/', 'administration.asset.views.asset_delete'),
+                       url(r'^ajax/delete/(?P<asset>\d+)/',
+                           permission_required('administration.delete_asset', raise_exception=True)(
+                               AssetDeleteView.as_view()),
+                           name='delete_asset'),
 
                        # category
                        url(r'^category/', include('administration.asset.category.urls'))

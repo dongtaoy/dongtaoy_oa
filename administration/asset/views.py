@@ -1,8 +1,8 @@
 # encoding=utf-8
 from django.shortcuts import render, redirect
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth.decorators import permission_required
+from django.core.urlresolvers import reverse
 from django.contrib import messages
 from administration.models import Asset
 from administration.forms import AssetForm
@@ -16,7 +16,7 @@ class AssetCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(AssetCreateView, self).get_context_data(**kwargs)
-        context['url'] = '/administration/asset/ajax/add/'
+        context['url'] = reverse('add_asset')
         return context
 
     def form_valid(self, form):
@@ -39,13 +39,22 @@ class AssetUpdateView(SuccessMessageMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(AssetUpdateView, self).get_context_data(**kwargs)
-        context['url'] = '/administration/asset/ajax/mod/%d/' % self.object.id
+        context['url'] = reverse('change_asset', kwargs={'asset': self.object.id})
         return context
 
 
+class AssetDeleteView(DeleteView):
+    template_name = 'common/delete.html'
+    success_url = '/administration/asset/'
 
-@permission_required('administration.delete_asset')
-def asset_delete(request):
-    Asset.objects.get(id=request.POST.get('asset_id')).delete()
-    messages.success(request, "删除成功")
-    return render(request, 'administration/asset/body.html', {'assets': Asset.objects.all()})
+    def get_object(self, queryset=None):
+        return Asset.objects.get(id=self.kwargs['asset'])
+
+    def get_context_data(self, **kwargs):
+        context = super(AssetDeleteView, self).get_context_data(**kwargs)
+        context['url'] = reverse('delete_asset', kwargs={'asset': self.object.id})
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, '删除成功')
+        return super(AssetDeleteView, self).delete(self.request, *args, **kwargs)

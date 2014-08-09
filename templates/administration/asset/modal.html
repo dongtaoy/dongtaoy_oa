@@ -19,7 +19,7 @@
 
             <div class="modal-body">
                 {% bootstrap_form form %}
-            <!--
+                <!--
                 <div class="form-group">
                     <label>品牌：</label>
                     <input class="form-control" type="text" value="{{ spec_asset.brand }}" name="asset_brand"
@@ -80,8 +80,10 @@
             <div class="modal-footer">
                 {% if spec_asset %}
                     {% if perms.administration.delete_asset %}
-                    <button type="button" onclick="del({{ spec_asset.id }})" class="pull-left btn btn-danger">删除
-                    </button>
+                        <button type="button"
+                                onclick="window.location.href='{% url 'delete_asset' asset=spec_asset.id %}'"
+                                class="pull-left btn btn-danger">删除
+                        </button>
                     {% endif %}
                 {% endif %}
                 <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
