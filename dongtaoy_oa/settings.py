@@ -75,7 +75,7 @@ DATABASES = {
         'NAME': 'office_automation',
         'USER': 'root',
         'PASSWORD': 'yudanny1',
-        'HOST': '10.10.10.5',
+        'HOST': '203.153.207.195',
         'PORT': '3306'
     }
 }

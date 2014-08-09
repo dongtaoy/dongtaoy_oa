@@ -8,7 +8,6 @@ class CustomerTypeForm(ModelForm):
         fields = '__all__'
         labels = {
             'name': '名称',
-            'css': '样式',
             'description': '描述'
         }
 
