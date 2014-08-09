@@ -24,7 +24,9 @@
                 {% if spec_userstatus %}
                     {% if perms.hr.delete_userstatus %}
                         <input type="hidden" name="userstatus_id" value="{{ spec_userstatus.id }}">
-                        <button type="button" onclick="" class="pull-left btn btn-danger">删除
+                        <button type="button"
+                                onclick="window.location.href='{% url 'delete_userstatus' status=spec_userstatus.id %}'"
+                                class="pull-left btn btn-danger">删除
                         </button>
                     {% endif %}
                 {% endif %}
@@ -40,17 +42,6 @@
         $('select').select2({
             minimumResultsForSearch: -1
         });
-        $('#userstatus_form').bootstrapValidator({
-            excluded: [':disabled'],
-            fields: {
-                userstatus_label: {
-                    validators: {
-                        notEmpty: {
-                            message: '不能为空'
-                        }
-                    }
-                }
-            }
-        });
+        $('#userstatus_form').bootstrapValidator();
     });
 </script>
