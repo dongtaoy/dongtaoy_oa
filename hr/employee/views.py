@@ -1,8 +1,11 @@
-from django.shortcuts import render
+# encoding=utf-8
+from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import permission_required
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.core.urlresolvers import reverse
+from django.contrib import messages
 from django.db import transaction
 from hr.models import Employee
 from hr.forms import EmployeeForm
@@ -11,6 +14,7 @@ from hr.forms import EmployeeForm
 class EmployeeCreateView(CreateView):
     form_class = EmployeeForm
     template_name = 'hr/employee/modal.html'
+    success_url = '/hr/employee/'
 
     def get_context_data(self, **kwargs):
         context = super(EmployeeCreateView, self).get_context_data(**kwargs)
@@ -30,14 +34,14 @@ class EmployeeCreateView(CreateView):
             employee = EmployeeForm(self.request.POST).save(commit=False)
             employee.user = user
             employee.save()
-        return render(self.request, 'hr/employee/body.html',
-                      {"users": [x for x in User.objects.all() if x.is_active],
-                       "success": True})
+        messages.success(self.request, '%s添加成功' % employee)
+        return redirect(self.success_url)
 
 
 class EmployeeUpdateView(UpdateView):
     form_class = EmployeeForm
     template_name = 'hr/employee/modal.html'
+    success_url = '/hr/employee/'
     context_object_name = 'spec_employee'
 
     def get_object(self, queryset=None):
@@ -58,9 +62,22 @@ class EmployeeUpdateView(UpdateView):
             employee.user.email = self.request.POST.get('email')
             employee.user.save()
             EmployeeForm(self.request.POST, instance=employee).save()
-        return render(self.request, 'hr/employee/body.html',
-                      {"users": [x for x in User.objects.all() if x.is_active],
-                       "success": True})
+        messages.success(self.request, '%s修改成功' % employee)
+        return redirect(self.success_url)
+
+
+class EmployeeDeleteView(DeleteView):
+    model = Employee
+    success_url = '/hr/employee/'
+
+    def get_object(self, queryset=None):
+        return Employee.objects.get(id=self.kwargs['employee'])
+
+    def get_context_data(self, **kwargs):
+        context = super(EmployeeDeleteView, self).get_context_data(**kwargs)
+        return context
+
+
 
 
 # delete user
@@ -69,8 +86,7 @@ def user_delete(request):
     user = Employee.objects.get(id=request.POST.get('user_id')).user
     user.is_active = 0
     user.save()
-    return render(request, 'hr/employee/body.html', {"users": [x for x in User.objects.all() if x.is_active],
-                                                     "success": True})
+    return redirect('/hr/employee')
 
 
 # check username existence
