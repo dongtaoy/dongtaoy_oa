@@ -1,16 +1,26 @@
-from django.conf.urls import patterns, include, url
-
+from django.conf.urls import patterns, url
+from django.views.generic import ListView
+from django.contrib.auth.decorators import permission_required
+from masterdata.models import Material, MaterialType
+from masterdata.material.type.views import MaterialTypeCreateView, MaterialTypeUpdateView, MaterialTypeDeleteView
 
 urlpatterns = patterns('',
-                       # Examples:
-                       # url(r'^$', 'dongtaoy_oa.views.home', name='home'),
-                       # url(r'^blog/', include('blog.urls')),
-                       # url(r'^$','dongtaoy_oa.crm.views.customer_index'),
-                       #url(r'^$', 'crm.customer.views.customer_index'),
+                       url(r'^$', ListView.as_view(
+                           model=MaterialType,
+                           context_object_name='types',
+                           template_name='masterdata/material/type/index.html')),
+
+                       # detail
+                       url(r'^ajax/add/', permission_required('masterdata.add_materialtype', raise_exception=True)(
+                           MaterialTypeCreateView.as_view()), name='add_materialtype'),
+
+                       # save
+                       url(r'^ajax/mod/(?P<type>\d+)/',
+                           permission_required('masterdata.change_materialtype', raise_exception=True)(
+                               MaterialTypeUpdateView.as_view()), name='change_materialtype'),
 
 
-                       url(r'^$', 'masterdata.material.type.views.type_index'),
-                       url(r'^ajax/detail/', 'masterdata.material.type.views.type_detail'),
-                       url(r'^ajax/save/', 'masterdata.material.type.views.type_save'),
-                       url(r'^ajax/delete/', 'masterdata.material.type.views.type_delete')
+                       url(r'^delete/(?P<type>\d+)/',
+                           permission_required('masterdata.delete_materialtype', raise_exception=True)(
+                               MaterialTypeDeleteView.as_view()), name='delete_materialtype')
 )
