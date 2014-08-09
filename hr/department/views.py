@@ -6,7 +6,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.db import transaction
-from hr.models import Department
+from hr.models import Department, Employee
 from hr.forms import DepartmentForm
 from django.http import HttpResponse
 
@@ -20,6 +20,7 @@ class DepartmentCreateView(SuccessMessageMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(DepartmentCreateView, self).get_context_data(**kwargs)
         context['url'] = reverse('add_department')
+        context['form'].fields['leader'].queryset = Employee.objects.filter(user__is_active=1)
         return context
 
     def form_valid(self, form):
@@ -45,6 +46,7 @@ class DepartmentUpdateView(SuccessMessageMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(DepartmentUpdateView, self).get_context_data(**kwargs)
         context['url'] = reverse('change_department', kwargs={'department': self.object.id})
+        context['form'].fields['leader'].queryset = Employee.objects.filter(user__is_active=1)
         return context
 
     def form_valid(self, form):

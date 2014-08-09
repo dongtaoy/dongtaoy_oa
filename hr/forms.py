@@ -33,6 +33,7 @@ class EmployeeForm(ModelForm):
 
 
 class DepartmentForm(ModelForm):
+
     class Meta:
         model = Department
         exclude = ['group']

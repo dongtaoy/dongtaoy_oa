@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.db import transaction
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.decorators import permission_required
@@ -10,7 +9,7 @@ from dongtaoy_oa.views import permission_tree
 
 class SidebarListView(ListView):
     model = Sidebar
-    template_name = 'system/permission/index.html'
+    template_name = 'system/permission/sidebar/index.html'
     context_object_name = 'permissions'
 
     def get_queryset(self):
@@ -19,7 +18,7 @@ class SidebarListView(ListView):
 
 class SidebarCreateView(CreateView):
     form_class = SidebarForm
-    template_name = 'system/permission/modal.html'
+    template_name = 'system/permission/sidebar/modal.html'
 
     def get_context_data(self, **kwargs):
         context = super(SidebarCreateView, self).get_context_data(**kwargs)
@@ -28,13 +27,13 @@ class SidebarCreateView(CreateView):
 
     def form_valid(self, form):
         form.save()
-        return render(self.request, 'system/permission/body.html',
+        return render(self.request, 'system/permission/sidebar/body.html',
                       {"permissions": permission_tree(Sidebar.objects.all()), "success": True})
 
 
 class SidebarUpdateView(UpdateView):
     form_class = SidebarForm
-    template_name = 'system/permission/modal.html'
+    template_name = 'system/permission/sidebar/modal.html'
     context_object_name = 'spec_sidebar'
 
     def get_object(self, queryset=None):
@@ -47,7 +46,7 @@ class SidebarUpdateView(UpdateView):
 
     def form_valid(self, form):
         form.save()
-        return render(self.request, 'system/permission/body.html',
+        return render(self.request, 'system/permission/sidebar/body.html',
                       {"permissions": permission_tree(Sidebar.objects.all()), "success": True})
 
 
@@ -56,5 +55,5 @@ class SidebarUpdateView(UpdateView):
 def permission_delete(request):
     Sidebar.objects.get(id=request.POST.get("permission_id")).delete()
     all_permissions = Sidebar.objects.all()
-    return render(request, 'system/permission/body.html', {"permissions": permission_tree(all_permissions),
+    return render(request, 'system/permission/sidebar/body.html', {"permissions": permission_tree(all_permissions),
                                                            "success": 1})
