@@ -98,7 +98,7 @@
 <div class="modal-footer">
     {% if spec_employee %}
         {% if perms.hr.delete_employee %}
-        <button type="button" onclick="del({{ spec_employee.id }})" class="pull-left btn btn-danger">删除
+        <button type="button" onclick="window.location.href='{% url 'delete_employee' employee=spec_employee.id%}'" class="pull-left btn btn-danger">删除
         </button>
         {% endif %}
     {% endif %}
@@ -131,7 +131,12 @@
                       }
                   }
                 },
-                user_username: {
+                salary:{
+                  validators:{
+                      integer: {}
+                  }
+                },
+                username: {
                     validators: {
                         remote: {
                             message: '帐号重复',
@@ -142,19 +147,6 @@
                         }
                     }
                 }
-            },
-            submitHandler: function () {
-                $('#user_form').ajaxSubmit({
-                    success: function (response) {
-                        $('#user_detail').modal('hide');
-                        $('.content').html(response);
-                    },
-                    error: function (response) {
-                        $('#user_detail').modal('hide');
-                        alert('保存失败');
-                    }
-
-                });
             }
         });
     });

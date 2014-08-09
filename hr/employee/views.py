@@ -2,7 +2,6 @@
 from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User, Group
-from django.contrib.auth.decorators import permission_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse
 from django.contrib import messages
@@ -18,7 +17,7 @@ class EmployeeCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(EmployeeCreateView, self).get_context_data(**kwargs)
-        context['url'] = '/hr/employee/ajax/add/'
+        context['url'] = reverse('add_employee')
         context['groups'] = Group.objects.all()
         return context
 
@@ -49,7 +48,7 @@ class EmployeeUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(EmployeeUpdateView, self).get_context_data(**kwargs)
-        context['url'] = '/hr/employee/ajax/mod/%d/' % self.object.id
+        context['url'] = reverse('change_employee', kwargs={'employee': self.object.id})
         context['groups'] = Group.objects.all()
         return context
 
@@ -69,30 +68,39 @@ class EmployeeUpdateView(UpdateView):
 class EmployeeDeleteView(DeleteView):
     model = Employee
     success_url = '/hr/employee/'
+    template_name = 'common/delete.html'
 
     def get_object(self, queryset=None):
         return Employee.objects.get(id=self.kwargs['employee'])
 
     def get_context_data(self, **kwargs):
         context = super(EmployeeDeleteView, self).get_context_data(**kwargs)
+        context['url'] = reverse('delete_employee', kwargs={'employee': self.object.id})
         return context
 
+    def delete(self, request, *args, **kwargs):
+        user = Employee.objects.get(id=self.kwargs['employee']).user
+        user.is_active = 0
+        user.save()
+        messages.success(self.request, '删除成功')
+        return redirect(self.success_url)
 
 
 
-# delete user
-@permission_required('hr.employee_delete')
-def user_delete(request):
-    user = Employee.objects.get(id=request.POST.get('user_id')).user
-    user.is_active = 0
-    user.save()
-    return redirect('/hr/employee')
+
+# # delete user
+# @permission_required('hr.employee_delete')
+# def user_delete(request):
+#     user = Employee.objects.get(id=request.POST.get('user_id')).user
+#     user.is_active = 0
+#     user.save()
+#     return redirect('/hr/employee')
 
 
 # check username existence
 def user_check(request):
     try:
-        User.objects.get(username=request.POST.get('user_username'))
+        User.objects.get(username=request.POST.get('username'))
         return HttpResponse('{"valid": false}')
     except:
         return HttpResponse('{"valid": true}')
