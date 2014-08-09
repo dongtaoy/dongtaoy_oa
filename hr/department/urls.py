@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.views.generic import ListView
 from django.contrib.auth.decorators import permission_required
 from hr.models import Department
-from hr.department.views import DepartmentCreateView, DepartmentUpdateView
+from hr.department.views import DepartmentCreateView, DepartmentUpdateView, DepartmentDeleteView
 
 
 urlpatterns = patterns(
@@ -19,20 +19,22 @@ urlpatterns = patterns(
             template_name='hr/department/index.html'))),
 
 
-    url(r'^ajax/add/',
+    url(r'^ajax/add/$',
         permission_required('hr.add_department', raise_exception=True)(DepartmentCreateView.as_view()),
-        name='department_create'),
+        name='add_department'),
 
 
     url(r'^ajax/mod/(?P<department>\d+)/$',
         permission_required('hr.change_department', raise_exception=True)(DepartmentUpdateView.as_view()),
-        name='department_mod'),
+        name='change_department'),
 
 
-    url(r'^ajax/delete/', 'hr.department.views.group_delete'),
+    url(r'^ajax/delete/(?P<department>\d+)/$',
+        permission_required('hr.delete_department', raise_exception=True)(DepartmentDeleteView.as_view()),
+        name='delete_department'),
 
 
-    url(r'^ajax/check/', 'hr.department.views.group_check'),
+    url(r'^ajax/check/(?P<department>\d*)/$', 'hr.department.views.group_check', name='check_department'),
 
 
     url(r'^permission/', include('hr.department.permission.urls'))

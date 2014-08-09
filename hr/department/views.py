@@ -1,20 +1,25 @@
-from django.shortcuts import render
+# encoding=utf-8
+from django.shortcuts import redirect
 from django.contrib.auth.models import Group
-from django.views.generic.edit import CreateView, UpdateView
-from django.contrib.auth.decorators import permission_required
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.urlresolvers import reverse
+from django.contrib import messages
 from django.db import transaction
 from hr.models import Department
 from hr.forms import DepartmentForm
 from django.http import HttpResponse
 
 
-class DepartmentCreateView(CreateView):
+class DepartmentCreateView(SuccessMessageMixin, CreateView):
     form_class = DepartmentForm
     template_name = 'hr/department/modal.html'
+    success_url = '/hr/department/'
+    success_message = '添加成功'
 
     def get_context_data(self, **kwargs):
         context = super(DepartmentCreateView, self).get_context_data(**kwargs)
-        context['url'] = '/hr/department/ajax/add/'
+        context['url'] = reverse('add_department')
         return context
 
     def form_valid(self, form):
@@ -23,21 +28,23 @@ class DepartmentCreateView(CreateView):
             department = DepartmentForm(self.request.POST).save(commit=False)
             department.group = group
             department.save()
-        return render(self.request, 'hr/department/body.html', {"success": True,
-                                                                "groups": Department.objects.all()})
+        messages.success(self.request, self.success_message)
+        return redirect(self.success_url)
 
 
-class DepartmentUpdateView(UpdateView):
+class DepartmentUpdateView(SuccessMessageMixin, UpdateView):
     form_class = DepartmentForm
     template_name = 'hr/department/modal.html'
+    success_url = '/hr/department/'
     context_object_name = 'spec_department'
+    success_message = '修改成功'
 
     def get_object(self, queryset=None):
         return Department.objects.get(id=self.kwargs['department'])
 
     def get_context_data(self, **kwargs):
         context = super(DepartmentUpdateView, self).get_context_data(**kwargs)
-        context['url'] = '/hr/department/ajax/mod/%d/' % self.object.id
+        context['url'] = reverse('change_department', kwargs={'department': self.object.id})
         return context
 
     def form_valid(self, form):
@@ -46,23 +53,42 @@ class DepartmentUpdateView(UpdateView):
                                         instance=Department.objects.get(id=self.kwargs['department'])).save()
             department.group.name = self.request.POST.get('group_name')
             department.group.save()
-        return render(self.request, 'hr/department/body.html', {"success": True,
-                                                                "groups": Department.objects.all()})
+        messages.success(self.request, self.success_message)
+        return redirect(self.success_url)
 
 
-@permission_required('hr.delete_department')
-def group_delete(request):
-    department = Department.objects.get(id=request.POST.get('group_id'))
-    department.group.delete()
-    department.delete()
-    groups = Department.objects.all()
-    return render(request, 'hr/department/body.html', {"success": True,
-                                                       "groups": groups})
+class DepartmentDeleteView(DeleteView):
+    model = Department
+    success_url = '/hr/department/'
+    template_name = 'common/delete.html'
+
+    def get_object(self, queryset=None):
+        return Department.objects.get(id=self.kwargs['department'])
+
+    def get_context_data(self, **kwargs):
+        context = super(DepartmentDeleteView, self).get_context_data(**kwargs)
+        context['url'] = reverse('delete_department', kwargs={'department': self.object.id})
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, '删除成功')
+        Department.objects.get(id=self.kwargs['department']).group.delete()
+        return redirect(self.success_url)
 
 
-def group_check(request):
+def group_check(request, department=None):
     try:
-        Group.objects.get(name=request.POST.get('group_name'))
-        return HttpResponse('{"valid": false}')
+        inputgroup = Group.objects.get(name=request.POST.get('group_name'))
+        try:
+            department = int(department)
+            print 'in'
+            group = Department.objects.get(id=department)
+            print 'group'
+            if group.group == inputgroup:
+                return HttpResponse('{"valid": true}')
+            else:
+                return HttpResponse('{"valid": false}')
+        except:
+            return HttpResponse('{"valid": false}')
     except:
         return HttpResponse('{"valid": true}')

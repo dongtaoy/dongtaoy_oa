@@ -28,8 +28,10 @@
             <div class="modal-footer">
                 {% if spec_department %}
                     {% if perms.hr.delete_department %}
-                    <button type="button" onclick="del({{ spec_department.id }})" class="pull-left btn btn-danger">删除
-                    </button>
+                        <button type="button"
+                                onclick="window.location.href='{% url 'delete_department' department=spec_department.id %}'"
+                                class="pull-left btn btn-danger">删除
+                        </button>
                     {% endif %}
                 {% endif %}
                 <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
@@ -46,29 +48,19 @@
     $(document).ready(function () {
         $('#group_form').bootstrapValidator({
             excluded: [':disabled'],
-            {% if 'add' in url %}
                 fields: {
                     group_name: {
                         validators: {
                             remote: {
                                 message: '帐号重复',
-                                url: '/hr/department/ajax/check/'
+                                url: '/hr/department/ajax/check/{{ spec_department.id }}/'
                             },
                             notEmpty: {
                                 message: '不能为空'
                             }
                         }
                     }
-                },
-            {% endif %}
-            submitHandler: function () {
-                $('#group_form').ajaxSubmit({
-                    success: function (response) {
-                        $('#user_detail').modal('hide');
-                        $('.box-body').html(response);
-                    }
-                });
-            }
+                }
         });
     });
 </script>

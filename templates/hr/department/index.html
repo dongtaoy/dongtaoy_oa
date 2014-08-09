@@ -75,7 +75,7 @@
         function add() {
             $('body').modalmanager('loading');
             setTimeout(function () {
-                $('#user_detail').load('/hr/department/ajax/add/', function () {
+                $('#user_detail').load('{% url 'add_department' %}', function () {
                     $('#user_detail').modal();
                 });
             }, 1000);
@@ -93,19 +93,5 @@
         }
         {% endif %}
 
-
-        {% if perms.hr.delete_department %}
-        function del(group_id) {
-            $.ajax({
-                url: '/hr/department/ajax/delete/',
-                type: 'POST',
-                data: {group_id: group_id},
-                success: function (response) {
-                    $('#user_detail').modal('hide');
-                    $('.box-body').html(response);
-                }
-            })
-        }
-        {% endif %}
     </script>
 {% endblock %}

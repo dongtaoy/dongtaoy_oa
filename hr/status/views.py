@@ -11,7 +11,7 @@ class UserStatusCreateView(SuccessMessageMixin, CreateView):
     form_class = UserStatusForm
     template_name = 'hr/status/modal.html'
     success_url = '/hr/status/'
-    success_message = '%(name)s 添加成功成功'.decode('utf-8')
+    success_message = '%(name)s 添加成功'.decode('utf-8')
 
     def get_context_data(self, **kwargs):
         context = super(UserStatusCreateView, self).get_context_data(**kwargs)
@@ -23,7 +23,7 @@ class UserStatusUpdateView(SuccessMessageMixin, UpdateView):
     form_class = UserStatusForm
     template_name = 'hr/status/modal.html'
     success_url = '/hr/status/'
-    success_message = '%(name)s 添加成功成功'.decode('utf-8')
+    success_message = '%(name)s 修改成功'.decode('utf-8')
     context_object_name = 'spec_userstatus'
 
     def get_object(self, queryset=None):
