@@ -26,7 +26,7 @@ class UserStatusUpdateView(SuccessMessageMixin, UpdateView):
     template_name = 'hr/status/modal.html'
     success_url = '/hr/status/'
     success_message = '%(name)s 添加成功成功'.decode('utf-8')
-    context_object_name = 'spec_status'
+    context_object_name = 'spec_userstatus'
 
     def get_object(self, queryset=None):
         return UserStatus.objects.get(id=self.kwargs['status'])

@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.views.generic import ListView
 from django.contrib.auth.decorators import permission_required
 from hr.models import UserStatus
-from hr.status.views import UserStatusCreateView, UserStatusUpdateView
+from hr.status.views import UserStatusCreateView, UserStatusUpdateView, UserStatusDeleteView
 
 urlpatterns = patterns('',
                        # Examples:
@@ -21,4 +21,8 @@ urlpatterns = patterns('',
                        url(r'^ajax/mod/(?P<status>\d+)/',
                            permission_required('hr.change_userstatus')(UserStatusUpdateView.as_view()),
                            name='change_userstatus'),
+
+                       url(r'^ajax/delete/(?P<status>\d+)/',
+                           permission_required('hr.delete_userstatus')(UserStatusDeleteView.as_view()),
+                           name='delete_userstatus'),
 )
