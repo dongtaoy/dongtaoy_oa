@@ -50,7 +50,7 @@
         function add() {
             $('body').modalmanager('loading');
             setTimeout(function () {
-                $('#permission_detail').load('/system/permission/ajax/add/', function () {
+                $('#permission_detail').load('/system/permission/sidebar/ajax/add/', function () {
                     $('#permission_detail').modal();
                 });
             }, 1000);
@@ -59,7 +59,7 @@
         function mod(id) {
             $('body').modalmanager('loading');
             setTimeout(function () {
-                $('#permission_detail').load('/system/permission/ajax/mod/' + id, function () {
+                $('#permission_detail').load('/system/permission/sidebar/ajax/mod/' + id, function () {
                     $('#permission_detail').modal();
                 });
             }, 1000);
@@ -67,7 +67,7 @@
 
         function del(permission_id) {
             $.ajax({
-                url: '/system/permission/ajax/delete/',
+                url: '/system/permission/sidebar/ajax/delete/',
                 type: "POST",
                 data: {permission_id: permission_id},
                 success: function (response) {

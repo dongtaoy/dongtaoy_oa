@@ -56,7 +56,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'dongtaoy_oa.middleware.AuthenticationMiddleware'
+    'dongtaoy_oa.middleware.AuthenticationMiddleware'
 )
 
 ANONYMOUS_USER_ID = -1
@@ -75,7 +75,7 @@ DATABASES = {
         'NAME': 'office_automation',
         'USER': 'root',
         'PASSWORD': 'yudanny1',
-        'HOST': '203.153.207.195',
+        'HOST': '10.10.10.5',
         'PORT': '3306'
     }
 }
@@ -118,3 +118,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
     "dongtaoy_oa.context_processors.common"
 )
+
+# Session
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

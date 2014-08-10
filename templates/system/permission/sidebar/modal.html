@@ -31,13 +31,4 @@
 </div>
 <script>
     $('select').select2();
-    $('#permission_form').submit(function () {
-        $(this).ajaxSubmit({
-            success: function (response) {
-                $('#permission_detail').modal('hide');
-                $('.content').html(response);
-            }
-        });
-        return false;
-    })
 </script>
