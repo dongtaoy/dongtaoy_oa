@@ -18,19 +18,19 @@ urlpatterns = patterns(
         template_name='hr/employee/index.html'))),
 
 
-    url(r'^ajax/add/', permission_required('hr.add_employee', raise_exception=True)(EmployeeCreateView.as_view()),
+    url(r'^ajax/add/$', permission_required('hr.add_employee', raise_exception=True)(EmployeeCreateView.as_view()),
         name='add_employee'),
 
 
-    url(r'^ajax/mod/(?P<employee>\d+)/',
+    url(r'^ajax/mod/(?P<employee>\d+)/$',
         permission_required('hr.change_employee', raise_exception=True)(EmployeeUpdateView.as_view()),
         name='change_employee'),
 
 
-    url(r'ajax/delete/(?P<employee>\d+)/',
+    url(r'delete/(?P<employee>\d+)/$',
         permission_required('hr.delete_employee', raise_exception=True)(EmployeeDeleteView.as_view()),
         name='delete_employee'),
 
 
-    url(r'ajax/check/', 'hr.employee.views.user_check'),
+    url(r'ajax/check/$', 'hr.employee.views.user_check'),
 )

@@ -58,19 +58,5 @@
             }, 1000);
         }
         {% endif %}
-
-        {% if perms.system.delete_lavel %}
-        function del(label_id) {
-            $.ajax({
-                url: '/system/label/ajax/delete/',
-                type: 'POST',
-                data: {label_id: label_id},
-                success: function (response) {
-                    $('#label_detail').modal('hide');
-                    $('.content').html(response);
-                }
-            })
-        }
-        {% endif %}
     </script>
 {% endblock %}

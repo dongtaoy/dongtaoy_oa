@@ -1,8 +1,6 @@
 # encoding=utf-8
-from django.shortcuts import render
 from django.views.generic import ListView
-from django.views.generic.edit import CreateView, UpdateView
-from django.contrib.auth.decorators import permission_required
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse
 from system.models import Sidebar
@@ -47,11 +45,11 @@ class SidebarUpdateView(SuccessMessageMixin, UpdateView):
         return context
 
 
+class SidebarDeleteView(DeleteView):
+    model = Sidebar
+    template_name = 'common/delete.html'
+    success_url = '/system/permission/sidebar'
 
-# delete permission
-@permission_required('system.delete_sidebar', raise_exception=True)
-def permission_delete(request):
-    Sidebar.objects.get(id=request.POST.get("permission_id")).delete()
-    all_permissions = Sidebar.objects.all()
-    return render(request, 'system/permission/sidebar/body.html', {"permissions": permission_tree(all_permissions),
-                                                           "success": 1})
+    def get_object(self, queryset=None):
+        return Sidebar.objects.get(id=self.kwargs['sidebar'])
+

@@ -21,12 +21,12 @@ urlpatterns = patterns('',
                            AssetCreateView.as_view()),
                            name='add_asset'),
 
-                       url(r'^ajax/mod/(?P<asset>\d+)/',
+                       url(r'^ajax/mod/(?P<asset>\d+)/$',
                            permission_required('administration.change_asset', raise_exception=True)(
                                AssetUpdateView.as_view()),
                            name='change_asset'),
 
-                       url(r'^ajax/delete/(?P<asset>\d+)/',
+                       url(r'^delete/(?P<asset>\d+)/$',
                            permission_required('administration.delete_asset', raise_exception=True)(
                                AssetDeleteView.as_view()),
                            name='delete_asset'),

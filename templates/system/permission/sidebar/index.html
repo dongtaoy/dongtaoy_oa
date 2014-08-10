@@ -47,15 +47,17 @@
 {% endblock %}
 {% block js %}
     <script>
+        {% if perms.system.add_sidebar %}
         function add() {
             $('body').modalmanager('loading');
             setTimeout(function () {
-                $('#permission_detail').load('/system/permission/sidebar/ajax/add/', function () {
+                $('#permission_detail').load("{% url 'add_sidebar' %}", function () {
                     $('#permission_detail').modal();
                 });
             }, 1000);
         }
-
+        {% endif %}
+        {% if perms.system.change_sidebar %}
         function mod(id) {
             $('body').modalmanager('loading');
             setTimeout(function () {
@@ -64,19 +66,6 @@
                 });
             }, 1000);
         }
-
-        function del(permission_id) {
-            $.ajax({
-                url: '/system/permission/sidebar/ajax/delete/',
-                type: "POST",
-                data: {permission_id: permission_id},
-                success: function (response) {
-                    $('#permission_detail').modal('hide');
-                    $('.content').html(response);
-                }
-            })
-        }
-
-
+        {% endif %}
     </script>
 {% endblock %}

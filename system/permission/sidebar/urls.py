@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import permission_required
-from system.permission.sidebar.views import SidebarListView, SidebarCreateView, SidebarUpdateView
+from system.permission.sidebar.views import SidebarListView, SidebarCreateView, SidebarUpdateView, SidebarDeleteView
 
 urlpatterns = patterns('',
                        # Examples:
@@ -21,5 +21,8 @@ urlpatterns = patterns('',
                            name='change_sidebar'),
 
 
-                       url(r'^ajax/delete/$', 'system.permission.sidebar.views.permission_delete'),
+                       url(r'^delete/(?P<sidebar>\d+)/$',
+                           permission_required('system.delete_sidebar', raise_exception=True)(
+                               SidebarDeleteView.as_view()),
+                           name='delete_sidebar'),
 )

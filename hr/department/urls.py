@@ -29,7 +29,7 @@ urlpatterns = patterns(
         name='change_department'),
 
 
-    url(r'^ajax/delete/(?P<department>\d+)/$',
+    url(r'^delete/(?P<department>\d+)/$',
         permission_required('hr.delete_department', raise_exception=True)(DepartmentDeleteView.as_view()),
         name='delete_department'),
 

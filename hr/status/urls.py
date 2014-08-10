@@ -15,14 +15,14 @@ urlpatterns = patterns('',
                            context_object_name='userstatuses'
                        )),
 
-                       url(r'^ajax/add/', permission_required('hr.add_userstatus')(UserStatusCreateView.as_view()),
+                       url(r'^ajax/add/$', permission_required('hr.add_userstatus')(UserStatusCreateView.as_view()),
                            name='add_userstatus'),
 
-                       url(r'^ajax/mod/(?P<status>\d+)/',
+                       url(r'^ajax/mod/(?P<status>\d+)/$',
                            permission_required('hr.change_userstatus')(UserStatusUpdateView.as_view()),
                            name='change_userstatus'),
 
-                       url(r'^ajax/delete/(?P<status>\d+)/',
+                       url(r'^delete/(?P<status>\d+)/$',
                            permission_required('hr.delete_userstatus')(UserStatusDeleteView.as_view()),
                            name='delete_userstatus'),
 )

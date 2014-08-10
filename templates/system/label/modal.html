@@ -22,7 +22,7 @@
             <div class="modal-footer">
                 {% if spec_label %}
                     {% if perms.system.delete_label %}
-                    <button type="button" onclick="del({{ spec_label.id }})" class="pull-left btn btn-danger">删除
+                    <button type="button" onclick="window.location.href='{% url 'delete_label' label=spec_label.id %}'" class="pull-left btn btn-danger">删除
                     {% endif %}
                     </button>
                 {% endif %}
@@ -46,14 +46,6 @@
                         }
                     }
                 }
-            },
-            submitHandler: function(){
-                $('#label_form').ajaxSubmit({
-                    success: function(response){
-                        $('#label_detail').modal('hide');
-                        $('.content').html(response);
-                    }
-                })
             }
         })
     });

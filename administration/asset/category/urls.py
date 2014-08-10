@@ -19,16 +19,16 @@ urlpatterns = patterns('',
                        )),
 
                        # detail
-                       url(r'^ajax/add/', permission_required('administration.add_assetcategory', raise_exception=True)(
+                       url(r'^ajax/add/$', permission_required('administration.add_assetcategory', raise_exception=True)(
                            AssetCategoryCreateView.as_view()), name='add_assetcategory'),
 
                        # save
-                       url(r'^ajax/mod/(?P<category>\d+)/',
+                       url(r'^ajax/mod/(?P<category>\d+)/$',
                            permission_required('administration.change_assetcategory', raise_exception=True)(
                                AssetCategoryUpdateView.as_view()), name='change_assetcategory'),
 
 
-                       url(r'^delete/(?P<category>\d+)/',
+                       url(r'^delete/(?P<category>\d+)/$',
                            permission_required('administration.delete_assetcategory', raise_exception=True)(
                                AssetCategoryDeleteView.as_view()), name='delete_assetcategory')
 

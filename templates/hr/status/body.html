@@ -10,7 +10,7 @@
 <table class="table table-hover">
     <thead>
     <tr>
-        <td>ID</td>
+        <td style="display: none">ID</td>
         <td>状态名称</td>
         <td>状态介绍</td>
     </tr>
@@ -18,7 +18,7 @@
     <tbody>
     {% for userstatus in userstatuses %}
         <tr>
-            <td>{{ userstatus.id }}</td>
+            <td style="display: none">{{ userstatus.id }}</td>
             <td>
                 <span class="label {{ userstatus.label.css }}">{{ userstatus.name }}</span>
             </td>

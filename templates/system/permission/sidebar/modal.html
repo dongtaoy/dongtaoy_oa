@@ -18,7 +18,7 @@
                 {% if spec_sidebar %}
                     {% if perms.system.delete_sidebar %}
                         <button type="button" class="pull-left btn btn-danger"
-                                onclick="del({{ spec_sidebar.id }});">
+                                onclick="window.location.href='{% url 'delete_sidebar' sidebar=spec_sidebar.id %}'">
                             删除
                         </button>
                     {% endif %}

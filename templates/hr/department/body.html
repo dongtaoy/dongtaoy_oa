@@ -10,7 +10,7 @@
 <table class="table table-hover">
     <thead>
     <tr>
-        <th>ID</th>
+        <th style="display: none">ID</th>
         <th>名称</th>
         <th>领导</th>
         <th>描述</th>
@@ -19,7 +19,7 @@
     <tbody>
     {% for group in groups %}
         <tr>
-            <td>{{ group.id }}</td>
+            <td style="display: none">{{ group.id }}</td>
             <td>
                 <span class="label {{ group.label.css }}">{{ group.group.name }}</span>
             </td>
