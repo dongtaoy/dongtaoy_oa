@@ -73,18 +73,5 @@
             }, 1000);
         }
         {% endif %}
-        {% if perms.hr.delete_employee %}
-        function del(user_id) {
-            $.ajax({
-                url: 'hr/employee/ajax/delete/',
-                type: 'POST',
-                data: {user_id: user_id},
-                success: function (response) {
-                    $('#user_detail').modal('hide');
-                    $('.content').html(response);
-                }
-            })
-        }
-        {% endif %}
     </script>
 {% endblock %}
