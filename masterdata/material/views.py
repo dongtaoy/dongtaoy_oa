@@ -1,16 +1,16 @@
 # encoding=utf-8
 from django.shortcuts import redirect
-from django.http import HttpResponse
 from django.contrib.auth.models import User, Group
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db import transaction
 from masterdata.models import Material
 from masterdata.forms import MaterialForm
 
 
-class MaterialCreateView(CreateView):
+class MaterialCreateView(SuccessMessageMixin, CreateView):
     form_class = MaterialForm
     template_name = 'masterdata/material/modal.html'
     success_url = '/masterdata/material/'
@@ -21,23 +21,13 @@ class MaterialCreateView(CreateView):
         context['groups'] = Group.objects.all()
         return context
 
-    def form_valid(self, form):
-        with transaction.atomic():
-            #user = User.objects.create_user(self.request.POST.get('username'))
-
-            material.groups = Group.objects.filter(id__in=self.request.POST.getlist('groups'))
-            material.name = self.request.POST.get('name')
-            material.description = self.request.POST.get('description')
-            material.type = self.request.POST.get('type')
-            material.save()
-            material = MaterialForm(self.request.POST).save(commit=False)
-            #material.user = user
-            material.save()
-        messages.success(self.request, '%s添加成功' % material)
-        return redirect(self.success_url)
+    # def form_valid(self, form):
+    #     print form
+    #     #messages.success(self.request, '%s添加成功' % material)
+    #     return redirect(self.success_url)
 
 
-class MaterialUpdateView(UpdateView):
+class MaterialUpdateView(SuccessMessageMixin, UpdateView):
     form_class = MaterialForm
     template_name = 'masterdata/material/modal.html'
     success_url = '/masterdata/material/'

@@ -73,18 +73,5 @@
             }, 1000);
         }
         {% endif %}
-        {% if perms.masterdata.delete_material %}
-        function del(material_id) {
-            $.ajax({
-                url: 'masterdata/material/ajax/delete/',
-                type: 'POST',
-                data: {material_id: material_id},
-                success: function (response) {
-                    $('#material_detail').modal('hide');
-                    $('.content').html(response);
-                }
-            })
-        }
-        {% endif %}
     </script>
 {% endblock %}

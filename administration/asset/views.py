@@ -33,9 +33,12 @@ class AssetUpdateView(SuccessMessageMixin, UpdateView):
     success_url = '/administration/asset/'
     context_object_name = 'spec_asset'
     success_message = '%(brand)s-%(model)s 修改成功'.decode('utf-8')
+    model = Asset
+    queryset = None
+    pk_url_kwarg = 'asset'
 
-    def get_object(self, queryset=None):
-        return Asset.objects.get(id=self.kwargs['asset'])
+    # def get_object(self, queryset=None):
+    #     return Asset.objects.get(id=self.kwargs['asset'])
 
     def get_context_data(self, **kwargs):
         context = super(AssetUpdateView, self).get_context_data(**kwargs)
