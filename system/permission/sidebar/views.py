@@ -2,6 +2,7 @@
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 from system.models import Sidebar
 from system.forms import SidebarForm
@@ -35,9 +36,8 @@ class SidebarUpdateView(SuccessMessageMixin, UpdateView):
     context_object_name = 'spec_sidebar'
     success_url = '/system/permission/sidebar/'
     success_message = '%(name)s修改成功'.decode('utf-8')
-
-    def get_object(self, queryset=None):
-        return Sidebar.objects.get(id=self.kwargs['sidebar'])
+    pk_url_kwarg = 'sidebar'
+    model = Sidebar
 
     def get_context_data(self, **kwargs):
         context = super(SidebarUpdateView, self).get_context_data(**kwargs)
@@ -49,7 +49,9 @@ class SidebarDeleteView(DeleteView):
     model = Sidebar
     template_name = 'common/delete.html'
     success_url = '/system/permission/sidebar'
+    pk_url_kwarg = 'sidebar'
 
-    def get_object(self, queryset=None):
-        return Sidebar.objects.get(id=self.kwargs['sidebar'])
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, '删除成功')
+        return super(SidebarDeleteView, self).delete(request, *args, **kwargs)
 

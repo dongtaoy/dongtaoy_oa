@@ -25,9 +25,8 @@ class LabelUpdateView(SuccessMessageMixin, UpdateView):
     context_object_name = 'spec_label'
     success_url = '/system/label'
     success_message = '%(name)s修改成功'.decode('utf-8')
-
-    def get_object(self, queryset=None):
-        return Label.objects.get(id=self.kwargs['label'])
+    pk_url_kwarg = 'label'
+    model = Label
 
     def get_context_data(self, **kwargs):
         context = super(LabelUpdateView, self).get_context_data(**kwargs)
@@ -39,9 +38,7 @@ class LabelDeleteView(DeleteView):
     model = Label
     template_name = 'common/delete.html'
     success_url = '/system/label/'
-
-    def get_object(self, queryset=None):
-        return Label.objects.get(id=self.kwargs['label'])
+    pk_url_kwarg = 'label'
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, "删除成功")

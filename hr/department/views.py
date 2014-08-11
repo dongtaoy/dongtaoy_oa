@@ -39,9 +39,8 @@ class DepartmentUpdateView(SuccessMessageMixin, UpdateView):
     success_url = '/hr/department/'
     context_object_name = 'spec_department'
     success_message = '修改成功'
-
-    def get_object(self, queryset=None):
-        return Department.objects.get(id=self.kwargs['department'])
+    model = Department
+    pk_url_kwarg = 'department'
 
     def get_context_data(self, **kwargs):
         context = super(DepartmentUpdateView, self).get_context_data(**kwargs)
@@ -63,14 +62,7 @@ class DepartmentDeleteView(DeleteView):
     model = Department
     success_url = '/hr/department/'
     template_name = 'common/delete.html'
-
-    def get_object(self, queryset=None):
-        return Department.objects.get(id=self.kwargs['department'])
-
-    def get_context_data(self, **kwargs):
-        context = super(DepartmentDeleteView, self).get_context_data(**kwargs)
-        context['url'] = reverse('delete_department', kwargs={'department': self.object.id})
-        return context
+    pk_url_kwarg = 'department'
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, '删除成功')

@@ -25,9 +25,8 @@ class AssetCategoryUpdateView(SuccessMessageMixin, UpdateView):
     success_url = '/administration/asset/category/'
     success_message = '%(name)s修改成功'.decode('utf-8')
     context_object_name = 'spec_category'
-
-    def get_object(self, queryset=None):
-        return AssetCategory.objects.get(id=self.kwargs['category'])
+    pk_url_kwarg = 'category'
+    model = AssetCategory
 
     def get_context_data(self, **kwargs):
         context = super(AssetCategoryUpdateView, self).get_context_data(**kwargs)
@@ -38,14 +37,8 @@ class AssetCategoryUpdateView(SuccessMessageMixin, UpdateView):
 class AssetCategoryDeleteView(DeleteView):
     template_name = 'common/delete.html'
     success_url = '/administration/asset/category/'
-
-    def get_object(self, queryset=None):
-        return AssetCategory.objects.get(id=self.kwargs['category'])
-
-    def get_context_data(self, **kwargs):
-        context = super(AssetCategoryDeleteView, self).get_context_data(**kwargs)
-        context['url'] = reverse('delete_assetcategory', kwargs={'category': self.object.id})
-        return context
+    pk_url_kwarg = 'category'
+    model = AssetCategory
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, "删除成功")

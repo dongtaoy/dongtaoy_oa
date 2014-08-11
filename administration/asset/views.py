@@ -37,9 +37,6 @@ class AssetUpdateView(SuccessMessageMixin, UpdateView):
     queryset = None
     pk_url_kwarg = 'asset'
 
-    # def get_object(self, queryset=None):
-    #     return Asset.objects.get(id=self.kwargs['asset'])
-
     def get_context_data(self, **kwargs):
         context = super(AssetUpdateView, self).get_context_data(**kwargs)
         context['url'] = reverse('change_asset', kwargs={'asset': self.object.id})
@@ -49,14 +46,8 @@ class AssetUpdateView(SuccessMessageMixin, UpdateView):
 class AssetDeleteView(DeleteView):
     template_name = 'common/delete.html'
     success_url = '/administration/asset/'
-
-    def get_object(self, queryset=None):
-        return Asset.objects.get(id=self.kwargs['asset'])
-
-    def get_context_data(self, **kwargs):
-        context = super(AssetDeleteView, self).get_context_data(**kwargs)
-        context['url'] = reverse('delete_asset', kwargs={'asset': self.object.id})
-        return context
+    model = Asset
+    pk_url_kwarg = 'asset'
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, '删除成功')

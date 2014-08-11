@@ -42,9 +42,8 @@ class EmployeeUpdateView(UpdateView):
     template_name = 'hr/employee/modal.html'
     success_url = '/hr/employee/'
     context_object_name = 'spec_employee'
-
-    def get_object(self, queryset=None):
-        return Employee.objects.get(id=self.kwargs['employee'])
+    pk_url_kwarg = 'employee'
+    model = Employee
 
     def get_context_data(self, **kwargs):
         context = super(EmployeeUpdateView, self).get_context_data(**kwargs)
@@ -69,14 +68,7 @@ class EmployeeDeleteView(DeleteView):
     model = Employee
     success_url = '/hr/employee/'
     template_name = 'common/delete.html'
-
-    def get_object(self, queryset=None):
-        return Employee.objects.get(id=self.kwargs['employee'])
-
-    def get_context_data(self, **kwargs):
-        context = super(EmployeeDeleteView, self).get_context_data(**kwargs)
-        context['url'] = reverse('delete_employee', kwargs={'employee': self.object.id})
-        return context
+    pk_url_kwarg = 'employee'
 
     def delete(self, request, *args, **kwargs):
         user = Employee.objects.get(id=self.kwargs['employee']).user
