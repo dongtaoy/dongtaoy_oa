@@ -8,7 +8,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db import transaction
 from masterdata.models import Material
 from masterdata.forms import MaterialForm
-
+import time
 
 class MaterialCreateView(SuccessMessageMixin, CreateView):
     form_class = MaterialForm
@@ -19,6 +19,12 @@ class MaterialCreateView(SuccessMessageMixin, CreateView):
         context = super(MaterialCreateView, self).get_context_data(**kwargs)
         context['url'] = reverse('add_material')
         return context
+
+    def form_valid(self, form):
+        super(MaterialCreateView, self).form_valid(form)
+        self.object.regtime = time.strftime('%Y-%m-%d')
+        self.object.save()
+        return redirect(self.success_url)
 
     # def form_valid(self, form):
     #     print form

@@ -3,35 +3,32 @@
 {% block extensions %}
     <!-- datatables -->
     <link href="{% static 'css/datatables/dataTables.bootstrap.css' %}" rel="stylesheet" type="text/css"/>
-    <!-- Bootstrap modal -->
-    <link href="{% static 'css/bootstrap-modal/bootstrap-modal.css' %}" rel="stylesheet" type="text/css"/>
     <!-- select2 -->
     <link href="{% static 'css/bootstrap-select2/select2.css' %}" rel="stylesheet" type="text/css"/>
     <link href="{% static 'css/bootstrap-select2/select2-bootstrap.css' %}" rel="stylesheet" type="text/css"/>
     <!-- validator -->
     <link href="{% static 'css/bootstrap-validator/bootstrapValidator.min.css' %}" rel="stylesheet" type="text/css"/>
-    <!-- inputmask -->
-    <script src="{% static 'js/plugins/input-mask/jquery.inputmask.js' %}"></script>
-    <script src="{% static 'js/plugins/input-mask/jquery.inputmask.date.extensions.js' %}"></script>
-    <!-- datatables -->
-    <script src="{% static 'js/plugins/datatables/jquery.dataTables.js' %}"></script>
-    <script src="{% static 'js/plugins/datatables/dataTables.bootstrap.js' %}"></script>
-    <!-- Jquery form -->
-    <script src="{% static 'js/plugins/jquery.form/jquery.form.js' %}"></script>
-    <!-- bootstrap modal -->
-    <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modal.js' %}"></script>
-    <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modalmanager.js' %}"></script>
-    <!-- select 2 -->
-    <script src="{% static 'js/plugins/bootstrap-select2/bootstrap-select2.js' %}"></script>
     <!-- validator -->
     <script src="{% static 'js/plugins/bootstrap-validator/bootstrapValidator.min.js' %}"></script>
     <script src="{% static 'js/plugins/bootstrap-validator/zh_CN.js' %}"></script>
+    <!-- Bootstrap modal -->
+    <link href="{% static 'css/bootstrap-modal/bootstrap-modal.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- bootstrap modal -->
+    <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modal.js' %}"></script>
+    <script src="{% static 'js/plugins/bootstrap-modal/bootstrap-modalmanager.js' %}"></script>
+    <!-- Jquery form -->
+    <script src="{% static 'js/plugins/jquery.form/jquery.form.js' %}"></script>
+    <!-- select 2 -->
+    <script src="{% static 'js/plugins/bootstrap-select2/bootstrap-select2.js' %}"></script>
+    <!-- datatables -->
+    <script src="{% static 'js/plugins/datatables/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'js/plugins/datatables/dataTables.bootstrap.js' %}"></script>
 {% endblock %}
 {% block content %}
     <section class="content-header">
         <h1>
             资料管理
-            <!--<small>列表</small>-->
+            <!--<small>Control panel</small>-->
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i>资料管理</a></li>
@@ -43,8 +40,6 @@
     <section class="content">
         {% include 'masterdata/material/body.html' %}
     </section><!-- /.content -->
-
-    <!-- mod permission -->
     <div class="modal fade" id="material_detail" data-backdrop="static" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel"
          aria-hidden="true">
@@ -56,7 +51,7 @@
         function add() {
             $('body').modalmanager('loading');
             setTimeout(function () {
-                $('#material').load('/masterdata/material/ajax/add/', function () {
+                $('#material_detail').load('{% url 'add_material' %}', function () {
                     $('#material_detail').modal();
                 });
             }, 1000);
@@ -67,11 +62,12 @@
         function mod(id) {
             $('body').modalmanager('loading');
             setTimeout(function () {
-                $('#material_detail').load('/masterdata/material/ajax/mod/' + id +'/', function () {
+                $('#material_detail').load('/masterdata/material/ajax/mod/' + id, function () {
                     $('#material_detail').modal();
                 });
             }, 1000);
         }
         {% endif %}
+
     </script>
 {% endblock %}

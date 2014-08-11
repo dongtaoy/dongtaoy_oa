@@ -17,6 +17,7 @@ class MaterialForm(ModelForm):
     class Meta:
         model = Material
         fields = '__all__'
+        exclude = ['regtime']
         labels = {
             'name': '名称',
             'description': '描述',
