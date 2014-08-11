@@ -13,6 +13,7 @@ class AssetCreateView(SuccessMessageMixin, CreateView):
     form_class = AssetForm
     template_name = 'administration/asset/modal.html'
     success_url = '/administration/asset/'
+    success_message = '%(brand)s-%(model)s 添加成功'.decode('utf-8')
 
     def get_context_data(self, **kwargs):
         context = super(AssetCreateView, self).get_context_data(**kwargs)
@@ -20,10 +21,9 @@ class AssetCreateView(SuccessMessageMixin, CreateView):
         return context
 
     def form_valid(self, form):
-        asset = form.save()
-        asset.regtime = time.strftime('%Y-%m-%d')
-        asset.save()
-        messages.success(self.request, "%s添加成功" % asset)
+        super(AssetCreateView, self).form_valid(form)
+        self.object.regtime = time.strftime('%Y-%m-%d')
+        self.object.save()
         return redirect(self.success_url)
 
 
