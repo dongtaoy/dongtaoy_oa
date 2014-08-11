@@ -18,7 +18,6 @@ class MaterialCreateView(SuccessMessageMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(MaterialCreateView, self).get_context_data(**kwargs)
         context['url'] = reverse('add_material')
-        context['groups'] = Group.objects.all()
         return context
 
     # def form_valid(self, form):
@@ -39,21 +38,9 @@ class MaterialUpdateView(SuccessMessageMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(MaterialUpdateView, self).get_context_data(**kwargs)
         context['url'] = reverse('change_material', kwargs={'material': self.object.id})
-        context['groups'] = Group.objects.all()
         return context
 
-    def form_valid(self, form):
-        with transaction.atomic():
-            material = Material.objects.get(id=self.kwargs['material'])
-            material.groups = Group.objects.filter(id__in=self.request.POST.getlist('groups'))
-            material.name = self.request.POST.get('name')
-            material.description = self.request.POST.get('description')
-            material.type = self.request.POST.get('type')
-            #material.user = user
-            material.save()
-            MaterialForm(self.request.POST, instance=material).save()
-        messages.success(self.request, '%s修改成功' % material)
-        return redirect(self.success_url)
+
 
 
 class MaterialDeleteView(DeleteView):
@@ -70,8 +57,5 @@ class MaterialDeleteView(DeleteView):
         return context
 
     def delete(self, request, *args, **kwargs):
-        material = Material.objects.get(id=self.kwargs['material'])
-        material.is_active = 0
-        material.save()
         messages.success(self.request, '删除成功')
-        return redirect(self.success_url)
+        return super(MaterialDeleteView, self).delete(self.request, *args, **kwargs)
