@@ -21,6 +21,6 @@ class MaterialForm(ModelForm):
             'name': '名称',
             'description': '描述',
             'type': '类型',
-            'user': '地址',
+            #'user': '录入者',
             'group': '隶属于'
         }
