@@ -1,47 +1,69 @@
-{% if success %}
-    <div class="alert alert-success alert-dismissable">
-        <i class="fa fa-check"></i>
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <b>修改成功！</b>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">
+                    客户管理
+                    <small>
+                        点击列表修改
+                    </small>
+                </h3>
+            </div>
+            <div class="box-body table-responsive">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-success alert-dismissable">
+                        <i class="fa fa-check"></i>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <b>{{ message }}</b>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th style="display: none">ID</th>
+                        <th>名称</th>
+                        <th>电话</th>
+                        <th>地址</th>
+                        <th>邮箱</th>
+                        <th>传真</th>
+                        <th>类型</th>
+                        <th>隶属于</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for customer in customers %}
+                        <tr>
+                            <td style="display: none">{{ customer.id }}</td>
+                            <td>{{ customer.name }}</td>
+                            <td>{{ customer.phone }}</td>
+                            <td>{{ customer.address }}</td>
+                            <td>{{ customer.email}}</td>
+                            <td>{{ customer.fax}}</td>
+                            <td>
+                                <span class="label {{ customer.type.label.css }}">{{ customer.type }}</span>
+                            </td>
+                            <td>
+                                {% for group in customer.groups.all %}
+                                    <span class="label {{ group.label.css }}">{{ group.group }}</span>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-footer">
+                <button class="btn btn-default show" onclick="add();">新增</button>
+            </div>
+        </div>
     </div>
-{% endif %}
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th>姓名</th>
-        <th>手机号</th>
-        <th>E-mail</th>
-        <th>传真</th>
-        <th>地址</th>
-        <th>类型</th>
-        <th>隶属于</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for customer in customers %}
-        <tr>
-            <input type="hidden" value="{{ customer.id }}"/>
-            <td>{{ customer.name }}</td>
-            <td>{{ customer.phone }}</td>
-            <td>{{ customer.email }}</td>
-            <td>{{ customer.fax }}</td>
-            <td>{{ customer.address }}</td>
-            <td>
-                <span class="label {{ customer.type.label.css }}">{{ customer.type.name }}</span>
-            </td>
-            <td>
-                {% for group in customer.groups.all %}
-                    <span class="label {{ group.label.css }}">{{ group.name }}</span>
-                {% endfor %}
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+</div>
 <script>
-    $('.table').dataTable();
     $(function () {
-        $(".table tbody").on("dblclick", "tr", function () {
+        $('.table').dataTable();
+        $(".table tbody").on("click", "tr", function () {
             if ($(this).hasClass('selected')) {
                 $(this).removeClass('selected');
             }
@@ -49,10 +71,8 @@
                 $('tr.selected').removeClass('selected');
                 $(this).addClass('selected');
             }
-            var id = ($(this)).children('input').val();
-            loadmodal(id);
+            var id = ($(this)).children('td:first').text();
+            mod(id);
         });
-
-
     });
 </script>

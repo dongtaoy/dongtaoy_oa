@@ -1,7 +1,7 @@
-<!-- Modal -->
+{% load bootstrap3 %}
 <div class="modal-dialog">
     <div class="modal-content">
-        <form id="customer_form" action="/crm/customer/ajax/save/" method="POST"
+        <form id="customer_form" action="{{ url }}" method="POST"
               data-bv-message="This value is not valid"
               data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
               data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
@@ -9,120 +9,37 @@
               data-bv-submitbuttons='button[type="submit"]'
               data-bv-live="enabled">
             {% csrf_token %}
+
             <div class="modal-header">
                 <button type="button" class="close cancel" data-dismiss="modal"><span
                         aria-hidden="true">&times;</span><span
                         class="sr-only">Close</span></button>
-                <h4 class="modal-title">客户</h4>
+                <h4 class="modal-title">客户管理</h4>
             </div>
+
             <div class="modal-body">
-
-                <div class="form-group">
-                    <label>名字:</label>
-                    <input value="{{ spec_customer.name }}" type="text" name="customer_name" class="form-control"
-                           placeholder="eg: 张三"
-                           data-bv-notempty="true"
-                           data-bv-notempty-message="不能为空"/>
-                </div>
-                <div class="form-group">
-                    <label>手机：</label>
-                    <input value="{{ spec_customer.phone }}" type="text" name="customer_phone" class="form-control"
-                           placeholder="eg: 13800138000"
-                           data-bv-notempty="true"
-                           data-bv-notempty-message="不能为空"/>
-                </div>
-                <div class="form-group">
-                    <label>E-mail:</label>
-                    <input value="{{ spec_customer.email }}" type="email" name="customer_email" class="form-control"
-                           placeholder="eg: test@163.com"
-                           data-bv-notempty="true"
-                           data-bv-notempty-message="不能为空"
-                           data-bv-emailaddress="true"
-                           data-bv-emailaddress-message="正确输入E-mail"/>
-                </div>
-
-                <div class="form-group">
-                    <label>传真:</label>
-                    <input value="{{ spec_customer.fax }}" type="text" name="customer_fax" class="form-control"
-                           placeholder="eg: 12312313"
-                           data-bv-notempty="true"
-                           data-bv-notempty-message="不能为空"/>
-                </div>
-
-
-
-                <div class="form-group">
-                    <label>类型：</label>
-                    <select name="customer_type" class="form-control" required="required"
-                            data-bv-message="不能为空">
-                        {% for type in types %}
-                            {% if type == spec_customer.type %}
-                                <option value="{{ type.id }}" selected="selected">{{ type.name }}</option>
-                            {% else %}
-                                <option value="{{ type.id }}">{{ type.name }}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>隶属于：</label>
-                    <select name="customer_groups" class="form-control" required="required"
-                            data-bv-message="不能为空" multiple="multiple">
-                        {% for group in groups %}
-                            {% if group in spec_customer.groups.all %}
-                                <option value="{{ group.id }}" selected="selected">{{ group.name }}</option>
-                            {% else %}
-                                <option value="{{ group.id }}">{{ group.name }}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>地址:</label>
-                    <textarea class="form-control" name="customer_address" rows="3"
-                              required="required"
-                              data-bv-notempty="true"
-                              data-bv-message="正确输入地址">{{ spec_customer.address }}</textarea>
-                </div>
-
+                {% bootstrap_form form %}
 
             </div>
             <div class="modal-footer">
                 {% if spec_customer %}
-                    <input type="hidden" name="customer_id" value="{{ spec_customer.id }}">
-                    <button type="button" onclick="del({{ spec_customer.id }})" class="pull-left btn btn-danger">删除
-                    </button>
+                    {% if perms.crm.delete_customer %}
+                        <button type="button"
+                                onclick="window.location.href='{% url 'delete_customer' customer=spec_customer.id %}'"
+                                class="pull-left btn btn-danger">删除
+                        </button>
+                    {% endif %}
                 {% endif %}
                 <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
                 <button type="submit" class="btn btn-primary">保存</button>
             </div>
         </form>
-
-
     </div>
 </div>
-
 <script>
-
     $(document).ready(function () {
-        $('select[name=customer_groups]').select2();
-        $('#customer_form').bootstrapValidator({
-            excluded: [':disabled'],
-            submitHandler: function () {
-                $('#customer_form').ajaxSubmit({
-                    success: function (response) {
-                        $('#customer_detail').modal('hide');
-                        $('.box-body').html(response);
-                    },
-                    error: function (response) {
-                        $('#customer_detail').modal('hide');
-                        alert('保存失败');
-                    }
-
-                });
-            }
-        });
+        $('select[name=group]').select2();
+        $('select[name=types]').select2();
+        $('#customer_form').bootstrapValidator();
     });
 </script>

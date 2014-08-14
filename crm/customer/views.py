@@ -1,55 +1,48 @@
-from django.template import RequestContext
-from django.shortcuts import render
-from dongtaoy_oa.views import common_context
-from django.db import transaction
+# encoding=utf-8
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.urlresolvers import reverse
+from django.contrib import messages
 from crm.models import Customer
-from crm.models import CustomerType
-from hr.models import Department
-from django.http import HttpResponse
+from crm.forms import CustomerForm
 
 
-def customer_index(request):
-    customers = Customer.objects.all()
-    return render(request, 'crm/customer/index.html', {'customers': customers},
-                  context_instance=RequestContext(request, processors=[common_context]))
+class CustomerCreateView(SuccessMessageMixin, CreateView):
+    form_class = CustomerForm
+    template_name = 'crm/customer/modal.html'
+    success_url = '/crm/customer/'
+    success_message = '添加成功'.decode('utf-8')
 
-
-def customer_detail(request):
-    types = CustomerType.objects.all()
-    groups = Department.objects.all()
-    try:
-        spec_customer = Customer.objects.get(id=request.GET.get('customer_id'))
-    except:
-        spec_customer = None
-    return render(request, 'crm/customer/modal.html', {'spec_customer': spec_customer,
-                                                       'types': types,
-                                                       'groups': groups})
-
-
-def customer_save(request):
-    customer = Customer(id=request.POST.get('customer_id'),
-                        name=request.POST.get('customer_name'),
-                        address=request.POST.get('customer_address'),
-                        phone=request.POST.get('customer_phone'),
-                        email=request.POST.get('customer_email'),
-                        fax=request.POST.get('customer_fax'),
-                        type=CustomerType.objects.get(id=request.POST.get('customer_type')))
-    with transaction.atomic():
-        customer.save()
-        customer.groups.clear()
-        customer.groups = Department.objects.filter(id__in=request.POST.getlist('customer_groups'))
-    customers = Customer.objects.all()
-    return render_body(request)
+    def get_context_data(self, **kwargs):
+        context = super(CustomerCreateView, self).get_context_data(**kwargs)
+        context['url'] = reverse('add_customer')
+        return context
 
 
 
-def customer_delete(request):
-    Customer.objects.get(id=request.POST.get('customer_id')).delete()
-    return render_body(request)
+
+class CustomerUpdateView(SuccessMessageMixin, UpdateView):
+    form_class = CustomerForm
+    template_name = 'crm/customer/modal.html'
+    success_url = '/crm/customer/'
+    context_object_name = 'spec_customer'
+    success_message = '修改成功'.decode('utf-8')
+    model = Customer
+    queryset = None
+    pk_url_kwarg = 'customer'
+
+    def get_context_data(self, **kwargs):
+        context = super(CustomerUpdateView, self).get_context_data(**kwargs)
+        context['url'] = reverse('change_customer', kwargs={'customer': self.object.id})
+        return context
 
 
+class CustomerDeleteView(DeleteView):
+    template_name = 'common/delete.html'
+    success_url = '/crm/customer/'
+    model = Customer
+    pk_url_kwarg = 'customer'
 
-def render_body(request):
-    customers = Customer.objects.all()
-    return render(request, 'crm/customer/body.html', {"customers": customers,
-                                                      "success": True})
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, '删除成功')
+        return super(CustomerDeleteView, self).delete(self.request, *args, **kwargs)
