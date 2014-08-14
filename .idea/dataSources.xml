@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="2363027878">
+  <component name="DataSourceManagerImpl" format="xml" hash="3655612921">
     <data-source source="LOCAL" name="Django default" uuid="a776bc8d-965a-45c2-b585-80a806365ab8">
       <driver-ref>mysql</driver-ref>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://203.153.207.195:3306/oa</jdbc-url>
+      <jdbc-url>jdbc:mysql://10.10.10.5:3306/office_automation</jdbc-url>
       <user-name>root</user-name>
       <user-password>dfd3dfdfdfcedfcbdfc4dfc4dfd3df9b</user-password>
       <libraries />
