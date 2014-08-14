@@ -2,15 +2,16 @@
 from django.views.generic.edit import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.models import Group, User
+from django.views.generic import ListView
 from django.shortcuts import redirect
 from django.db import transaction
 from django.utils import timezone
 from public.forms import MessageForm
-from public.models import MessageTo
+from public.models import MessageTo, Message
 
 
 # def announcement_publish_index(request):
-#     groups = Department.objects.all()
+# groups = Department.objects.all()
 #     return render(request, 'public/announcement/publish.html', {'groups': groups},
 #                   context_instance=RequestContext(request, processors=[common_context]))
 
@@ -18,6 +19,15 @@ from public.models import MessageTo
 # def announcement_save(request):
 #     print request.FILES
 #     return HttpResponse(1)
+
+class AnnouncementListView(ListView):
+    template_name = 'public/announcement/index.html'
+    context_object_name = 'announcements'
+
+    def get_queryset(self):
+        return Message.objects.filter(toUser=self.request.user).order_by('-time')[:20]
+
+
 
 class AnnouncementCreateView(SuccessMessageMixin, CreateView):
     template_name = 'public/announcement/publish.html'

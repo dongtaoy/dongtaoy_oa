@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
-from public.announcement.views import AnnouncementCreateView
-
+from django.views.generic import ListView
+from public.announcement.views import AnnouncementCreateView, AnnouncementListView
+from public.models import Message
 
 urlpatterns = patterns(
     '',
@@ -9,7 +10,8 @@ urlpatterns = patterns(
     # url(r'^blog/', include('blog.urls')),
 
     # announcement url
-    url(r'^publish/', AnnouncementCreateView.as_view()),
+    url(r'^$', AnnouncementListView.as_view()),
+    url(r'^publish/$', AnnouncementCreateView.as_view()),
 
     #url(r'^ajax/save/', 'public.announcement.views.announcement_save')
 
