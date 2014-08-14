@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import permission_required
 from masterdata.material.views import MaterialCreateView, MaterialUpdateView, MaterialDeleteView
 from masterdata.models import Material
+
 urlpatterns = patterns(
     '',
     # Examples:
@@ -17,7 +18,8 @@ urlpatterns = patterns(
         template_name='masterdata/material/index.html'))),
 
 
-    url(r'^ajax/add/$', permission_required('masterdata.add_material', raise_exception=True)(MaterialCreateView.as_view()),
+    url(r'^ajax/add/$',
+        permission_required('masterdata.add_material', raise_exception=True)(MaterialCreateView.as_view()),
         name='add_material'),
 
 
@@ -31,5 +33,5 @@ urlpatterns = patterns(
         name='delete_material'),
 
 
-    #url(r'ajax/check/$', 'masterdata.material.views.user_check'),
+    # url(r'ajax/check/$', 'masterdata.material.views.user_check'),
 )

@@ -12,11 +12,11 @@
             <div class="box-body table-responsive">
                 {% if messages %}
                     {% for message in messages %}
-                    <div class="alert alert-success alert-dismissable">
-                        <i class="fa fa-check"></i>
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <b>{{ message }}</b>
-                    </div>
+                        <div class="alert alert-success alert-dismissable">
+                            <i class="fa fa-check"></i>
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <b>{{ message }}</b>
+                        </div>
                     {% endfor %}
                 {% endif %}
                 <table class="table table-hover">
@@ -39,13 +39,13 @@
                             <td>{{ material.description }}</td>
                             <td>{{ material.regtime | date:"Y-m-d" }}</td>
                             <td>
-                                {% for type in material.types.all %}
-                                     <span class="label {{ type.label.css }}">{{ type.name }}</span>
-                                {% endfor %}
+                                <span class="label {{ material.type.label.css }}">{{ material.type }}</span>
                             </td>
                             <td>{{ material.user }}</td>
                             <td>
-                                <span class="label {{ material.group.label.css }}">{{ material.group.group.name }}</span>
+                                {% for group in material.groups.all %}
+                                    <span class="label {{ group.label.css }}">{{ group.group }}</span>
+                                {% endfor %}
                             </td>
 
                         </tr>

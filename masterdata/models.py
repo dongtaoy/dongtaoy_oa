@@ -12,6 +12,7 @@ class Material(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class MaterialType(models.Model):
     name = models.CharField(max_length=20)
     description = models.CharField(max_length=100, blank=True, null=True)

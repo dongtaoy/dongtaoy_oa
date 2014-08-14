@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load bootstrap3 %}
 {% load staticfiles %}
 {% block extensions %}
 
@@ -13,6 +14,10 @@
     <link href="{% static 'css/bootstrap-select2/select2.css' %}" rel="stylesheet" type="text/css"/>
     <link href="{% static 'css/bootstrap-select2/select2-bootstrap.css' %}" rel="stylesheet" type="text/css"/>
     <script src="{% static 'js/plugins/bootstrap-select2/bootstrap-select2.js' %}"></script>
+    <!-- validator -->
+    <link href="{% static 'css/bootstrap-validator/bootstrapValidator.min.css' %}" rel="stylesheet" type="text/css"/>
+    <script src="{% static 'js/plugins/bootstrap-validator/bootstrapValidator.min.js' %}"></script>
+    <script src="{% static 'js/plugins/bootstrap-validator/zh_CN.js' %}"></script>
 {% endblock %}
 {% block content %}
     <!-- Content Header (Page header) -->
@@ -33,8 +38,7 @@
             <div class='col-md-12'>
                 <div class='box'>
 
-                    <form action="/public/announcement/ajax/save/" method="POST"
-                            enctype="multipart/form-data">
+                    <form id='pulish_announcement' method="POST">
                         {% csrf_token %}
                         <div class='box-header'>
                             <h3 class='box-title'>发布公告
@@ -50,10 +54,16 @@
                         </div>
                         <!-- /.box-header -->
                         <div class='box-body pad'>
-                            <div class="form-group">
-                                <label>主题:</label>
-                                <input class="form-control" name="subject" type="text"/>
-                            </div>
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-success alert-dismissable">
+                                        <i class="fa fa-check"></i>
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×
+                                        </button>
+                                        <b>{{ message }}</b>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
                             <div class="form-group">
                                 <label>接收组:</label>
                                 <select class="form-control" name="groups" multiple="multiple">
@@ -63,15 +73,8 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label>文本:</label>
-                                <textarea rows="10" name="body"
-                                          style="width: 100%;"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>test</label>
-                                <input type="file" name="test" class="form-control">
-                            </div>
+                            {% bootstrap_form form %}
+
                         </div>
                         <div class="box-footer">
                             <button type="submit" class="btn btn-default show">发布</button>
@@ -92,6 +95,15 @@
                 locale: "zh-CN",
                 image: false
             });
+            $('#pulish_announcement').bootstrapValidator({
+                fields: {
+                    groups: {
+                        validators: {
+                            notEmpty: {}
+                        }
+                    }
+                }
+            })
 
         });
 

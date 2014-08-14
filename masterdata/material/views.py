@@ -23,6 +23,7 @@ class MaterialCreateView(SuccessMessageMixin, CreateView):
     def form_valid(self, form):
         super(MaterialCreateView, self).form_valid(form)
         self.object.regtime = time.strftime('%Y-%m-%d')
+        self.object.user = self.request.user.employee
         self.object.save()
         return redirect(self.success_url)
 
