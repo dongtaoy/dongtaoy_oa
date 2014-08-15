@@ -1,0 +1,65 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">
+                    系统设置
+                    <small>
+                        点击列表修改
+                    </small>
+                </h3>
+            </div>
+            <div class="box-body table-responsive">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-success alert-dismissable">
+                        <i class="fa fa-check"></i>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <b>{{ message }}</b>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th style="display: none">ID</th>
+                        <th>类型名称</th>
+                        <th>类型描述</th>
+                        <th>类型种类</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for type in types %}
+                        <tr>
+                            <td style="display: none">{{ type.id }}</td>
+                            <td>
+                                <span class="label {{ type.label.css }}">{{ type.name }}</span>
+                            </td>
+                            <td>{{ type.description }}</td>
+                            <td>{{ type.category }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-footer">
+                <button class="btn btn-default show" onclick="add();">新增</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $(".table tbody").on("click", "tr", function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                $('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+            var id = ($(this)).children('td:first').text();
+            mod(id);
+        });
+    });
+</script>

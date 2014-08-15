@@ -1,7 +1,7 @@
 # coding=utf-8
 from django.forms import ModelForm
 from system.models import Label, Sidebar
-
+from public.models import MessageType
 
 class LabelForm(ModelForm):
     class Meta:
@@ -27,4 +27,14 @@ class SidebarForm(ModelForm):
             'order': '顺序',
             'parent': '父层',
             'permissions': '权限',
+        }
+
+class MessageTypeForm(ModelForm):
+    class Meta:
+        model = MessageType
+        fields = '__all__'
+        labels = {
+            'name': '名称',
+            'description': '描述',
+            'category': '种类'
         }

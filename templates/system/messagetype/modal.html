@@ -1,0 +1,42 @@
+<!-- Modal -->
+{% load bootstrap3 %}
+<div class="modal-dialog">
+    <div class="modal-content">
+        <form id="type_form" action="{{ url }}" method="POST"
+              data-bv-message="This value is not valid"
+              data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+              data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+              data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+              data-bv-submitbuttons='button[type="submit"]'
+              data-bv-live="enabled">
+            {% csrf_token %}
+            <div class="modal-header">
+                <button type="button" class="close cancel" data-dismiss="modal"><span
+                        aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">消息类型管理</h4>
+            </div>
+            <div class="modal-body">
+                {% bootstrap_form form %}
+            </div>
+            <div class="modal-footer">
+                {% if spec_type %}
+                    {% if perms.administration.delete_messagetype %}
+                        <button type="button"
+                                onclick="window.location.href='{% url 'delete_messagetype' type=spec_type.id %}'"
+                                class="pull-left btn btn-danger">删除
+                        </button>
+                    {% endif %}
+                {% endif %}
+                <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-primary">保存</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#type_form').bootstrapValidator();
+    });
+</script>
