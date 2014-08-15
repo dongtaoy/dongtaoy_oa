@@ -8,5 +8,5 @@ urlpatterns = patterns('',
     url(r'^permission/', include('system.permission.urls')),
     url(r'^password/', include('system.password.urls')),
     url(r'^label/', include('system.label.urls')),
-    url(r'^messagetype/', include('system.messagetype.urls'))
+    #url(r'^message/type/', include('system.messagetype.urls'))
 )

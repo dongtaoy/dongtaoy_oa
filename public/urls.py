@@ -8,5 +8,7 @@ urlpatterns = patterns(
 
     # announcement url
     url(r'^announcement/', include('public.announcement.urls')),
+    url(r'^message/type/', include('public.type.urls'))
+
 
 )

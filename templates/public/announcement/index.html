@@ -23,11 +23,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            公共信息
+            公共栏目
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i>公共信息</a></li>
-            <li class="active">发布公告</li>
+            <li class="active">公告栏目</li>
         </ol>
     </section>
 
@@ -56,23 +56,6 @@
                             <span class="time"><i class="fa fa-clock-o"></i>{{ announcement.time |date:"Y-m-d H:i" }}</span>
                         </div>
                     </div>
-                    {#                    <div class="box box-info">#}
-                    {#                        <div class="box-header">#}
-                    {#                            <h3 class="box-title">{{ announcement.subject }}</h3>#}
-                    {##}
-                    {#                        </div>#}
-                    {#                        <div class="box-body">#}
-                    {##}
-                    {#                            <div class="callout">#}
-                    {#                                <h4>#}
-                    {##}
-                    {#                                    {% autoescape off %}#}
-                    {#                                    {{ announcement.body }}#}
-                    {#                                    {% endautoescape %}#}
-                    {#                                </h4>#}
-                    {#                            </div>#}
-                    {#                        </div>#}
-                    {#                    </div>#}
                 {% endfor %}
             </div>
             <!-- /.col-->

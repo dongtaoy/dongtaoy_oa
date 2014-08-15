@@ -2,8 +2,7 @@ from django.conf.urls import patterns, url
 from django.views.generic import ListView
 from django.contrib.auth.decorators import permission_required
 from public.models import MessageType
-from system.messagetype.views import MessageTypeCreateView, MessageTypeUpdateView, \
-    MessageTypeDeleteView
+from system.messagetype.views import MessageTypeCreateView, MessageTypeUpdateView, MessageTypeDeleteView
 
 
 urlpatterns = patterns('',
@@ -14,7 +13,7 @@ urlpatterns = patterns('',
                        # index
                        url(r'^$', ListView.as_view(
                            model=MessageType,
-                           template_name='system/messagetype/index.html',
+                           template_name='public/message/type/index.html',
                            context_object_name='types'
                        )),
 

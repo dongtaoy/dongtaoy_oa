@@ -9,8 +9,8 @@ from system.forms import MessageTypeForm
 
 class MessageTypeCreateView(SuccessMessageMixin, CreateView):
     form_class = MessageTypeForm
-    template_name = 'system/messagetype/modal.html'
-    success_url = '/system/message/type/'
+    template_name = 'public/message/type/modal.html'
+    success_url = '/public/message/type/'
     success_message = '添加成功'.decode("utf-8")
 
     def get_context_data(self, **kwargs):
@@ -21,8 +21,8 @@ class MessageTypeCreateView(SuccessMessageMixin, CreateView):
 
 class MessageTypeUpdateView(SuccessMessageMixin, UpdateView):
     form_class = MessageTypeForm
-    template_name = 'system/messagetype/modal.html'
-    success_url = '/system/message/type/'
+    template_name = 'public/message/type/modal.html'
+    success_url = '/public/message/type/'
     success_message = '修改成功'.decode('utf-8')
     context_object_name = 'spec_type'
     pk_url_kwarg = 'type'
@@ -36,7 +36,7 @@ class MessageTypeUpdateView(SuccessMessageMixin, UpdateView):
 
 class MessageTypeDeleteView(DeleteView):
     template_name = 'common/delete.html'
-    success_url = '/system/message/type/'
+    success_url = '/public/message/type/'
     pk_url_kwarg = 'type'
     model = MessageType
 

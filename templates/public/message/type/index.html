@@ -58,7 +58,7 @@
         function mod(id) {
             $('body').modalmanager('loading');
             setTimeout(function () {
-                $('#type_detail').load('/system/messagetype/ajax/mod/' + id, function () {
+                $('#type_detail').load('/system/message/type/ajax/mod/' + id, function () {
                     $('#type_detail').modal();
                 });
             }, 1000);
