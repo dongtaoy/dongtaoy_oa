@@ -1,3 +1,4 @@
+# encoding=utf-8
 from django.db import models
 
 
@@ -15,6 +16,9 @@ class Message(models.Model):
         permissions = (
         ('publish_announcement', 'Can publish announcement'), ('view_announcement', 'Can view announcement'),)
 
+    def __unicode__(self):
+        return self.subject
+
 
 class MessageTo(models.Model):
     message = models.ForeignKey('public.Message', null=True, blank=True, on_delete=models.SET_NULL)
@@ -22,12 +26,18 @@ class MessageTo(models.Model):
     read = models.DateTimeField(null=True, blank=True)
     delete = models.DateTimeField(null=True, blank=True)
 
+    def __unicode__(self):
+        return "%s, %s to %s" % (self.message.subject, self.message.fromUser, self.user)
+
 
 class MessageType(models.Model):
     category_choice = (
-        ('S', 'System'),
-        ('P', 'Private')
+        ('S', '系统'),
+        ('P', '私信')
     )
     name = models.CharField(max_length=50, blank=True, null=True)
     description = models.CharField(max_length=200, blank=True, null=True)
     category = models.CharField(max_length=1, choices=category_choice)
+
+    def __unicode__(self):
+        return self.name

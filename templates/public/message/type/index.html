@@ -22,18 +22,18 @@
 {% block content %}
     <section class="content-header">
         <h1>
-            系统设置
+            公共信息
             <!--<small>Control panel</small>-->
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i>系统设置</a></li>
+            <li><a href="#"><i class="fa fa-dashboard"></i>公共信息</a></li>
             <li class="active">消息类型管理</li>
         </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
-        {% include 'system/messagetype/body.html' %}
+        {% include 'public/message/type/body.html' %}
 
     </section><!-- /.content -->
     <div class="modal fade" id="type_detail" data-backdrop="static" tabindex="-1" role="dialog"
@@ -58,7 +58,7 @@
         function mod(id) {
             $('body').modalmanager('loading');
             setTimeout(function () {
-                $('#type_detail').load('/system/message/type/ajax/mod/' + id, function () {
+                $('#type_detail').load('/public/message/type/ajax/mod/' + id, function () {
                     $('#type_detail').modal();
                 });
             }, 1000);
