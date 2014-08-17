@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/1.6/howto/deployment/wsgi/
 
 import os
 import sys
-path = "/home/dongtaoy/Dropbox/Projects/dongtaoy_oa/"
+path = "/var/www/dongtaoy_oa/"
 if path not in sys.path:
     sys.path.append(path)
 
